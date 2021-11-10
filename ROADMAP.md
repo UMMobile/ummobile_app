@@ -18,10 +18,6 @@ _**Changes & release dates in versions further from the next release are more li
 - Notifications are not marked as received on arrival
   - Because that code should be written in native code.
 
-## 2.2.3 - 2021-12-15?
-### Deprecated
-- Remove sensitive credentials (make public the repository)
-
 ## 2.2.2 - 2021-12-01?
 ### Adds
 - (**Opt**) Student docs 🎉
@@ -38,6 +34,7 @@ _**Changes & release dates in versions further from the next release are more li
 - Deprectad splash screen for new way
 
 ## 2.2.1 - 2021-11-12 🚧
+- Make public the [UMMobile project](https://github.com/UMMobile) 🎉
 ### Adds
 - Employee ledger 🎉
 - Block app when there is an update 🎉
