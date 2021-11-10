@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## 2.2.1 - 2021-11-12
+- Make public the [UMMobile project](https://github.com/UMMobile) 🎉
 ### Added
 - Employee ledger 🎉
 - Block app when there is an update 🎉
