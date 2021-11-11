@@ -44,7 +44,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     initializeOneSignal();
-    handleOneSignalEvents(context);
+    handleOneSignalEvents();
 
     WidgetsBinding.instance!.addObserver(this);
   }
