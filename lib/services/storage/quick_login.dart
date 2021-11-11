@@ -21,11 +21,11 @@ class QuickLogins extends JsonStorage {
   List<LoginSession> get contentCopy => this.contentAs<List<LoginSession>>(
       (list) => (list as List).map((e) => LoginSession.fromMap(e)).toList());
 
-  LoginSession get currentSessionCopy =>
+  LoginSession get activeSessionCopy =>
       this.contentCopy.firstWhere((session) => session.activeLogin,
           orElse: () => LoginSession.empty());
 
-  bool get allAreInactive =>
+  bool get areAllInactive =>
       this.contentCopy.every((session) => !session.activeLogin);
 
   bool add(LoginSession session) {
@@ -49,8 +49,6 @@ class QuickLogins extends JsonStorage {
   }
 
   refreshSession(String userId, String authCredentials) {
-    inactiveAllSessions();
-
     List<LoginSession> sessions = this.contentCopy;
 
     LoginSession session =

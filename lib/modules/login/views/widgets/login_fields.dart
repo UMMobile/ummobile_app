@@ -46,11 +46,8 @@ class _LoginFieldsState extends State<LoginFields> {
   _submitForm(BuildContext context) {
     String userId = _userController.text;
     if (fieldAreValid(userId, _passwordController.text)) {
-      loginCredentials(userId, _passwordController.text).then((credential) {
-        if (credential.accessToken.isNotEmpty) {
-          promptStoreUser(userId, credential);
-        }
-      });
+      Get.find<LoginController>()
+          .authenticate(userId, _passwordController.text);
     }
   }
 
