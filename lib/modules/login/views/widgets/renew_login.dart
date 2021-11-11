@@ -40,9 +40,8 @@ class _RenewLoginState extends State<RenewLogin> {
   _submitForm(BuildContext context) {
     String userId = widget.credential;
     if (fieldAreValid(userId, _passwordController.text)) {
-      loginCredentials(userId, _passwordController.text).then((credential) {
-        Get.find<LoginController>().renewUser(widget.index, credential);
-      });
+      Get.find<LoginController>()
+          .authenticate(userId, _passwordController.text);
     }
   }
 

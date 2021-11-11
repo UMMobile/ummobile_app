@@ -36,30 +36,27 @@ bool fieldAreValid(String user, String password) {
 
 /// Display a modal dialog to ask if should store the [userId] and the [credentials]
 void promptStoreUser(String userId, Credentials credentials) async {
-  LoginController ctrl = Get.find<LoginController>();
-  if (!ctrl.contains(userId) && ctrl.isNotFull()) {
-    openDialogWindow(
-      title: 'save_dialog_title'.tr,
-      message: 'save_dialog_message'.tr,
-      onCancel: () => Get.back(),
-      onConfirm: () async {
-        openLoadingDialog('saving'.trParams({'element': 'user'.tr}));
-        var userApi = UMMobileUser(token: credentials.accessToken);
+  openDialogWindow(
+    title: 'save_dialog_title'.tr,
+    message: 'save_dialog_message'.tr,
+    onCancel: () => Get.back(),
+    onConfirm: () async {
+      openLoadingDialog('saving'.trParams({'element': 'user'.tr}));
+      var userApi = UMMobileUser(token: credentials.accessToken);
 
-        User user = await userApi.getInformation(includePicture: true);
+      User user = await userApi.getInformation(includePicture: true);
 
-        ctrl.saveUser(LoginSession(
-          credential: userId,
-          name: user.name + " " + user.surnames,
-          image: user.image,
-          authCredentials: credentials.toJson(),
-        ));
+      Get.find<LoginController>().saveUser(LoginSession(
+        credential: userId,
+        name: user.name + " " + user.surnames,
+        image: user.image,
+        authCredentials: credentials.toJson(),
+      ));
 
-        Get.back();
-        Get.back();
-      },
-    );
-  }
+      Get.back();
+      Get.back();
+    },
+  );
 }
 
 /// Redirects the app to the main section of the app

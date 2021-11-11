@@ -50,45 +50,17 @@ class ControllerTemplate extends GetxController {
   /// Executes a [httpCall] and the result is passed to [onSuccess] callback for his usage.
   ///
   /// If [httpCall] throws any exception that implements `HttpCallException`, a `RxStatus` is defined for the exception type and passed to [onCallError]. If any other exception occurs then the exception object itself is passed to [onError] callback.
-  ///
-  /// If [httpCall] throws a `ClientErrorException` (implements `HttpCallException`) of type `ExpiredToken`, this function will try to execute the call again after trying to refresh the credentials. To avoid this behavior set [refreshCredentialsAndRetry] to `false`.
-  ///
-  /// If cannot refresh the token [onCallError] will be executed.
-  ///
-  /// If [refreshCredentialsAndRetry] is set to `false` then [onCallError] will be executed directly.
   call<T>({
     required Future<T> Function() httpCall,
     required void Function(T) onSuccess,
     required void Function(RxStatus) onCallError,
     required void Function(Object) onError,
-    bool refreshCredentialsAndRetry: true,
   }) async {
     try {
       T res = await httpCall();
       onSuccess(res);
     } on HttpCallException catch (e) {
-      // This condition only can be true on the first level of the redundancy because
-      // refreshCredentialsAndRetry is set to false for the second level execution (*).
-      if (e.type == HttpExceptions.ExpiredToken && refreshCredentialsAndRetry) {
-        Credentials newCredentials =
-            await Get.find<LoginController>().refreshCurrentUserCredentials();
-
-        if (newCredentials.accessToken.isNotEmpty) {
-          // Retry after the intent of refresh token.
-          // *Here, a refreshCredentialsAndRetry argument is set to false to avoid cycling the redundancy.
-          call(
-            httpCall: httpCall,
-            onSuccess: onSuccess,
-            onCallError: onCallError,
-            onError: onError,
-            refreshCredentialsAndRetry: false,
-          );
-        } else {
-          onCallError(_getStatusError(e.type));
-        }
-      } else {
-        onCallError(_getStatusError(e.type));
-      }
+      onCallError(_getStatusError(e.type));
     } catch (e) {
       onError(e);
     }

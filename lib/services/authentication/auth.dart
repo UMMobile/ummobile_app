@@ -43,7 +43,7 @@ Future<bool> checkCredentialsExpired(LoginSession session) async {
   return true;
 }
 
-//método utilizado para la autenticacion del usuario
+///
 Future<oauth2.Client?> loginAuthorization(String user, String password) async {
   final username = user + '@um.movil';
 
@@ -59,12 +59,13 @@ Future<oauth2.Client?> loginAuthorization(String user, String password) async {
   }
 }
 
-Future<oauth2.Credentials> loginCredentials(
-    String user, String password) async {
+/// Obtains credentials based on the [username] and [password].
+Future<oauth2.Credentials?> login(String username, String password) async {
   late String messageError;
   oauth2.Client? client;
 
   try {
+    // Check if the device can connect to identity server
     final umEndpoint = await InternetAddress.lookup(environment['urls']['is'])
         .timeout(Duration(milliseconds: 5000))
         .onError((error, stackTrace) {
@@ -74,7 +75,7 @@ Future<oauth2.Credentials> loginCredentials(
 
     if (umEndpoint.isNotEmpty && umEndpoint[0].rawAddress.isNotEmpty) {
       try {
-        client = await loginAuthorization(user, password)
+        client = await loginAuthorization(username, password)
             .timeout(Duration(seconds: 4));
         if (client == null) messageError = 'wrong_credentials'.tr;
       } on TimeoutException catch (_) {
@@ -83,6 +84,7 @@ Future<oauth2.Credentials> loginCredentials(
         messageError = 'error_occurred'.tr;
       }
     } else {
+      // If cannot connect to identity server check internet connection by sending a request to "yahoo.com"
       await InternetAddress.lookup('yahoo.com')
           .timeout(Duration(milliseconds: 5000))
           .catchError((error, stackTrace) {
@@ -93,23 +95,11 @@ Future<oauth2.Credentials> loginCredentials(
     print("Something bad happened");
   }
 
-  // Once you have a Client, you can use it just like any other HTTP client.
-  //print(await client.read('http://example.com/protected-resources.txt'));
-
-  // Once we're done with the client, save the credentials file. This ensures
-  // that if the credentials were automatically refreshed while using the
-  // client, the new credentials are available for the next run of the
-  // program.
   if (client != null) {
-    // TODO (@jonathangomz): [Proposal] Remove this and leave separated the services from the state logic. Instead use `LoginController.renewUser`.
-    setUserStartInfo(user, client.credentials);
-    loginTransition();
-    QuickLogins storage = QuickLogins(await getApplicationDocumentsDirectory());
-    if (storage.exist) await storage.inactiveAllSessions();
     return client.credentials;
   } else {
     snackbarMessage(messageError, "something_wrong".tr);
-    return oauth2.Credentials('');
+    return null;
   }
 }
 

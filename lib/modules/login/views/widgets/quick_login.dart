@@ -31,7 +31,7 @@ class QuickLogins extends StatelessWidget {
         count++;
       });
 
-      if (controller.isNotFull()) {
+      if (controller.isNotFull) {
         widgetList.add(AddLogin());
       }
 
@@ -59,7 +59,7 @@ class QuickLogins extends StatelessWidget {
                 children: logins,
               ),
             ),
-            if (!_.isNotFull())
+            if (!_.isNotFull)
               TextButton(
                 child: Text(
                   'goto_login_fields'.tr,
