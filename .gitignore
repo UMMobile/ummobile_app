@@ -1,5 +1,7 @@
-android
-ios
+# App Gallery
+agconnect-services.json
+# Play Store
+key.properties
 # Environment
 environment*
 
