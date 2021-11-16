@@ -18,7 +18,7 @@ _**Changes & release dates in versions further from the next release are more li
 - Notifications are not marked as received on arrival
   - Because that code should be written in native code.
 
-## 2.2.2 - 2021-12-01?
+## 2.2.2 - 2021-12-01 🚧
 ### Adds
 - (**Opt**) Student docs 🎉
 - (**Opt**) Employee CFDI 🎉
@@ -32,8 +32,11 @@ _**Changes & release dates in versions further from the next release are more li
 - Separate state logic from services
 - Make minor and major versions mandatory updates
 - Deprectad splash screen for new way
+### Fixes
+- Missing translations:
+  - "Saldo actual" on ledger
 
-## 2.2.1 - 2021-11-12 🚧
+## 2.2.1 - 2021-11-16 ✅
 - Make public the [UMMobile project](https://github.com/UMMobile) 🎉
 ### Adds
 - Employee ledger 🎉
