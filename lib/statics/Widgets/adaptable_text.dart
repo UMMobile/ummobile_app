@@ -1,12 +1,35 @@
 import 'package:flutter/material.dart';
 
+/// A widget wich wraps the [text] inside him
+///
+/// Scales the text font to fit inside the size given
 class AdaptableText extends StatelessWidget {
+  /// The content string to be display inside the widget
   final String? text;
+
+  /// The style of the [text]
   final TextStyle? style;
+
+  /// The [text] alignment inside the widget
+  ///
+  /// Defaults to TextAlign.left
   final TextAlign textAlign;
+
+  /// The [text] read direction
+  ///
+  /// Defaults to left to right
   final TextDirection textDirection;
+
+  /// The minimum value in which the text will stop scaling
+  ///
+  /// Defaults to 0.5
   final double minimumFontScale;
+
+  /// The [text] behaviour when overflowing
+  ///
+  /// Defaults to TextOverflow.ellipsis
   final TextOverflow textOverflow;
+
   const AdaptableText(this.text,
       {this.style,
       this.textAlign = TextAlign.left,

@@ -4,10 +4,19 @@ import 'package:get/get.dart';
 import 'bottomsheet_controller.dart';
 
 class BottomSheetButton extends StatefulWidget {
+  /// The bottomsheet hint text
   final String? hint;
+
+  /// The string list of the bottomsheet options
   final List<String> children;
+
+  /// The action called when an option [id] is selected
   final Function(int id) onSelect;
+
+  /// The options leading icon in the bottomsheet
   final IconData? icon;
+
+  /// The controller in charge of this button
   final BottomSheetController controller;
 
   BottomSheetButton({

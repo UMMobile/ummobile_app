@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-/// * Shows a bottom message with the info passed
+/// Shows a bottom snackbar with the [title] and [message]
 void snackbarMessage(String title, String message) {
   Get.snackbar(
     title,

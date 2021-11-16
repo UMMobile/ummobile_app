@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:oauth2/oauth2.dart';
 import 'package:ummobile/modules/internet/models/internet_enum_errors.dart';
 import 'package:ummobile/modules/internet/views/content_no_internet.dart';
-import 'package:ummobile/modules/login/controllers/login_controller.dart';
 import 'package:ummobile_custom_http/ummobile_custom_http.dart';
 
 class ControllerTemplate extends GetxController {
-  var isLoading = true
-      .obs; // Variable in charge of showing the loading screen while data is loading
+  /// True if the controller finishes loading data
+  var isLoading = true.obs;
 
-  //abstract method which will act based on the button of the NoInternetPage
+  /// Refreshes the content inside the controller
   void refreshContent() {}
 
-  // Returns the page where says the error in which why the screen couldn't load
+  /// Returns the page where says the error in which why the screen couldn't load
   Widget internetPage(String? errorMessage) {
     switch (errorMessage) {
       case "clientError":
@@ -31,6 +29,7 @@ class ControllerTemplate extends GetxController {
     }
   }
 
+  /// Returns the [RxStatus] of the [exception] called
   RxStatus _getStatusError(HttpExceptions exception) {
     switch (exception) {
       case HttpExceptions.ClientError:

@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
 
+/// Widget that can display badge on top of a [child]
 class Badge extends StatelessWidget {
+  /// The top position of the badge widget
   final double top;
+
+  /// The right position of the badge widget
   final double right;
-  final Widget child; // our Badge widget will wrap this child widget
-  final String? value; // what displays inside the badge
+
+  /// The widget on which the badge will be on top of
+  final Widget child;
+
+  /// The content inside the badge
+  final String? value;
+
+  /// The badge color
   final Color color; // the  background color of the badge - default is red
 
   Badge(

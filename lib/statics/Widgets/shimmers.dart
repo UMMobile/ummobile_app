@@ -2,14 +2,29 @@ import 'package:fade_shimmer/fade_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+/// Widget for a rectangle shape widget with shimmer effect
 class RectShimmer extends StatelessWidget {
+  /// The top margin of the widget
   final double top;
+
+  /// The bottom margin of the widget
   final double bottom;
+
+  /// The left margin of the widget
   final double left;
+
+  /// The right margin of the widget
   final double right;
+
+  /// The height of the widget
   final double height;
+
+  /// The width of the widget
   final double width;
+
+  /// The roundness of the borders
   final double radius;
+
   const RectShimmer({
     Key? key,
     this.top = 0,
@@ -35,12 +50,23 @@ class RectShimmer extends StatelessWidget {
   }
 }
 
+/// Widget for a circle shape widget with shimmer widget
 class RoundShimmer extends StatelessWidget {
+  /// The top margin of the widget
   final double top;
+
+  /// The bottom margin of the widget
   final double bottom;
+
+  /// The left margin of the widget
   final double left;
+
+  /// The right margin og the widget
   final double right;
+
+  /// The radius size of the widget
   final double size;
+
   const RoundShimmer({
     Key? key,
     this.top = 0,
