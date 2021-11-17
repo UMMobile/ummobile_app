@@ -22,17 +22,34 @@ class QuestionnaireController extends ControllerTemplate with StateMixin {
     return UMMobileSDK(token: accessToken);
   }
 
+  /// True if the questionnaire is ready to be sent
   var questionnaireButtonNotifier = false.obs;
+
+  /// True if questionnaire is already answered
   var isAnswered = false.obs;
+
+  /// True if the contact module has been answered as True
   var contact = false.obs;
+
+  /// True if the has Travel module has been answered as True
   var hasTravel = false.obs;
+
+  /// True if the has Travel module has been answered
   var travelWasSelected = false.obs;
 
+  /// The class which contains the user modules answer
   CovidQuestionnaireAnswer questionnaireData = blankAnswer;
+
+  /// The list of selectable countries in travel module
   List<Country> controllerCountries = List<Country>.empty();
+
+  /// The class of the previous questionnaire answered by the user
   QuestionnaireLocalAnswer currentAnswer = QuestionnaireLocalAnswer.empty();
+
+  /// The storage info for the stored answers
   late QuestionnaireStorage storage;
 
+  /// The user info class
   User? user;
 
   @override
@@ -48,17 +65,17 @@ class QuestionnaireController extends ControllerTemplate with StateMixin {
     super.refreshContent();
   }
 
-  /// * Mehod that reloads the page when the button action is clicked to load the answered page window
+  /// Reloads the page when the button action is clicked to load the answered page window
   void sendButtonAction() {
     isAnswered(true);
   }
 
-  /// Reset the questionnaire data
+  /// Resets the questionnaire data
   void resetData() {
     this.questionnaireData = blankAnswer;
   }
 
-  /// Set bad user state with a [reason].
+  /// Sets bad user state with a [reason].
   ///
   /// If this method is executed then the user cannot pass due to the [reason] given.
   Future<void> cannotPass({required Reasons because}) async {
@@ -70,7 +87,7 @@ class QuestionnaireController extends ControllerTemplate with StateMixin {
     this.saveLocalAnswer(qr: imgBytes, reason: because);
   }
 
-  /// * Mehod that checks if the questionnaire was answer today and redirects to the right fetch info
+  /// Checks if the questionnaire was answer today and redirects to the right fetch info
   Future<void> checkAnsweredQuestionnaire() async {
     isAnswered(false);
     storage = QuestionnaireStorage(await getApplicationDocumentsDirectory());
@@ -123,7 +140,7 @@ class QuestionnaireController extends ControllerTemplate with StateMixin {
     change(null, status: RxStatus.success());
   }
 
-  /// * Mehod in charge of loading the necessary for the unanswered page
+  /// Loads the necessary user info for the unanswered page
   Future fetchUserInfo() async {
     await call<User>(
       httpCall: () async =>
@@ -141,6 +158,7 @@ class QuestionnaireController extends ControllerTemplate with StateMixin {
     );
   }
 
+  /// Saves the [questionnaire] answers in both the api and locally
   Future<void> saveAnswer(CovidQuestionnaireAnswer questionnaire) async {
     openLoadingDialog('sending'.trParams({
       'element': 'questionnaire'.tr,
@@ -190,8 +208,7 @@ class QuestionnaireController extends ControllerTemplate with StateMixin {
     }
   }
 
-  /// * Mehod in charge of saving in the right parameters the values of
-  /// * the radio buttons entered by the user in the form
+  /// Sets the radio button [type] to the [value] passed
   void radioSetState(bool value, String type) {
     switch (type) {
       case "contact":
@@ -246,8 +263,8 @@ class QuestionnaireController extends ControllerTemplate with StateMixin {
     enableQuestionnaireButton();
   }
 
-  /// * Mehod in charge of enabling the send questionaire button if the required
-  /// * inputs are filled
+  /// Enables the send questionaire button if the required
+  /// inputs are filled
   void enableQuestionnaireButton() {
     bool recentTravelbl = false;
     bool confirmedCasebl = false;

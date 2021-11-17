@@ -1,5 +1,9 @@
 import 'package:get/get.dart';
 
+/// Returns the ellapse time between now and [date]
+///
+/// The time is based at the minor hierarchy posiible
+/// in moments, minutes, hours or days
 String toAgoTime(DateTime date) {
   var now = new DateTime.now();
   var diff = date.difference(now) * -1;

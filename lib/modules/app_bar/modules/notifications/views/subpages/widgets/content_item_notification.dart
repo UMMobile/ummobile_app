@@ -3,7 +3,11 @@ import 'package:get/get.dart';
 import 'package:ummobile/modules/app_bar/modules/notifications/controllers/notifications_controller.dart';
 import 'package:ummobile_sdk/ummobile_sdk.dart';
 
+/// Widget that displays the notification content
+///
+/// The notification content language is based from the app locale
 class ContentItemNotification extends StatelessWidget {
+  /// The UMMobile SDK notification object
   final Notification notification;
 
   const ContentItemNotification({Key? key, required this.notification})

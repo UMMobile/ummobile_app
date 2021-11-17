@@ -8,21 +8,28 @@ import 'package:ummobile_sdk/ummobile_sdk.dart';
 
 class NotificationsController extends ControllerTemplate
     with StateMixin<List<Notification>> {
+  /// The notifications api service
   Future<UMMobileNotifications> get notificationsApi async {
     String accessToken = await Get.find<LoginController>().token;
     return UMMobileNotifications(token: accessToken);
   }
 
+  /// The list of notifications
   var _notifications = <Notification>[].obs;
 
+  /// The animaed list class actions
   final animatedList = NotificationAnimatedList();
 
+  /// Returns the user's notification list
   UnmodifiableListView<Notification> get items {
     List<Notification> sortedNotifications = _notifications.toList();
     sortedNotifications.sort((a, b) => b.createAt.compareTo(a.createAt));
     return UnmodifiableListView(sortedNotifications);
   }
 
+  /// Returns the user's notifications list sorted by isRead
+  ///
+  /// First goes the unreaded notifications
   List<Notification> get itemsSorted {
     List<Notification> unreadedNotifications = [];
     List<Notification> readedNotifications = [];
@@ -45,6 +52,7 @@ class NotificationsController extends ControllerTemplate
     super.onInit();
   }
 
+  /// Retrieves the user notifications from the api
   void fetchNotifications() async {
     call<List<Notification>>(
       httpCall: () async => await (await notificationsApi).getAll(),
@@ -86,6 +94,7 @@ class NotificationsController extends ControllerTemplate
     // );
   }
 
+  /// Removes a notification from the list based by the notification [id]
   Future<void> remove(String id) async {
     int index =
         _notifications.indexWhere((notification) => notification.id == id);
@@ -103,6 +112,7 @@ class NotificationsController extends ControllerTemplate
     );
   }
 
+  /// Removes all the read notification from the list
   void removeAll() async {
     for (int i = itemsSorted.length - 1; i >= 0; i--) {
       if (itemsSorted[i].isSeen) {
@@ -115,6 +125,7 @@ class NotificationsController extends ControllerTemplate
     }
   }
 
+  /// Marks a notification as read where notification.id == [id]
   void markAsRead(String id) {
     final int index =
         _notifications.indexWhere((notification) => notification.id == id);
@@ -133,10 +144,15 @@ class NotificationsController extends ControllerTemplate
     );
   }
 
+  /// Clears all the notifications from the list
+  ///
+  /// This method does not sync with the api
   void reset() {
     _notifications.clear();
   }
 
+  /// Clears all the notifications from the list and makes another
+  /// api call to retrieve possible changes
   Future<void> refresh() async {
     await call<List<Notification>>(
       httpCall: () async => await (await notificationsApi).getAll(),

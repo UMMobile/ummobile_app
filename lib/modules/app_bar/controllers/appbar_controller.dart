@@ -7,8 +7,10 @@ import 'package:ummobile/services/storage/questionnaire.dart';
 import 'package:ummobile_sdk/ummobile_sdk.dart';
 
 class AppBarController extends GetxController {
-  var notificationsCounter = 0.obs;
+  /// The number of unanswered questionnaires
   var questionnaireCounter = 0.obs;
+
+  /// The number of newly added rules
   var rulesCounter = 0.obs;
 
   @override
@@ -21,6 +23,7 @@ class AppBarController extends GetxController {
     questionnaireCounter(await searchUnansweredQuestionnaire());
   }
 
+  /// Returns the amount of unreaded notifications
   int searchNewNotifications() {
     List<Notification> notifications =
         Get.find<NotificationsController>().items;
@@ -33,6 +36,7 @@ class AppBarController extends GetxController {
     return counter;
   }
 
+  /// Returns 1 if the covid Questionnaire is unanswered for the current day
   Future<int> searchUnansweredQuestionnaire() async {
     Map<String, dynamic>? storedQuestionnaire =
         QuestionnaireStorage(await getApplicationDocumentsDirectory())

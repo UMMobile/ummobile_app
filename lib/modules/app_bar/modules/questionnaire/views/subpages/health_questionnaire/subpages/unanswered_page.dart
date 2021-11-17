@@ -15,7 +15,7 @@ class QuestionnaireUnAnsweredPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final _questionaireController = Get.find<QuestionnaireController>();
 
-    /// * Method that returns a widget for text instructions
+    /// Returns a widget for text instructions
     Widget text(double spacing, String value, {bool isRequired: false}) {
       return Container(
         margin: EdgeInsets.only(bottom: spacing),
@@ -43,7 +43,7 @@ class QuestionnaireUnAnsweredPage extends StatelessWidget {
       );
     }
 
-    /// * Method that returns a widget with user information
+    /// Returns a widget with user information
     _infoRow(String name, String surname) {
       return Row(
         children: <Widget>[
@@ -65,7 +65,7 @@ class QuestionnaireUnAnsweredPage extends StatelessWidget {
       );
     }
 
-    /// * Posible hidden data depending on the value of a radio
+    /// Posible hidden data depending on the value of a radio
     final dateContact = Container(
       margin: EdgeInsets.only(bottom: 20.0),
       child: Column(
@@ -122,7 +122,7 @@ class QuestionnaireUnAnsweredPage extends StatelessWidget {
       }
     }
 
-    /// * Method that displays a true false quesion block
+    /// Displays a true false question block
     Widget radioTile(
         String incise, String symptom, String modelType, bool? model) {
       return Padding(

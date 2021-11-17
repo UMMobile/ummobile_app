@@ -2,13 +2,28 @@ import 'package:intl/intl.dart';
 import 'package:ummobile_sdk/ummobile_sdk.dart';
 
 class QuestionnaireLocalAnswer {
+  /// QR image
   List<int> qr;
+
+  /// The user's image formatted in base64
   String userImage;
+
+  /// The user's name
   String name;
+
+  /// The user's role
   Roles role;
+
+  /// The user's residence
   Residence residence;
+
+  /// The user's department
   String department;
+
+  /// The reason of the current result
   Reasons reason;
+
+  /// The date when the questionnaire was answer
   DateTime dateFilled;
 
   String get strRole => fromRoleTypeToString(this.role);
@@ -19,6 +34,7 @@ class QuestionnaireLocalAnswer {
 
   String get strDateFilled => DateFormat('yyyy-MM-dd').format(this.dateFilled);
 
+  /// True if the answered date is equals to today
   bool get isFromToday {
     DateTime now = DateTime.now();
     return this.dateFilled.day == now.day &&

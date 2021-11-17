@@ -7,6 +7,9 @@ import 'package:ummobile/statics/widgets/shimmers.dart';
 
 import 'widgets/list_notifications.dart';
 
+/// Page widget that shows user's notifications in a list
+///
+/// Unreaded notifications are highlighted
 class NotificationsPage extends GetView<NotificationsController> {
   NotificationsPage({Key? key}) : super(key: key);
   final NotificationsController _notificationsController =

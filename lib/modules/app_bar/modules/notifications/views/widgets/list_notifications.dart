@@ -4,6 +4,7 @@ import 'package:ummobile_sdk/ummobile_sdk.dart';
 
 import 'notification_tile.dart';
 
+/// Animated list of the user's notifications
 class ListNotifications extends StatefulWidget {
   final List<Notification> notifications;
 
