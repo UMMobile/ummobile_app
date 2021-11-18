@@ -27,7 +27,9 @@ class UmDrawer extends StatefulWidget {
 }
 
 class _UmDrawerState extends State<UmDrawer> {
+  /// The path of the default image if user image is unavailable
   final String pathImage = "assets/img/default-img.jpg";
+
   final drawerController = Get.put(UmDrawerController());
 
   @override
@@ -47,6 +49,7 @@ class _UmDrawerState extends State<UmDrawer> {
     drawerController.updateIsOpen(true);
   }
 
+  /// Returns a list of widget tiles from the [pages] given
   List<Widget> _itemsForSection({List<Map<String, dynamic>> pages: const []}) {
     List<Widget> items = [];
     pages.forEach((page) {
@@ -62,6 +65,11 @@ class _UmDrawerState extends State<UmDrawer> {
     return items;
   }
 
+  /// Returns a tile for the list drawer
+  ///
+  /// Note: Use the parameter page if you want to send the user to other page,
+  ///  use the parameter tabIndex if you want to move the user to a specific tab
+  /// in the home page
   Widget _singleSectionItem({
     required String title,
     Widget? page,
@@ -101,6 +109,7 @@ class _UmDrawerState extends State<UmDrawer> {
     );
   }
 
+  /// Returns the external sites module widget section base from the [sites] list
   List<Widget> _sites(List<dynamic> sites) {
     List<Widget> sitesItems = [];
     sites.forEach((value) {
@@ -203,6 +212,7 @@ class _UmDrawerState extends State<UmDrawer> {
       ),
     );
 
+    /// The list of pages inside the drawer
     List<Widget> portalSectionChildren = _itemsForSection(pages: [
       {
         'page': SubjectsPage(),
@@ -230,6 +240,7 @@ class _UmDrawerState extends State<UmDrawer> {
       },
     ]);
 
+    /// The list of external sites
     List<Widget> sitesSectionChildren = _sites([
       {
         'imagePath': 'assets/img/sitesImg/e42.svg',

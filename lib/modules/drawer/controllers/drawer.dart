@@ -28,7 +28,7 @@ class UmDrawerController extends ControllerTemplate with StateMixin<User> {
     super.onInit();
   }
 
-  /// * Mehod in charge of loading the necessary data of the page
+  /// Loads the user information from the api
   void fetchUserInfo() async {
     call<User>(
       httpCall: () async =>

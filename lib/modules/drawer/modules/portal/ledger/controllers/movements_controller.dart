@@ -12,6 +12,7 @@ class MovementsController extends ControllerTemplate
     return UMMobileFinancial(token: accessToken);
   }
 
+  /// True if the user is in the select a balance page
   bool balanceSelectable = false;
 
   @override
@@ -25,7 +26,7 @@ class MovementsController extends ControllerTemplate
     change(null, status: RxStatus.empty());
   }
 
-  /// * Mehod in charge of loading the necessary data of the page
+  /// Loads the movements of the [balanceId]
   void fetchMovements(String balanceId) async {
     change(null, status: RxStatus.loading());
     call<Movements>(
@@ -37,6 +38,9 @@ class MovementsController extends ControllerTemplate
     );
   }
 
+  /// Returns the list of movements sorted by dates
+  ///
+  /// Sorting is done from newer to oldest dates
   List<MovementsDateSorted> sortMovements(List<Movement> movements) {
     List<MovementsDateSorted> sortedMovements = [];
     MovementsDateSorted noDateMovements = MovementsDateSorted(

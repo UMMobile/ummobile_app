@@ -26,7 +26,7 @@ class DocumentsPage extends GetView<DocumentsController> {
         ),
       ];
       for (int i = 0; i < archives.length; i++) {
-        list.add(ButtonArchive(archiveName: archives[i].name));
+        list.add(ButtonDocument(name: archives[i].name));
       }
       list.add(SizedBox(
         height: 20.0,

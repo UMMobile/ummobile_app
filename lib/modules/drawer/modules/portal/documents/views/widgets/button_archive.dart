@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:ummobile/statics/settings/colors.dart';
 
-class ButtonArchive extends StatelessWidget {
-  final String? archiveName;
+class ButtonDocument extends StatelessWidget {
+  /// The document legal name
+  final String? name;
 
-  ButtonArchive({Key? key, this.archiveName}) : super(key: key);
+  ButtonDocument({Key? key, this.name}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +31,7 @@ class ButtonArchive extends StatelessWidget {
             ),
             Expanded(
               child: Text(
-                archiveName!,
+                name!,
                 style: TextStyle(fontSize: 16),
               ),
             )

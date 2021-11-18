@@ -12,10 +12,16 @@ class BalancesController extends ControllerTemplate
     return UMMobileFinancial(token: accessToken);
   }
 
+  /// The selected balance id
   var id = '';
+
+  /// The selected balance name
   var tableTitle = '';
+
+  /// The selected balance index
   int? selectedBalanceIndex;
 
+  /// Returns the current balance amount if one selected
   String get getCurrentAmount {
     if (selectedBalanceIndex == null) return "No amount data";
 
@@ -34,7 +40,7 @@ class BalancesController extends ControllerTemplate
     super.refreshContent();
   }
 
-  /// * Mehod in charge of loading the necessary data of the page
+  /// Loads the user balances from the api
   void fetchBalances() async {
     call<List<Balance>>(
       httpCall: () async => await (await financialApi).getBalances(),
@@ -47,7 +53,7 @@ class BalancesController extends ControllerTemplate
     );
   }
 
-  /// * Logic Method for automaticaly select a user balance when there is only one
+  /// Selects a balance automatically if balances length = 1
   void _autoSelectBalance(List<Balance> balances) {
     if (balances.length == 1) {
       Balance onlyBalance = balances[0];
@@ -57,7 +63,7 @@ class BalancesController extends ControllerTemplate
     }
   }
 
-  /// * Method used when the user manually selects one balance
+  /// Selects a balance and calls the movementsController to fetch the movements
   void balanceSelect(String selectId, String selectTitle, int index) async {
     id = selectId;
     tableTitle = selectTitle;
@@ -65,7 +71,7 @@ class BalancesController extends ControllerTemplate
     Get.find<MovementsController>().fetchMovements(selectId);
   }
 
-  /// * Method that displays a modal for selecting a balance
+  /// Displays a bottomsheet for balance selection
   void accountModalBottomSheet() {
     List<Widget> programsSelect = [];
 

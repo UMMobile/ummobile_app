@@ -23,7 +23,7 @@ class CurrentSubjectsController extends ControllerTemplate
     super.refreshContent();
   }
 
-  /// * Mehod in charge of loading the necessary data of the page
+  ///  Loads the current subjects of the user
   void fetchCurrentSubjects() async {
     call<Semester>(
       httpCall: () async => await (await academicApi).getCurrentSemester(),

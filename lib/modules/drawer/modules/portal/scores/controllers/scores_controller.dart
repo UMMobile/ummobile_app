@@ -23,7 +23,7 @@ class ScoresController extends ControllerTemplate
     super.refreshContent();
   }
 
-  /// * Mehod in charge of loading the necessary data of the page
+  /// Loads all the subects that the user has done
   void fetchScores() async {
     call<AllSemesters>(
       httpCall: () async => await (await academicApi).getAllSemesters(),
