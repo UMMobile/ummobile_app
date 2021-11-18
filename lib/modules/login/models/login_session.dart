@@ -1,15 +1,14 @@
 import 'dart:convert';
 
 class LoginSession {
-  // TODO (@jonathangomz): [Proposal] Rename credential to userId.
-  final String credential;
+  final String userId;
   final String name;
   final String? image;
   String authCredentials;
   bool activeLogin;
 
   LoginSession({
-    required this.credential,
+    required this.userId,
     required this.name,
     this.image,
     this.activeLogin = true,
@@ -17,7 +16,7 @@ class LoginSession {
   });
 
   LoginSession.empty()
-      : this.credential = '',
+      : this.userId = '',
         this.name = '',
         this.image = '',
         this.authCredentials = '',
@@ -31,7 +30,7 @@ class LoginSession {
 
   factory LoginSession.fromMap(Map<String, dynamic> json) {
     return LoginSession(
-      credential: json['credential'] ?? "",
+      userId: json['credential'] ?? "",
       name: json['name'] ?? "no name",
       image: json['image'] ?? "",
       activeLogin: json['activeLogin'],
@@ -40,7 +39,7 @@ class LoginSession {
   }
 
   Map<String, dynamic> toMap() => {
-        "credential": credential,
+        "credential": userId,
         "name": name,
         "image": image,
         "activeLogin": activeLogin,

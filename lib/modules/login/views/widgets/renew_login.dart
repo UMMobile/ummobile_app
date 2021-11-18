@@ -5,16 +5,21 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ummobile/modules/login/controllers/login_controller.dart';
 import 'package:ummobile/modules/login/utils/validate_login.dart';
-import 'package:ummobile/services/authentication/auth.dart';
 
 class RenewLogin extends StatefulWidget {
+  /// The index of the user in the list
   final int index;
-  final String credential;
+
+  /// The user id in the academic registry
+  final String userId;
+
+  /// The user image
   final String? image;
+
   RenewLogin({
     Key? key,
     required this.index,
-    required this.credential,
+    required this.userId,
     this.image,
   }) : super(key: key);
 
@@ -38,7 +43,7 @@ class _RenewLoginState extends State<RenewLogin> {
   }
 
   _submitForm(BuildContext context) {
-    String userId = widget.credential;
+    String userId = widget.userId;
     if (fieldAreValid(userId, _passwordController.text)) {
       Get.find<LoginController>()
           .authenticate(userId, _passwordController.text);
@@ -73,7 +78,7 @@ class _RenewLoginState extends State<RenewLogin> {
             ),
           ),
           Hero(
-            tag: widget.credential,
+            tag: widget.userId,
             child: Container(
               width: 180,
               height: 120,
@@ -88,7 +93,7 @@ class _RenewLoginState extends State<RenewLogin> {
           ),
           Padding(
             padding: EdgeInsets.all(2.0),
-            child: Text(widget.credential,
+            child: Text(widget.userId,
                 style: TextStyle(fontWeight: FontWeight.bold)),
           ),
           TextField(

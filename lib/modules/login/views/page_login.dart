@@ -13,8 +13,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
-  bool? shouldAnimate;
-
   @override
   void initState() {
     Get.put(LoginController(context));

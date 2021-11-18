@@ -7,7 +7,7 @@ import 'package:ummobile/modules/tabs/modules/profile/models/user_credentials.da
 import 'package:ummobile/modules/tabs/modules/profile/views/profile_page.dart';
 import 'package:ummobile/statics/settings/app_icons_icons.dart';
 
-/// List of pages for students
+/// The list of student pages
 List<PageTabView> student = <PageTabView>[
   PageTabView(
     page: ConectatePage(),
@@ -31,7 +31,7 @@ List<PageTabView> student = <PageTabView>[
   ),
 ];
 
-/// List of pages for employees
+/// The list of employees pages
 List<PageTabView> employee = <PageTabView>[
   PageTabView(
     page: ConectatePage(),

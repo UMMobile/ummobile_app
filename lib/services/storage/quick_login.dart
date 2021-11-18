@@ -69,11 +69,11 @@ class QuickLogins extends JsonStorage {
     List<LoginSession> sessions = this.contentCopy;
 
     LoginSession session =
-        sessions.firstWhere((element) => element.credential == userId);
+        sessions.firstWhere((element) => element.userId == userId);
     session.authCredentials = authCredentials;
     session.activeLogin = true;
 
-    sessions.removeWhere((element) => element.credential == userId);
+    sessions.removeWhere((element) => element.userId == userId);
     sessions.add(session);
 
     this.writeContent(LoginSession.usersToMap(sessions));

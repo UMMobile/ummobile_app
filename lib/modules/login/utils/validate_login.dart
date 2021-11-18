@@ -12,7 +12,7 @@ import 'package:ummobile_sdk/ummobile_sdk.dart';
 
 import 'roles_pages.dart';
 
-/// Validate the correct fullfilment of the [user] and the [password] input fields
+/// Validates the correct fullfilment of the [user] and the [password] input fields
 bool fieldAreValid(String user, String password) {
   bool userValidate = false;
   bool passwordValidate = false;
@@ -34,7 +34,7 @@ bool fieldAreValid(String user, String password) {
   }
 }
 
-/// Display a modal dialog to ask if should store the [userId] and the [credentials]
+/// Displays a modal dialog to ask if should store the [userId] and the [credentials]
 void promptStoreUser(String userId, Credentials credentials) async {
   openDialogWindow(
     title: 'save_dialog_title'.tr,
@@ -47,7 +47,7 @@ void promptStoreUser(String userId, Credentials credentials) async {
       User user = await userApi.getInformation(includePicture: true);
 
       Get.find<LoginController>().saveUser(LoginSession(
-        credential: userId,
+        userId: userId,
         name: user.name + " " + user.surnames,
         image: user.image,
         authCredentials: credentials.toJson(),

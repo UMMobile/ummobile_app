@@ -48,9 +48,9 @@ class UmDrawerController extends ControllerTemplate with StateMixin<User> {
   Future<User?> getUserFromStorage() async {
     LoginSession session = QuickLogins(await getApplicationDocumentsDirectory())
         .contentCopy
-        .firstWhere((element) => element.credential == userId,
+        .firstWhere((element) => element.userId == userId,
             orElse: () => LoginSession.empty());
-    if (session.credential.isNotEmpty) {
+    if (session.userId.isNotEmpty) {
       return User(
         id: int.parse(userId),
         image: session.image ?? '',

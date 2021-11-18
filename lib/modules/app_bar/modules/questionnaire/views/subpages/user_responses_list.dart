@@ -35,7 +35,7 @@ class HealthQuestionnaireResponses extends StatelessWidget {
                         primary: Colors.white,
                       ),
                       onPressed: () async {
-                        _login.activeUserId = user.credential;
+                        _login.activeUserId = user.userId;
                         Get.to(
                           () => HealthQuestionnaire(),
                           binding: HealthQuestionnaireBinding(),

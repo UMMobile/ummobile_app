@@ -11,9 +11,13 @@ class QuestionnaireResponseController extends ControllerTemplate {
 
   late QuickLogins storage;
 
+  /// The number of stored users that has answered the questionnaire
   var responseCount = 0.obs;
+
+  /// True if at least one user has answered the questionnaire
   var hasResponses = false.obs;
 
+  /// The list of users that answered the questionnaire
   List<LoginSession> answeredUsers = List.empty(growable: true);
 
   @override
@@ -28,7 +32,7 @@ class QuestionnaireResponseController extends ControllerTemplate {
     super.refreshContent();
   }
 
-  /// Load the data from the Json stored file
+  /// Loads the data from the Json stored file
   void fetchQuestionnaireResponse() async {
     isLoading(true);
     var directory = await getApplicationDocumentsDirectory();
@@ -42,7 +46,7 @@ class QuestionnaireResponseController extends ControllerTemplate {
     answeredUsers = List.empty(growable: true);
 
     users.forEach((user) {
-      var userAnswer = storedQuestionnaire[user.credential];
+      var userAnswer = storedQuestionnaire[user.userId];
       if (userAnswer != null) {
         var answer = QuestionnaireLocalAnswer.fromJson(userAnswer);
         if (answer.isFromToday) {

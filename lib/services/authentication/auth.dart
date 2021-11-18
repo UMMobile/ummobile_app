@@ -6,7 +6,6 @@ import 'package:oauth2/oauth2.dart' as oauth2;
 import 'package:path_provider/path_provider.dart';
 import 'package:ummobile/modules/login/controllers/login_controller.dart';
 import 'package:ummobile/modules/login/models/login_session.dart';
-import 'package:ummobile/modules/login/utils/validate_login.dart';
 import 'package:ummobile/services/onesignal/operations.dart';
 import 'package:ummobile/services/storage/quick_login.dart';
 import 'package:ummobile/statics/environment.dart';
@@ -17,8 +16,8 @@ import 'package:ummobile/statics/widgets/overlays/snackbar.dart';
 final authorizationEndpoint = Uri.https('${environment['urls']['is']}',
     '/t/um.movil/oauth2/token', {'scope': 'openid'});
 
-//checa la validez de las credenciales almacenadas y realiza un
-//inicio de sesion automatico o una salida de sesion
+/// Returns a True value if the credentials of the user
+/// are expired or doesn't exist
 Future<bool> checkCredentialsExpired(LoginSession session) async {
   QuickLogins storage = QuickLogins(await getApplicationDocumentsDirectory());
 

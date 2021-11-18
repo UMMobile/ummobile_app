@@ -129,7 +129,7 @@ class LoginController extends ControllerTemplate {
         Credentials activeSessionCredentials =
             Credentials.fromJson(activeSession.authCredentials);
         if (!activeSessionCredentials.isExpired) {
-          this.setUserInfo(activeSession.credential, activeSessionCredentials);
+          this.setUserInfo(activeSession.userId, activeSessionCredentials);
           lastSessionIsActive = true;
         }
       }
@@ -171,9 +171,9 @@ class LoginController extends ControllerTemplate {
   bool contains(String userId) => this
           .storage
           .contentCopy
-          .firstWhere((session) => session.credential == userId,
+          .firstWhere((session) => session.userId == userId,
               orElse: () => LoginSession.empty())
-          .credential
+          .userId
           .isNotEmpty
       ? true
       : false;

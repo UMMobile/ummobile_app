@@ -7,8 +7,8 @@ import 'package:ummobile/modules/login/models/login_session.dart';
 import 'add_login.dart';
 import 'login_card.dart';
 
-/// * Page in charge of loading all the stored users inside the Json file and
-/// * display them in a grid view
+/// Page in charge of loading all the stored users inside the Json file and
+/// display them in a grid view
 class QuickLogins extends StatelessWidget {
   const QuickLogins({Key? key}) : super(key: key);
 
@@ -23,9 +23,9 @@ class QuickLogins extends StatelessWidget {
       list.forEach((element) {
         widgetList.add(LoginCard(
           userIndex: count,
-          credential: element.credential,
-          auth: element.authCredentials,
-          user: element.name,
+          userId: element.userId,
+          credentials: element.authCredentials,
+          name: element.name,
           image: element.image,
         ));
         count++;
