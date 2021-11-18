@@ -153,7 +153,7 @@ class UserInfo extends StatelessWidget {
           children: <Widget>[
             RowUserInfo(
               title: 'contract_type'.tr,
-              data: data.contract.toString().tr,
+              data: data.contract.keyLabel.tr,
             ),
             RowUserInfo(
               title: 'positions'.tr,
