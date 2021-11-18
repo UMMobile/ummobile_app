@@ -148,7 +148,7 @@ class LoginController extends ControllerTemplate {
   void authenticate(String userId, String password) {
     login(userId, password).then((credential) {
       if (credential != null) {
-        this.setUserInfo(userId, credentials);
+        this.setUserInfo(userId, credential);
 
         this.storage.inactiveAllSessions();
 
