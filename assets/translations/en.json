@@ -220,5 +220,6 @@
   "source": "See source",
   "withoutDate": "Without date",
   "update_available_title": "Update available",
-  "update_available_description": "There is a new version available, please update your app"
+  "update_available_description": "There is a new version available, please update your app",
+  "currentBalance": "Current balance"
 }
