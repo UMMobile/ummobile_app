@@ -65,11 +65,6 @@ class QuestionnaireController extends ControllerTemplate with StateMixin {
     super.refreshContent();
   }
 
-  /// Reloads the page when the button action is clicked to load the answered page window
-  void sendButtonAction() {
-    isAnswered(true);
-  }
-
   /// Resets the questionnaire data
   void resetData() {
     this.questionnaireData = blankAnswer;
@@ -197,7 +192,7 @@ class QuestionnaireController extends ControllerTemplate with StateMixin {
         reason: validations!.allowAccess ? Reasons.None : validations!.reason,
       );
 
-      sendButtonAction();
+      isAnswered(true);
 
       Get.find<QuestionnaireResponseController>().refreshContent();
       Get.find<AppBarController>().fetchCounters();
