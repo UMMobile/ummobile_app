@@ -21,9 +21,9 @@ class HealthQuestionnaire extends GetView<QuestionnaireController> {
       body: controller.obx(
         (state) => RefreshIndicator(
           onRefresh: () async => controller.refreshContent(),
-          child: controller.isAnswered.value
+          child: Obx(() => controller.isAnswered.value
               ? QuestionnaireAnsweredPage()
-              : QuestionnaireUnAnsweredPage(),
+              : QuestionnaireUnAnsweredPage()),
         ),
         onLoading: _ShimmerHealthQuestionnaire(),
         onError: (e) => controller.internetPage(e),
