@@ -3,18 +3,16 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:ummobile/modules/login/controllers/login_controller.dart';
 import 'package:ummobile/modules/login/controllers/questionnaire_response_controller.dart';
 import 'package:ummobile/modules/login/utils/validate_login.dart';
 import 'package:ummobile/modules/login/views/widgets/renew_login.dart';
 import 'package:ummobile/services/authentication/auth.dart';
-import 'package:ummobile/services/storage/quick_login.dart';
 import 'package:ummobile/statics/settings/colors.dart';
 import 'package:ummobile/statics/widgets/overlays/dialog_overlay.dart';
 
 /// Card that displays basic user identify data and logins to that user on click
-class LoginCard extends StatelessWidget {
+class LoginSessionCard extends StatelessWidget {
   /// The index of the user in the list
   final int userIndex;
 
@@ -30,7 +28,7 @@ class LoginCard extends StatelessWidget {
   /// The user image
   final String? image;
 
-  const LoginCard({
+  const LoginSessionCard({
     Key? key,
     required this.userIndex,
     required this.userId,
@@ -134,8 +132,6 @@ class LoginCard extends StatelessWidget {
                   onConfirm: () async {
                     openLoadingDialog(
                         'deleting'.trParams({'element': 'user'.tr}));
-                    QuickLogins(await getApplicationDocumentsDirectory())
-                        .deleteSession(userIndex);
                     Get.find<LoginController>().removeUser(userIndex);
                     Get.find<QuestionnaireResponseController>()
                         .refreshContent();

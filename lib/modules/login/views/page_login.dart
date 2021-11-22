@@ -40,7 +40,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     );
                   } else {
                     return (_.showQuickLogins.value)
-                        ? QuickLogins()
+                        ? LoginSessionsGrid()
                         : LoginFields();
                   }
                 },

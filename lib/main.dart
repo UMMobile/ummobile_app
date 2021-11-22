@@ -3,8 +3,10 @@ import 'package:flutter/foundation.dart';*/
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:ummobile/services/storage/storage_registry.dart';
 import 'package:ummobile/services/storage/user_settings.dart';
 import 'package:ummobile/services/translations/get_translations.dart';
 import 'package:ummobile/services/translations/translations_initialize.dart';
@@ -20,7 +22,9 @@ UserSettings? _userSettings;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
   await FlutterTranslations.initialize();
+  RegisterHiveAdapters();
   _userSettings = UserSettings.fromJson(
       UserSettingsStorage(await getApplicationDocumentsDirectory())
           .contentCopy);

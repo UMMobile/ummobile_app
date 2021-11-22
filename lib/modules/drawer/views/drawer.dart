@@ -3,7 +3,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:ummobile/modules/drawer/controllers/drawer.dart';
 import 'package:ummobile/modules/drawer/modules/portal/portal_exports.dart';
 import 'package:ummobile/modules/drawer/modules/settings/views/page_settings.dart';
@@ -12,7 +11,7 @@ import 'package:ummobile/modules/login/utils/validate_login.dart';
 import 'package:ummobile/modules/tabs/bindings/tabs_binding.dart';
 import 'package:ummobile/modules/tabs/controllers/navigation_controller.dart';
 import 'package:ummobile/modules/tabs/modules/profile/models/user_credentials.dart';
-import 'package:ummobile/services/storage/quick_login.dart';
+import 'package:ummobile/services/storage/login_sessions/login_session_box.dart';
 import 'package:ummobile/statics/settings/app_icons_icons.dart';
 import 'package:ummobile/statics/settings/colors.dart';
 import 'package:ummobile/statics/widgets/overlays/dialog_overlay.dart';
@@ -269,15 +268,16 @@ class _UmDrawerState extends State<UmDrawer> {
         "logout".tr.capitalizeFirst!,
         style: TextStyle(color: Colors.red),
       ),
-      onTap: () {
+      onTap: () async {
         openDialogWindow(
           title: "logout".tr.capitalizeFirst!,
           message: "logout_message".tr,
           onCancel: () => Get.back(),
           onConfirm: () async {
             openLoadingDialog("Cerrando sesion");
-            QuickLogins(await getApplicationDocumentsDirectory())
-                .inactiveAllSessions();
+            final LoginSessionBox storage = LoginSessionBox();
+            await storage.initializeBox();
+            storage.inactiveAllSessions();
             drawerController.updateNeedToBeDelete(true);
             TabsBinding().reset();
             logoutTransition();

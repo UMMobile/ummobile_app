@@ -1,31 +1,30 @@
-import 'dart:io';
-import 'package:ummobile/modules/login/models/login_session.dart';
-import 'package:ummobile/services/storage/json_file.dart';
-
-// TODO (@jonathangomz): [Proposal] Work with maps to use userId instead of index.
-// Should not be so hard because I think the JSON file contains a Map.
+import 'package:hive/hive.dart';
+import 'package:ummobile/services/storage/login_sessions/models/login_session.dart';
 
 /// Stores the user's tokens into a json file
 ///
 /// Creates a json file if not exists in device
-class QuickLogins extends JsonStorage {
-  /// The variable in charge of retrieving existing file in user's device
-  static final QuickLogins instance = QuickLogins._internal();
+class LoginSessionBox {
+  /// The box key
+  final String _boxId = "login_sessions";
 
-  QuickLogins._internal();
+  /// Initializes the box for read/write functions
+  Future<Box<LoginSession>> initializeBox() async {
+    return await Hive.openBox<LoginSession>(this._boxId);
+  }
 
-  factory QuickLogins(Directory directory) {
-    if (!instance.isCreated) {
-      instance.create(
-          withPath: '${directory.path}/quick_logins.json',
-          initialContent: List<LoginSession>.empty(growable: true));
-    }
-    return instance;
+  /// Closes the box to free memory
+  void closeBox() async {
+    await Hive.box(this._boxId).close();
+  }
+
+  Box<LoginSession> getBox() {
+    return Hive.box<LoginSession>(this._boxId);
   }
 
   /// Returns a list of stored sessions in the device
-  List<LoginSession> get contentCopy => this.contentAs<List<LoginSession>>(
-      (list) => (list as List).map((e) => LoginSession.fromMap(e)).toList());
+  List<LoginSession> get contentCopy =>
+      Hive.box<LoginSession>(_boxId).values.toList();
 
   /// Returns the current active session
   ///
@@ -48,19 +47,8 @@ class QuickLogins extends JsonStorage {
     if (sessions.length >= 3) {
       return false;
     }
-    sessions.add(session);
-    return this.writeContent(LoginSession.usersToMap(sessions));
-  }
-
-  @deprecated
-  renewSession(int index, String authCredentials) {
-    inactiveAllSessions();
-
-    List<LoginSession> sessions = this.contentCopy;
-    sessions[index].authCredentials = authCredentials;
-    sessions[index].activeLogin = true;
-
-    this.writeContent(LoginSession.usersToMap(sessions));
+    this.getBox().add(session);
+    return true;
   }
 
   /// Renew session stored [userId] old credentials
@@ -73,29 +61,34 @@ class QuickLogins extends JsonStorage {
     session.authCredentials = authCredentials;
     session.activeLogin = true;
 
-    sessions.removeWhere((element) => element.userId == userId);
-    sessions.add(session);
+    int sessionIndex =
+        sessions.indexWhere((element) => element.userId == userId);
+    var sessionKey = this.getBox().keyAt(sessionIndex);
 
-    this.writeContent(LoginSession.usersToMap(sessions));
+    this.getBox().put(sessionKey, session);
   }
 
   /// Makes all stored sessions in device inactive
-  inactiveAllSessions() {
+  void inactiveAllSessions() {
     List<LoginSession> sessions = this.contentCopy;
     sessions = sessions.map((session) {
       session.activeLogin = false;
       return session;
     }).toList();
 
-    this.writeContent(LoginSession.usersToMap(sessions));
+    sessions.forEach((session) => session.save());
   }
 
   /// Deletes the [index] session from device storage
-  deleteSession(int index) {
+  ///
+  /// Returns true if the session was successfully deleted
+  bool deleteSession(int index) {
     List<LoginSession> sessions = this.contentCopy;
     if (sessions.length > index) {
-      sessions.removeAt(index);
+      this.getBox().deleteAt(index);
+      return true;
     }
-    this.writeContent(LoginSession.usersToMap(sessions));
+
+    return false;
   }
 }

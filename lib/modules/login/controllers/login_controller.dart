@@ -3,12 +3,11 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:get/state_manager.dart';
 import 'package:new_version/new_version.dart';
 import 'package:oauth2/oauth2.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:ummobile/modules/login/models/login_session.dart';
 import 'package:ummobile/modules/login/utils/validate_login.dart';
 import 'package:ummobile/services/authentication/auth.dart';
 import 'package:ummobile/services/onesignal/operations.dart';
-import 'package:ummobile/services/storage/quick_login.dart';
+import 'package:ummobile/services/storage/login_sessions/login_session_box.dart';
+import 'package:ummobile/services/storage/login_sessions/models/login_session.dart';
 import 'package:ummobile/statics/templates/controller_template.dart';
 
 class LoginController extends ControllerTemplate {
@@ -31,7 +30,7 @@ class LoginController extends ControllerTemplate {
   Credentials credentials = Credentials('');
 
   /// The storage service for saved users.
-  late QuickLogins storage;
+  final LoginSessionBox storage = LoginSessionBox();
 
   /// The access token of this [credentials].
   ///
@@ -64,7 +63,7 @@ class LoginController extends ControllerTemplate {
   void loadLoginConfiguration() async {
     VersionStatus? appStatus = await fetchAppVersion();
 
-    this.loadStoredUsers();
+    await this.loadStoredUsers();
     bool lastSessionIsActive = this.tryLoadLastSession();
 
     if (appStatus != null && !appStatus.canUpdate && lastSessionIsActive) {
@@ -102,11 +101,11 @@ class LoginController extends ControllerTemplate {
   }
 
   /// Loads the data from the Json stored file
-  void loadStoredUsers() async {
+  Future<void> loadStoredUsers() async {
     this.isLoading(true);
 
     // Initialize the storage instance for this class
-    this.storage = QuickLogins(await getApplicationDocumentsDirectory());
+    await this.storage.initializeBox();
 
     this.users(this.storage.contentCopy);
     this.showQuickLogins(this.users.isNotEmpty);
@@ -140,6 +139,7 @@ class LoginController extends ControllerTemplate {
   /// Removes the user at the specific [index].
   LoginSession removeUser(int index) {
     LoginSession deleted = this.users.removeAt(index);
+    this.storage.deleteSession(index);
     showQuickLogins(this.users.isNotEmpty);
     return deleted;
   }

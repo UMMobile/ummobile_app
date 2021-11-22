@@ -1,15 +1,15 @@
 import 'package:path_provider/path_provider.dart';
+import 'package:ummobile/services/storage/login_sessions/login_session_box.dart';
+import 'package:ummobile/services/storage/login_sessions/models/login_session.dart';
 import 'package:ummobile/statics/templates/controller_template.dart';
-import 'package:ummobile/modules/login/models/login_session.dart';
 import 'package:ummobile/modules/app_bar/modules/questionnaire/models/questionnaire_answer.dart';
 import 'package:ummobile/services/storage/questionnaire.dart';
-import 'package:ummobile/services/storage/quick_login.dart';
 import 'package:get/get.dart';
 
 class QuestionnaireResponseController extends ControllerTemplate {
   QuestionnaireResponseController();
 
-  late QuickLogins storage;
+  final LoginSessionBox storage = LoginSessionBox();
 
   /// The number of stored users that has answered the questionnaire
   var responseCount = 0.obs;
@@ -36,7 +36,7 @@ class QuestionnaireResponseController extends ControllerTemplate {
   void fetchQuestionnaireResponse() async {
     isLoading(true);
     var directory = await getApplicationDocumentsDirectory();
-    storage = QuickLogins(directory);
+    await storage.initializeBox();
 
     List<LoginSession> users = storage.contentCopy;
     Map<String, dynamic> storedQuestionnaire =
