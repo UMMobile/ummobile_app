@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class UserSettings {
+class AppSettings {
   ThemeMode themeMode;
   Locale? language;
 
-  UserSettings({
+  AppSettings({
     required this.themeMode,
     required this.language,
   });
@@ -25,7 +26,7 @@ class UserSettings {
     }
   }
 
-  String _themeModeToString(ThemeMode themeMode) {
+  static String themeModeToString(ThemeMode themeMode) {
     switch (themeMode) {
       case ThemeMode.light:
         return "light";
@@ -36,21 +37,13 @@ class UserSettings {
     }
   }
 
-  factory UserSettings.fromJson(Map<String, dynamic> json) => UserSettings(
-        themeMode: _stringToThemeMode(json["themeMode"] ?? "system"),
-        language: (json["language"] != null)
-            ? supportedLocales[json["language"]]
-            : null,
+  factory AppSettings.fromStorage(
+    String? theme,
+    int? language,
+  ) =>
+      AppSettings(
+        themeMode: _stringToThemeMode(theme ?? "system"),
+        language:
+            (language != null) ? supportedLocales[language] : Get.deviceLocale,
       );
-
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> json = {
-      "themeMode": _themeModeToString(themeMode),
-    };
-    if (language != null) {
-      json["language"] = supportedLocales.indexOf(language!);
-    }
-
-    return json;
-  }
 }

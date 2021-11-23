@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:ummobile/services/storage/app_settings/models/app_settings.dart';
+import 'package:ummobile/services/storage/app_settings/settings_box.dart';
 import 'package:ummobile/statics/templates/controller_template.dart';
-import 'package:ummobile/modules/drawer/modules/settings/models/user_settings.dart';
-import 'package:ummobile/services/storage/user_settings.dart';
 import 'package:ummobile/statics/Widgets/form/bottomsheet/bottomsheet_controller.dart';
 
-class UserSettingsController extends ControllerTemplate {
-  late UserSettingsStorage storage;
-  late UserSettings userSettings;
+class AppSettingsController extends ControllerTemplate {
+  late AppSettingsBox storage = AppSettingsBox();
+  late AppSettings appSettings;
 
   final BottomSheetController themeController = BottomSheetController();
   final BottomSheetController languageController = BottomSheetController();
@@ -26,18 +25,18 @@ class UserSettingsController extends ControllerTemplate {
 
   Future<void> _initStorage() async {
     isLoading(true);
-    storage = UserSettingsStorage(await getApplicationDocumentsDirectory());
-    userSettings = UserSettings.fromJson(storage.contentCopy);
+    await storage.initializeBox();
+    appSettings = storage.appSettings;
     isLoading(false);
   }
 
   void _checkTheme() {
-    themeController.id = userSettings.themeMode.index;
+    themeController.id = appSettings.themeMode.index;
   }
 
   void _checkLocale() {
-    if (userSettings.language != null) {
-      if (userSettings.language == Locale('es', 'MX')) {
+    if (appSettings.language != null) {
+      if (appSettings.language == Locale('es', 'MX')) {
         languageController.id = 1;
       } else {
         languageController.id = 2;

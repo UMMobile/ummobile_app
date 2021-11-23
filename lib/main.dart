@@ -5,29 +5,29 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:ummobile/services/storage/app_settings/models/app_settings.dart';
+import 'package:ummobile/services/storage/app_settings/settings_box.dart';
 import 'package:ummobile/services/storage/storage_registry.dart';
-import 'package:ummobile/services/storage/user_settings.dart';
 import 'package:ummobile/services/translations/get_translations.dart';
 import 'package:ummobile/services/translations/translations_initialize.dart';
 import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 
-import 'modules/drawer/modules/settings/models/user_settings.dart';
 import 'modules/login/views/page_login.dart';
 import 'services/onesignal/handle_events.dart';
 import 'services/onesignal/operations.dart';
 import 'statics/settings/colors.dart';
 
-UserSettings? _userSettings;
+AppSettings? _appSettings;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   await FlutterTranslations.initialize();
   RegisterHiveAdapters();
-  _userSettings = UserSettings.fromJson(
-      UserSettingsStorage(await getApplicationDocumentsDirectory())
-          .contentCopy);
+
+  final appSettingsBox = AppSettingsBox();
+  await appSettingsBox.initializeBox();
+  _appSettings = appSettingsBox.appSettings;
   runApp(
     /*DevicePreview(
       enabled: !kReleaseMode,
@@ -61,13 +61,13 @@ class _MyAppState extends State<MyApp> {
       /// Theme section
       theme: AppColorThemes.brightTeme,
       darkTheme: AppColorThemes.darkTheme,
-      themeMode: _userSettings!.themeMode,
+      themeMode: _appSettings?.themeMode ?? ThemeMode.system,
 
       /// Internationalization section
       translations: Messages(),
       supportedLocales: [Locale('en'), Locale('es', 'MX')],
       fallbackLocale: Locale('es', 'MX'),
-      locale: _userSettings!.language ??
+      locale: _appSettings?.language ??
           Get.deviceLocale, //DevicePreview.locale(context),
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
