@@ -7,7 +7,6 @@ import 'package:ummobile/modules/login/controllers/login_controller.dart';
 import 'package:ummobile/modules/login/controllers/questionnaire_response_controller.dart';
 import 'package:ummobile/modules/login/utils/validate_login.dart';
 import 'package:ummobile/modules/login/views/widgets/renew_login.dart';
-import 'package:ummobile/services/authentication/auth.dart';
 import 'package:ummobile/statics/settings/colors.dart';
 import 'package:ummobile/statics/widgets/overlays/dialog_overlay.dart';
 
@@ -45,9 +44,10 @@ class LoginSessionCard extends StatelessWidget {
       margin: EdgeInsets.zero,
       child: ElevatedButton(
         onPressed: () async {
-          bool canEnterDirectly = await checkOrRenewCredentials(
-            jsonCredentials: credentials,
+          bool canEnterDirectly =
+              await Get.find<LoginController>().checkOrRenewCredentials(
             userId: userId,
+            jsonCredentials: credentials,
           );
 
           if (canEnterDirectly) {

@@ -167,6 +167,36 @@ class LoginController extends ControllerTemplate {
     });
   }
 
+  /// Checks if the [jsonCredentials] are still valid for the user with the specified [userId], and if not try to refresh the credentials.
+  ///
+  /// Updates the [activeUserId] and the active [credentials] if the credentials are valid or were refreshed.
+  Future<bool> checkOrRenewCredentials({
+    required String userId,
+    required String jsonCredentials,
+  }) async {
+    Credentials credentials = Credentials.fromJson(jsonCredentials);
+    bool credentialsAreValid = false;
+
+    if (credentials.isExpired) {
+      try {
+        credentials = await refresh(credentials);
+        if (credentials.accessToken.isNotEmpty && !credentials.isExpired) {
+          credentialsAreValid = true;
+        }
+      } catch (e) {}
+    } else {
+      credentialsAreValid = true;
+    }
+
+    if (credentialsAreValid) {
+      // Override current userId & credentials
+      this.setUserInfo(userId, credentials);
+      this.storage.refreshSession(userId, credentials.toJson());
+    }
+
+    return credentialsAreValid;
+  }
+
   /// Returns true if the [userId] is in the users list
   bool contains(String userId) => this
           .storage

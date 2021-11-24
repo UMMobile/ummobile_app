@@ -3,47 +3,14 @@ import 'dart:io';
 
 import 'package:get/get.dart';
 import 'package:oauth2/oauth2.dart' as oauth2;
-import 'package:ummobile/modules/login/controllers/login_controller.dart';
-import 'package:ummobile/services/onesignal/operations.dart';
-import 'package:ummobile/services/storage/login_sessions/login_session_box.dart';
-import 'package:ummobile/services/storage/login_sessions/models/login_session.dart';
 import 'package:ummobile/statics/environment.dart';
 import 'package:ummobile/statics/widgets/overlays/snackbar.dart';
 
-// TODO (@jonathangomz): [Proposal] Refactor auth service to remove any state logic from here to leave the service to work only for authentication.
-// Any state logic should be moved to `LoginController`.
+/// The URI to the Identity Server.
 final authorizationEndpoint = Uri.https('${environment['urls']['is']}',
     '/t/um.movil/oauth2/token', {'scope': 'openid'});
 
-/// Returns a True value if the credentials of the user
-/// are expired or doesn't exist
-Future<bool> checkCredentialsExpired(LoginSession session) async {
-  LoginSessionBox storage = LoginSessionBox();
-
-  final box = await storage.initializeBox();
-
-  if (box.isEmpty) {
-    return true;
-  }
-
-  int index =
-      storage.contentCopy.indexWhere((element) => element.activeLogin == true);
-
-  if (index == -1) {
-    return true;
-  }
-
-  oauth2.Credentials credentials =
-      oauth2.Credentials.fromJson(session.authCredentials);
-
-  if (credentials.isExpired) {
-    return true;
-  }
-
-  return true;
-}
-
-///
+/// Obtains a new client with the credentials for the authenticated [user] & [password].
 Future<oauth2.Client?> loginAuthorization(String user, String password) async {
   final username = user + '@um.movil';
 
@@ -103,48 +70,9 @@ Future<oauth2.Credentials?> login(String username, String password) async {
   }
 }
 
-void setUserStartInfo(String userId, oauth2.Credentials credentials) {
-  Get.find<LoginController>().activeUserId = userId;
-  Get.find<LoginController>().credentials = credentials;
-  setPushNotificationUserId(userId);
-}
-
-Future<bool> checkOrRenewCredentials({
-  required String userId,
-  required String jsonCredentials,
-}) async {
-  oauth2.Credentials credentials = oauth2.Credentials.fromJson(jsonCredentials);
-
-  if (credentials.isExpired) {
-    try {
-      oauth2.Client client = oauth2.Client(
-        credentials,
-        identifier: environment['tokens']['identifier'],
-        secret: environment['tokens']['secret'],
-      );
-
-      client = await client.refreshCredentials();
-
-      // Override current credentials on Storage and for current State
-      credentials = client.credentials;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  LoginSessionBox storage = LoginSessionBox();
-
-  await storage.initializeBox();
-
-  // TODO (@jonathangomz): [Proposal] Create a separated method to activate specific user and to renew token.
-  // TODO (@jonathangomz): [Proposal] Add this method execution to `setUserStartInfo`.
-  storage.refreshSession(userId, credentials.toJson());
-
-  setUserStartInfo(userId, credentials);
-
-  return true;
-}
-
+/// Refreshes the given [credentials].
+///
+/// If an error occur returns empty credentials.
 Future<oauth2.Credentials> refresh(oauth2.Credentials credentials) async {
   try {
     oauth2.Client client = oauth2.Client(
