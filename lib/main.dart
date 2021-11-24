@@ -5,6 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:ummobile/modules/app_bar/modules/notifications/controllers/notifications_controller.dart';
 import 'package:ummobile/services/storage/app_settings/models/app_settings.dart';
 import 'package:ummobile/services/storage/app_settings/settings_box.dart';
 import 'package:ummobile/services/storage/storage_registry.dart';
@@ -13,7 +14,6 @@ import 'package:ummobile/services/translations/translations_initialize.dart';
 import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 
 import 'modules/login/views/page_login.dart';
-import 'services/onesignal/handle_events.dart';
 import 'services/onesignal/operations.dart';
 import 'statics/settings/colors.dart';
 
@@ -48,7 +48,16 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     initializeOneSignal();
-    handleOneSignalEvents();
+    handleOneSignalEvents(
+      onReceive: (notification) {
+        bool notificationsControllerExist =
+            Get.isRegistered<NotificationsController>();
+
+        if (notificationsControllerExist) {
+          Get.find<NotificationsController>().add(notification.notificationId);
+        }
+      },
+    );
   }
 
   @override
