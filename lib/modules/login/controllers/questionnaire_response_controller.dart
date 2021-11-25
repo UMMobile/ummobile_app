@@ -1,5 +1,6 @@
 import 'package:ummobile/services/storage/login_sessions/login_session_box.dart';
 import 'package:ummobile/services/storage/login_sessions/models/login_session.dart';
+import 'package:ummobile/services/storage/questionnaire_responses/models/questionnaire_response.dart';
 import 'package:ummobile/services/storage/questionnaire_responses/questionnaire_responses_box.dart';
 import 'package:ummobile/statics/templates/controller_template.dart';
 import 'package:get/get.dart';
@@ -32,6 +33,9 @@ class QuestionnaireResponseController extends ControllerTemplate {
     fetchQuestionnaireResponse();
     super.refreshContent();
   }
+
+  QuestionnaireResponse? getUserResponse(String userId) =>
+      _responsesStorage.findResponseByCredential(userId);
 
   /// Loads the data from the Json stored file
   void fetchQuestionnaireResponse() async {
