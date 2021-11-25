@@ -1,9 +1,8 @@
 import 'package:get/get.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:ummobile/modules/app_bar/modules/notifications/controllers/notifications_controller.dart';
-import 'package:ummobile/modules/app_bar/modules/questionnaire/models/questionnaire_answer.dart';
 import 'package:ummobile/modules/tabs/modules/profile/models/user_credentials.dart';
-import 'package:ummobile/services/storage/questionnaire.dart';
+import 'package:ummobile/services/storage/questionnaire_responses/models/questionnaire_response.dart';
+import 'package:ummobile/services/storage/questionnaire_responses/questionnaire_responses_box.dart';
 import 'package:ummobile_sdk/ummobile_sdk.dart';
 
 class AppBarController extends GetxController {
@@ -38,15 +37,15 @@ class AppBarController extends GetxController {
 
   /// Returns 1 if the covid Questionnaire is unanswered for the current day
   Future<int> searchUnansweredQuestionnaire() async {
-    Map<String, dynamic>? storedQuestionnaire =
-        QuestionnaireStorage(await getApplicationDocumentsDirectory())
-            .contentCopy[userId];
+    final QuestionnaireResponsesBox storage = QuestionnaireResponsesBox();
+    storage.initializeBox();
+
+    QuestionnaireResponse? storedQuestionnaire =
+        storage.findResponseByCredential(userId);
 
     bool isFromToday = false;
     if (storedQuestionnaire != null) {
-      QuestionnaireLocalAnswer localQuestionnaire =
-          QuestionnaireLocalAnswer.fromJson(storedQuestionnaire);
-      isFromToday = localQuestionnaire.isFromToday;
+      isFromToday = storedQuestionnaire.isFromToday;
     }
 
     return isFromToday ? 0 : 1;

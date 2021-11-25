@@ -1,8 +1,6 @@
 import 'dart:typed_data';
 
 import 'package:get/get.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:ummobile/modules/app_bar/modules/questionnaire/models/questionnaire_answer.dart';
 import 'package:ummobile/modules/app_bar/modules/questionnaire/utils/url_image_to_bytes.dart';
 import 'package:ummobile/modules/app_bar/controllers/appbar_controller.dart';
 import 'package:ummobile/modules/app_bar/modules/questionnaire/models/covid_questionnaire_answer_form.dart';
@@ -10,7 +8,8 @@ import 'package:ummobile/modules/app_bar/modules/questionnaire/utils/generate_qr
 import 'package:ummobile/modules/login/controllers/login_controller.dart';
 import 'package:ummobile/modules/login/controllers/questionnaire_response_controller.dart';
 import 'package:ummobile/modules/tabs/modules/profile/models/user_credentials.dart';
-import 'package:ummobile/services/storage/questionnaire.dart';
+import 'package:ummobile/services/storage/questionnaire_responses/models/questionnaire_response.dart';
+import 'package:ummobile/services/storage/questionnaire_responses/questionnaire_responses_box.dart';
 import 'package:ummobile/statics/templates/controller_template.dart';
 import 'package:ummobile/statics/widgets/overlays/dialog_overlay.dart';
 import 'package:ummobile/statics/widgets/overlays/snackbar.dart';
@@ -44,10 +43,10 @@ class QuestionnaireController extends ControllerTemplate with StateMixin {
   List<Country> controllerCountries = List<Country>.empty();
 
   /// The class of the previous questionnaire answered by the user
-  QuestionnaireLocalAnswer currentAnswer = QuestionnaireLocalAnswer.empty();
+  late QuestionnaireResponse currentAnswer;
 
   /// The storage info for the stored answers
-  late QuestionnaireStorage storage;
+  final QuestionnaireResponsesBox storage = QuestionnaireResponsesBox();
 
   /// The user info class
   User? user;
@@ -85,7 +84,7 @@ class QuestionnaireController extends ControllerTemplate with StateMixin {
   /// Checks if the questionnaire was answer today and redirects to the right fetch info
   Future<void> checkAnsweredQuestionnaire() async {
     isAnswered(false);
-    storage = QuestionnaireStorage(await getApplicationDocumentsDirectory());
+    await storage.initializeBox();
     bool shallNotPass = false;
 
     if (userIsStudent) {
@@ -108,10 +107,11 @@ class QuestionnaireController extends ControllerTemplate with StateMixin {
     }
 
     if (!isAnswered.value) {
-      Map<String, dynamic>? stored = storage.contentCopy[userId];
+      QuestionnaireResponse? storedAnswer =
+          storage.findResponseByCredential(userId);
 
-      if (stored != null) {
-        currentAnswer = QuestionnaireLocalAnswer.fromJson(stored);
+      if (storedAnswer != null) {
+        currentAnswer = storedAnswer;
         if (currentAnswer.reason == Reasons.IsSuspect ||
             currentAnswer.reason == Reasons.None) {
           isAnswered(currentAnswer.isFromToday);
@@ -124,10 +124,8 @@ class QuestionnaireController extends ControllerTemplate with StateMixin {
         await fetchUserInfo();
 
         // Delete previous answer
-        if (stored != null) {
-          Map<String, dynamic> copy = storage.contentCopy;
-          copy.remove(userId);
-          storage.write(copy);
+        if (storedAnswer != null) {
+          storage.deleteResponse(userId);
         }
       }
     }
@@ -187,7 +185,7 @@ class QuestionnaireController extends ControllerTemplate with StateMixin {
       Uint8List imgBytes = await urlImageToBytes(validations!.qrUrl);
 
       // If the user can answered the questionnaire then don't `haveCovid` or `recentArrival`
-      saveLocalAnswer(
+      this.saveLocalAnswer(
         qr: imgBytes,
         reason: validations!.allowAccess ? Reasons.None : validations!.reason,
       );
@@ -328,12 +326,6 @@ class QuestionnaireController extends ControllerTemplate with StateMixin {
     required List<int> qr,
     required Reasons reason,
   }) {
-    Map<String, dynamic> copyLocal = storage.contentCopy;
-
-    if (!copyLocal.containsKey(userId)) {
-      copyLocal[userId] = "";
-    }
-
     String department = "";
     Residence residence = Residence.Unknown;
 
@@ -344,20 +336,16 @@ class QuestionnaireController extends ControllerTemplate with StateMixin {
 
     if (user!.isStudent) residence = user!.student!.academic!.residence;
 
-    currentAnswer = QuestionnaireLocalAnswer.forToday(
+    currentAnswer = QuestionnaireResponse.forToday(
       qr: qr,
       userImage: user!.image!,
       name: user!.name + ' ' + user!.surnames,
-      role: user!.role,
+      strRole: fromRoleTypeToString(user!.role),
       department: department,
-      residence: residence,
-      reason: reason,
+      strResidence: fromResidenceTypeToString(residence),
+      strReason: fromReasonTypeToString(reason),
     );
 
-    copyLocal[userId] = currentAnswer.toJson();
-
-    this.storage.write(copyLocal);
-
-    return copyLocal;
+    this.storage.addResponse(userId, currentAnswer);
   }
 }

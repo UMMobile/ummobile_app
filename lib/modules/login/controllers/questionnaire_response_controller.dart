@@ -1,15 +1,16 @@
-import 'package:path_provider/path_provider.dart';
 import 'package:ummobile/services/storage/login_sessions/login_session_box.dart';
 import 'package:ummobile/services/storage/login_sessions/models/login_session.dart';
+import 'package:ummobile/services/storage/questionnaire_responses/questionnaire_responses_box.dart';
 import 'package:ummobile/statics/templates/controller_template.dart';
-import 'package:ummobile/modules/app_bar/modules/questionnaire/models/questionnaire_answer.dart';
-import 'package:ummobile/services/storage/questionnaire.dart';
 import 'package:get/get.dart';
 
 class QuestionnaireResponseController extends ControllerTemplate {
   QuestionnaireResponseController();
 
-  final LoginSessionBox storage = LoginSessionBox();
+  final LoginSessionBox _sessionsStorage = LoginSessionBox();
+
+  final QuestionnaireResponsesBox _responsesStorage =
+      QuestionnaireResponsesBox();
 
   /// The number of stored users that has answered the questionnaire
   var responseCount = 0.obs;
@@ -35,24 +36,20 @@ class QuestionnaireResponseController extends ControllerTemplate {
   /// Loads the data from the Json stored file
   void fetchQuestionnaireResponse() async {
     isLoading(true);
-    var directory = await getApplicationDocumentsDirectory();
-    await storage.initializeBox();
 
-    List<LoginSession> users = storage.contentCopy;
-    Map<String, dynamic> storedQuestionnaire =
-        QuestionnaireStorage(directory).contentCopy;
+    await _sessionsStorage.initializeBox();
+    await _responsesStorage.initializeBox();
+
+    List<LoginSession> users = _sessionsStorage.contentCopy;
 
     int usersLength = 0;
     answeredUsers = List.empty(growable: true);
 
     users.forEach((user) {
-      var userAnswer = storedQuestionnaire[user.userId];
-      if (userAnswer != null) {
-        var answer = QuestionnaireLocalAnswer.fromJson(userAnswer);
-        if (answer.isFromToday) {
-          usersLength++;
-          answeredUsers.add(user);
-        }
+      var userAnswer = _responsesStorage.findResponseByCredential(user.userId);
+      if (userAnswer != null && userAnswer.isFromToday) {
+        usersLength++;
+        answeredUsers.add(user);
       }
     });
 
