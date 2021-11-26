@@ -22,7 +22,7 @@ environment:
 
 dependencies:
   cupertino_icons: ^1.0.3
-  ummobile_sdk: ^0.0.8
+  ummobile_sdk: ^0.0.9
   ummobile_custom_http: ^0.0.3
   fade_shimmer: ^2.0.1
   flutter:
