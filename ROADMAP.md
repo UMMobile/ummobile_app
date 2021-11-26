@@ -19,7 +19,7 @@ _**Changes & release dates in versions further from the next release are more li
 - Notifications are not marked as received on arrival
   - Because that code should be written in native code... F
 
-## 2.2.3 - 2021-12-03?
+## 2.2.3 - 2021-12-03 🚧
 ### Adds
 - (**Opt**) Student docs 🎉
 ### Change
@@ -28,7 +28,7 @@ _**Changes & release dates in versions further from the next release are more li
 ### Fixes
 - Invert order for movements in the same day for employees ledger at least
   
-## 2.2.2 - 2021-11-26 🚧
+## 2.2.2 - 2021-11-26 ✅
 ### Adds
 - Docs for services
   - Auth
@@ -36,10 +36,11 @@ _**Changes & release dates in versions further from the next release are more li
   - OneSignal
   - Translations
 ### Change
-- Separate state logic from services
-- Use `Hive` instead of `PathProvider`
+- State logic from services to controllers
+- `PathProvider` for `Hive`
+- Deprecated Splash screen implementation
 ### Fixes
-- Refresh questionnaire page on answer sent
+- Questionnaire page update on answer sent
 - Missing translations:
   - "Saldo actual" on ledger
   - ContractType translations on profile

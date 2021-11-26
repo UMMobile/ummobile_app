@@ -1,6 +1,23 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
+## 2.2.2 - 2021-11-26
+### Added
+- Docs for services
+  - Auth
+  - Storage
+  - OneSignal
+  - Translations
+### Changed
+- State logic from services to controllers
+- `PathProvider` for `Hive`
+- Deprecated Splash screen implementation
+### Fixed
+- Questionnaire page update on answer sent
+- Missing translations:
+  - "Saldo actual" on ledger
+  - ContractType translations on profile
+
 ## 2.2.1 - 2021-11-16
 - Make public the [UMMobile project](https://github.com/UMMobile) 🎉
 ### Added
