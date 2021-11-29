@@ -4,8 +4,12 @@ import 'package:get/get.dart';
 import 'package:ummobile/modules/internet/models/internet_enum_errors.dart';
 
 class ContentNoInternet extends StatefulWidget {
+  /// The function executed when the refresh button is clicked
   final Function toPageReturn;
+
+  /// The error type to be displayed in the page
   final InternetErrorType errorType;
+
   ContentNoInternet({
     Key? key,
     required this.toPageReturn,

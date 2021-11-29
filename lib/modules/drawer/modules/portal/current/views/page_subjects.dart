@@ -53,7 +53,7 @@ class SubjectsPage extends GetView<CurrentSubjectsController> {
       }
     }
 
-    //Método que devuelve el Grid con todas las materias actuales del alumno
+    /// Returns the grid sliver with the user subjects
     Widget _sliverGridView(List<Subject> materias) {
       List<Widget> items = [];
 

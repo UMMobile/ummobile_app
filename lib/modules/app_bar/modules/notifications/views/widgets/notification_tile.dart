@@ -5,6 +5,9 @@ import 'package:ummobile/modules/app_bar/modules/notifications/utils/to_ago_time
 import 'package:ummobile/modules/app_bar/modules/notifications/views/subpages/item_notification_page.dart';
 import 'package:ummobile_sdk/ummobile_sdk.dart';
 
+/// Widget notification tile
+///
+/// The design of the tile is based by the notification isSeen value
 class NotificationTile extends StatefulWidget {
   final Notification notification;
   final Animation<double> animation;

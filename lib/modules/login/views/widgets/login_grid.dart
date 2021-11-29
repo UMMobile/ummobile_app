@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:ummobile/modules/login/controllers/login_controller.dart';
-import 'package:ummobile/modules/login/models/login_session.dart';
+import 'package:ummobile/services/storage/login_sessions/models/login_session.dart';
 
 import 'add_login.dart';
 import 'login_card.dart';
 
-/// * Page in charge of loading all the stored users inside the Json file and
-/// * display them in a grid view
-class QuickLogins extends StatelessWidget {
-  const QuickLogins({Key? key}) : super(key: key);
+/// Page in charge of loading all the stored users inside the Json file and
+/// display them in a grid view
+class LoginSessionsGrid extends StatelessWidget {
+  const LoginSessionsGrid({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,17 +21,17 @@ class QuickLogins extends StatelessWidget {
       List<Widget> widgetList = List<Widget>.empty(growable: true);
       int count = 0;
       list.forEach((element) {
-        widgetList.add(LoginCard(
+        widgetList.add(LoginSessionCard(
           userIndex: count,
-          credential: element.credential,
-          auth: element.authCredentials,
-          user: element.name,
+          userId: element.userId,
+          credentials: element.authCredentials,
+          name: element.name,
           image: element.image,
         ));
         count++;
       });
 
-      if (controller.isNotFull()) {
+      if (controller.isNotFull) {
         widgetList.add(AddLogin());
       }
 
@@ -59,7 +59,7 @@ class QuickLogins extends StatelessWidget {
                 children: logins,
               ),
             ),
-            if (!_.isNotFull())
+            if (!_.isNotFull)
               TextButton(
                 child: Text(
                   'goto_login_fields'.tr,

@@ -3,27 +3,31 @@ import 'package:flutter/foundation.dart';*/
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:ummobile/services/storage/user_settings.dart';
+import 'package:ummobile/modules/app_bar/modules/notifications/controllers/notifications_controller.dart';
+import 'package:ummobile/services/storage/app_settings/models/app_settings.dart';
+import 'package:ummobile/services/storage/app_settings/settings_box.dart';
+import 'package:ummobile/services/storage/storage_registry.dart';
 import 'package:ummobile/services/translations/get_translations.dart';
 import 'package:ummobile/services/translations/translations_initialize.dart';
 import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 
-import 'modules/drawer/modules/settings/models/user_settings.dart';
 import 'modules/login/views/page_login.dart';
-import 'services/onesignal/handle_events.dart';
 import 'services/onesignal/operations.dart';
 import 'statics/settings/colors.dart';
 
-UserSettings? _userSettings;
+AppSettings? _appSettings;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
   await FlutterTranslations.initialize();
-  _userSettings = UserSettings.fromJson(
-      UserSettingsStorage(await getApplicationDocumentsDirectory())
-          .contentCopy);
+  RegisterHiveAdapters();
+
+  final appSettingsBox = AppSettingsBox();
+  await appSettingsBox.initializeBox();
+  _appSettings = appSettingsBox.appSettings;
   runApp(
     /*DevicePreview(
       enabled: !kReleaseMode,
@@ -39,37 +43,21 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
+class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
     initializeOneSignal();
-    handleOneSignalEvents();
+    handleOneSignalEvents(
+      onReceive: (notification) {
+        bool notificationsControllerExist =
+            Get.isRegistered<NotificationsController>();
 
-    WidgetsBinding.instance!.addObserver(this);
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    switch (state) {
-      case AppLifecycleState.resumed:
-        break;
-      case AppLifecycleState.inactive:
-        // app is inactive
-        break;
-      case AppLifecycleState.paused:
-        // user is about quit our app temporally
-        break;
-      case AppLifecycleState.detached:
-        // some code here...
-        break;
-    }
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance!.removeObserver(this);
-    super.dispose();
+        if (notificationsControllerExist) {
+          Get.find<NotificationsController>().add(notification.notificationId);
+        }
+      },
+    );
   }
 
   @override
@@ -82,13 +70,13 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       /// Theme section
       theme: AppColorThemes.brightTeme,
       darkTheme: AppColorThemes.darkTheme,
-      themeMode: _userSettings!.themeMode,
+      themeMode: _appSettings?.themeMode ?? ThemeMode.system,
 
       /// Internationalization section
       translations: Messages(),
       supportedLocales: [Locale('en'), Locale('es', 'MX')],
       fallbackLocale: Locale('es', 'MX'),
-      locale: _userSettings!.language ??
+      locale: _appSettings?.language ??
           Get.deviceLocale, //DevicePreview.locale(context),
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,

@@ -1,6 +1,6 @@
 import 'package:ummobile/modules/tabs/modules/profile/models/user_credentials.dart';
 
-/// * Method that returns the right qr code url depending on the filled values of the questionnaire
+/// Returns the right qr code url depending on the filled values of the questionnaire
 String generateQuestionnaireQrCode(
     {required bool canEnter, required bool isInternal}) {
   if (canEnter) {

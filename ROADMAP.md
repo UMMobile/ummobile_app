@@ -9,6 +9,7 @@ _**Changes & release dates in versions further from the next release are more li
   - How to pay
 - Features for employees: 🎉
   - Vacations & work permissions
+  - CFDI 🎉
 - Warning if user doesn't exist
 ### Change
 - (**Opt**) Separate theme and global componentes (like form)
@@ -16,24 +17,35 @@ _**Changes & release dates in versions further from the next release are more li
   - Note: If is read without connection a problem can happen
 ### Fixes
 - Notifications are not marked as received on arrival
-  - Because that code should be written in native code.
+  - Because that code should be written in native code... F
 
-## 2.2.2 - 2021-12-01?
+## 2.2.3 - 2021-12-03 🚧
 ### Adds
 - (**Opt**) Student docs 🎉
-- (**Opt**) Employee CFDI 🎉
+### Change
+- Force only minor and major versions updates
+- Deprectad splash screen for new way
+### Fixes
+- Invert order for movements in the same day for employees ledger at least
+  
+## 2.2.2 - 2021-11-29 ✅
+### Adds
 - Docs for services
   - Auth
   - Storage
   - OneSignal
   - Translations
-  - Http (_Probably will be remove_)
 ### Change
-- Separate state logic from services
-- Make minor and major versions mandatory updates
-- Deprectad splash screen for new way
+- State logic from services to controllers
+- `PathProvider` for `Hive`
+- Deprecated Splash screen implementation
+### Fixes
+- Questionnaire page update on answer sent
+- Missing translations:
+  - "Saldo actual" on ledger
+  - ContractType translations on profile
 
-## 2.2.1 - 2021-11-12 🚧
+## 2.2.1 - 2021-11-16 ✅
 - Make public the [UMMobile project](https://github.com/UMMobile) 🎉
 ### Adds
 - Employee ledger 🎉

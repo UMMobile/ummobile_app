@@ -3,10 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:ummobile/modules/login/controllers/login_controller.dart';
 import 'package:ummobile/modules/login/utils/validate_login.dart';
-import 'package:ummobile/services/authentication/auth.dart';
 import 'package:ummobile/statics/settings/colors.dart';
 
-/// * Input Fields for login to the application
+/// Input Fields for login to the application
 class LoginFields extends StatefulWidget {
   @override
   _LoginFieldsState createState() => _LoginFieldsState();
@@ -46,11 +45,8 @@ class _LoginFieldsState extends State<LoginFields> {
   _submitForm(BuildContext context) {
     String userId = _userController.text;
     if (fieldAreValid(userId, _passwordController.text)) {
-      loginCredentials(userId, _passwordController.text).then((credential) {
-        if (credential.accessToken.isNotEmpty) {
-          promptStoreUser(userId, credential);
-        }
-      });
+      Get.find<LoginController>()
+          .authenticate(userId, _passwordController.text);
     }
   }
 

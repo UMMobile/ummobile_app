@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ummobile/modules/login/controllers/login_controller.dart';
 
-/// * Card that appears at the end of the User Login Cards that lets the user enter a
-/// * manual login on click
+///  Card that appears at the end of the User Login Cards that lets the user enter a
+///  manual login on click
 class AddLogin extends StatelessWidget {
   const AddLogin({Key? key}) : super(key: key);
 

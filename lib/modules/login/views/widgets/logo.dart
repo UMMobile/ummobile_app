@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-/// * UMLogo for the login header
+/// UMLogo for the login header
 class LoginLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

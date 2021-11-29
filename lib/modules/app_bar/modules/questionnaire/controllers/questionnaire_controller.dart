@@ -1,8 +1,6 @@
 import 'dart:typed_data';
 
 import 'package:get/get.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:ummobile/modules/app_bar/modules/questionnaire/models/questionnaire_answer.dart';
 import 'package:ummobile/modules/app_bar/modules/questionnaire/utils/url_image_to_bytes.dart';
 import 'package:ummobile/modules/app_bar/controllers/appbar_controller.dart';
 import 'package:ummobile/modules/app_bar/modules/questionnaire/models/covid_questionnaire_answer_form.dart';
@@ -10,7 +8,8 @@ import 'package:ummobile/modules/app_bar/modules/questionnaire/utils/generate_qr
 import 'package:ummobile/modules/login/controllers/login_controller.dart';
 import 'package:ummobile/modules/login/controllers/questionnaire_response_controller.dart';
 import 'package:ummobile/modules/tabs/modules/profile/models/user_credentials.dart';
-import 'package:ummobile/services/storage/questionnaire.dart';
+import 'package:ummobile/services/storage/questionnaire_responses/models/questionnaire_response.dart';
+import 'package:ummobile/services/storage/questionnaire_responses/questionnaire_responses_box.dart';
 import 'package:ummobile/statics/templates/controller_template.dart';
 import 'package:ummobile/statics/widgets/overlays/dialog_overlay.dart';
 import 'package:ummobile/statics/widgets/overlays/snackbar.dart';
@@ -22,17 +21,34 @@ class QuestionnaireController extends ControllerTemplate with StateMixin {
     return UMMobileSDK(token: accessToken);
   }
 
+  /// True if the questionnaire is ready to be sent
   var questionnaireButtonNotifier = false.obs;
+
+  /// True if questionnaire is already answered
   var isAnswered = false.obs;
+
+  /// True if the contact module has been answered as True
   var contact = false.obs;
+
+  /// True if the has Travel module has been answered as True
   var hasTravel = false.obs;
+
+  /// True if the has Travel module has been answered
   var travelWasSelected = false.obs;
 
+  /// The class which contains the user modules answer
   CovidQuestionnaireAnswer questionnaireData = blankAnswer;
-  List<Country> controllerCountries = List<Country>.empty();
-  QuestionnaireLocalAnswer currentAnswer = QuestionnaireLocalAnswer.empty();
-  late QuestionnaireStorage storage;
 
+  /// The list of selectable countries in travel module
+  List<Country> controllerCountries = List<Country>.empty();
+
+  /// The class of the previous questionnaire answered by the user
+  late QuestionnaireResponse currentAnswer;
+
+  /// The storage info for the stored answers
+  final QuestionnaireResponsesBox storage = QuestionnaireResponsesBox();
+
+  /// The user info class
   User? user;
 
   @override
@@ -48,17 +64,12 @@ class QuestionnaireController extends ControllerTemplate with StateMixin {
     super.refreshContent();
   }
 
-  /// * Mehod that reloads the page when the button action is clicked to load the answered page window
-  void sendButtonAction() {
-    isAnswered(true);
-  }
-
-  /// Reset the questionnaire data
+  /// Resets the questionnaire data
   void resetData() {
     this.questionnaireData = blankAnswer;
   }
 
-  /// Set bad user state with a [reason].
+  /// Sets bad user state with a [reason].
   ///
   /// If this method is executed then the user cannot pass due to the [reason] given.
   Future<void> cannotPass({required Reasons because}) async {
@@ -70,10 +81,10 @@ class QuestionnaireController extends ControllerTemplate with StateMixin {
     this.saveLocalAnswer(qr: imgBytes, reason: because);
   }
 
-  /// * Mehod that checks if the questionnaire was answer today and redirects to the right fetch info
+  /// Checks if the questionnaire was answer today and redirects to the right fetch info
   Future<void> checkAnsweredQuestionnaire() async {
     isAnswered(false);
-    storage = QuestionnaireStorage(await getApplicationDocumentsDirectory());
+    await storage.initializeBox();
     bool shallNotPass = false;
 
     if (userIsStudent) {
@@ -96,10 +107,11 @@ class QuestionnaireController extends ControllerTemplate with StateMixin {
     }
 
     if (!isAnswered.value) {
-      Map<String, dynamic>? stored = storage.contentCopy[userId];
+      QuestionnaireResponse? storedAnswer =
+          storage.findResponseByCredential(userId);
 
-      if (stored != null) {
-        currentAnswer = QuestionnaireLocalAnswer.fromJson(stored);
+      if (storedAnswer != null) {
+        currentAnswer = storedAnswer;
         if (currentAnswer.reason == Reasons.IsSuspect ||
             currentAnswer.reason == Reasons.None) {
           isAnswered(currentAnswer.isFromToday);
@@ -112,10 +124,8 @@ class QuestionnaireController extends ControllerTemplate with StateMixin {
         await fetchUserInfo();
 
         // Delete previous answer
-        if (stored != null) {
-          Map<String, dynamic> copy = storage.contentCopy;
-          copy.remove(userId);
-          storage.write(copy);
+        if (storedAnswer != null) {
+          storage.deleteResponse(userId);
         }
       }
     }
@@ -123,7 +133,7 @@ class QuestionnaireController extends ControllerTemplate with StateMixin {
     change(null, status: RxStatus.success());
   }
 
-  /// * Mehod in charge of loading the necessary for the unanswered page
+  /// Loads the necessary user info for the unanswered page
   Future fetchUserInfo() async {
     await call<User>(
       httpCall: () async =>
@@ -141,6 +151,7 @@ class QuestionnaireController extends ControllerTemplate with StateMixin {
     );
   }
 
+  /// Saves the [questionnaire] answers in both the api and locally
   Future<void> saveAnswer(CovidQuestionnaireAnswer questionnaire) async {
     openLoadingDialog('sending'.trParams({
       'element': 'questionnaire'.tr,
@@ -174,12 +185,12 @@ class QuestionnaireController extends ControllerTemplate with StateMixin {
       Uint8List imgBytes = await urlImageToBytes(validations!.qrUrl);
 
       // If the user can answered the questionnaire then don't `haveCovid` or `recentArrival`
-      saveLocalAnswer(
+      this.saveLocalAnswer(
         qr: imgBytes,
         reason: validations!.allowAccess ? Reasons.None : validations!.reason,
       );
 
-      sendButtonAction();
+      isAnswered(true);
 
       Get.find<QuestionnaireResponseController>().refreshContent();
       Get.find<AppBarController>().fetchCounters();
@@ -190,8 +201,7 @@ class QuestionnaireController extends ControllerTemplate with StateMixin {
     }
   }
 
-  /// * Mehod in charge of saving in the right parameters the values of
-  /// * the radio buttons entered by the user in the form
+  /// Sets the radio button [type] to the [value] passed
   void radioSetState(bool value, String type) {
     switch (type) {
       case "contact":
@@ -246,8 +256,8 @@ class QuestionnaireController extends ControllerTemplate with StateMixin {
     enableQuestionnaireButton();
   }
 
-  /// * Mehod in charge of enabling the send questionaire button if the required
-  /// * inputs are filled
+  /// Enables the send questionaire button if the required
+  /// inputs are filled
   void enableQuestionnaireButton() {
     bool recentTravelbl = false;
     bool confirmedCasebl = false;
@@ -316,12 +326,6 @@ class QuestionnaireController extends ControllerTemplate with StateMixin {
     required List<int> qr,
     required Reasons reason,
   }) {
-    Map<String, dynamic> copyLocal = storage.contentCopy;
-
-    if (!copyLocal.containsKey(userId)) {
-      copyLocal[userId] = "";
-    }
-
     String department = "";
     Residence residence = Residence.Unknown;
 
@@ -332,20 +336,16 @@ class QuestionnaireController extends ControllerTemplate with StateMixin {
 
     if (user!.isStudent) residence = user!.student!.academic!.residence;
 
-    currentAnswer = QuestionnaireLocalAnswer.forToday(
+    currentAnswer = QuestionnaireResponse.forToday(
       qr: qr,
       userImage: user!.image!,
       name: user!.name + ' ' + user!.surnames,
-      role: user!.role,
+      strRole: fromRoleTypeToString(user!.role),
       department: department,
-      residence: residence,
-      reason: reason,
+      strResidence: fromResidenceTypeToString(residence),
+      strReason: fromReasonTypeToString(reason),
     );
 
-    copyLocal[userId] = currentAnswer.toJson();
-
-    this.storage.write(copyLocal);
-
-    return copyLocal;
+    this.storage.addResponse(userId, currentAnswer);
   }
 }

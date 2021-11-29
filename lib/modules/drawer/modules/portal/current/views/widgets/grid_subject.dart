@@ -2,10 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:ummobile/statics/widgets/adaptable_text.dart';
 
 class GridSubject extends StatelessWidget {
+  /// The subject name
   final String title;
+
+  /// The subject teacher in charge
   final String teacher;
+
+  /// The credits value
   final String credits;
+
+  /// The current state
   final String state;
+
+  /// The current achieved score
   final String score;
 
   const GridSubject(

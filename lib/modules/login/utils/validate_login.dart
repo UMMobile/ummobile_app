@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:oauth2/oauth2.dart';
 import 'package:ummobile/modules/login/controllers/login_controller.dart';
-import 'package:ummobile/modules/login/models/login_session.dart';
 import 'package:ummobile/modules/login/views/page_login.dart';
 import 'package:ummobile/modules/tabs/bindings/tabs_binding.dart';
 import 'package:ummobile/modules/tabs/views/tabs_view.dart';
+import 'package:ummobile/services/storage/login_sessions/models/login_session.dart';
 import 'package:ummobile/statics/widgets/overlays/dialog_overlay.dart';
 import 'package:ummobile/statics/widgets/overlays/snackbar.dart';
 import 'package:ummobile_sdk/ummobile_sdk.dart';
 
 import 'roles_pages.dart';
 
-/// Validate the correct fullfilment of the [user] and the [password] input fields
+/// Validates the correct fullfilment of the [user] and the [password] input fields
 bool fieldAreValid(String user, String password) {
   bool userValidate = false;
   bool passwordValidate = false;
@@ -34,32 +34,29 @@ bool fieldAreValid(String user, String password) {
   }
 }
 
-/// Display a modal dialog to ask if should store the [userId] and the [credentials]
+/// Displays a modal dialog to ask if should store the [userId] and the [credentials]
 void promptStoreUser(String userId, Credentials credentials) async {
-  LoginController ctrl = Get.find<LoginController>();
-  if (!ctrl.contains(userId) && ctrl.isNotFull()) {
-    openDialogWindow(
-      title: 'save_dialog_title'.tr,
-      message: 'save_dialog_message'.tr,
-      onCancel: () => Get.back(),
-      onConfirm: () async {
-        openLoadingDialog('saving'.trParams({'element': 'user'.tr}));
-        var userApi = UMMobileUser(token: credentials.accessToken);
+  openDialogWindow(
+    title: 'save_dialog_title'.tr,
+    message: 'save_dialog_message'.tr,
+    onCancel: () => Get.back(),
+    onConfirm: () async {
+      openLoadingDialog('saving'.trParams({'element': 'user'.tr}));
+      var userApi = UMMobileUser(token: credentials.accessToken);
 
-        User user = await userApi.getInformation(includePicture: true);
+      User user = await userApi.getInformation(includePicture: true);
 
-        ctrl.saveUser(LoginSession(
-          credential: userId,
-          name: user.name + " " + user.surnames,
-          image: user.image,
-          authCredentials: credentials.toJson(),
-        ));
+      Get.find<LoginController>().saveUser(LoginSession(
+        userId: userId,
+        name: user.name + " " + user.surnames,
+        image: user.image,
+        authCredentials: credentials.toJson(),
+      ));
 
-        Get.back();
-        Get.back();
-      },
-    );
-  }
+      Get.back();
+      Get.back();
+    },
+  );
 }
 
 /// Redirects the app to the main section of the app

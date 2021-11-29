@@ -17,9 +17,12 @@ class UmAppBar extends StatelessWidget with PreferredSizeWidget {
   /// title text to display in the appBar
   final String? title;
 
-  /// Changes the appbar defaults leading action
+  /// Changes the appbar defaults leading widget
   final Widget? leading;
 
+  /// The height of the appbar
+  ///
+  /// Defaults to kToolBarHeight + 20
   final double height;
 
   /// Wether to show or not the trailing icons

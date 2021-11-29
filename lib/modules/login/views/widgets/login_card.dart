@@ -3,32 +3,36 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:ummobile/modules/login/controllers/login_controller.dart';
 import 'package:ummobile/modules/login/controllers/questionnaire_response_controller.dart';
 import 'package:ummobile/modules/login/utils/validate_login.dart';
 import 'package:ummobile/modules/login/views/widgets/renew_login.dart';
-import 'package:ummobile/services/authentication/auth.dart';
-import 'package:ummobile/services/storage/quick_login.dart';
 import 'package:ummobile/statics/settings/colors.dart';
 import 'package:ummobile/statics/widgets/overlays/dialog_overlay.dart';
 
-/// * Card that displays basic user idenify data and logins to that user on click
-class LoginCard extends StatelessWidget {
+/// Card that displays basic user identify data and logins to that user on click
+class LoginSessionCard extends StatelessWidget {
+  /// The index of the user in the list
   final int userIndex;
-  // TODO (@jonathangomz): [Proposal] Rename to userId
-  final String credential;
-  // TODO (@jonathangomz): [Proposal] Rename to credentials
-  final String auth;
-  // TODO (@jonathangomz): [Proposal] Rename to userName or only name.
-  final String user;
+
+  /// The id of the user in the academic registry
+  final String userId;
+
+  /// The api tokens
+  final String credentials;
+
+  /// The user name
+  final String name;
+
+  /// The user image
   final String? image;
-  const LoginCard({
+
+  const LoginSessionCard({
     Key? key,
     required this.userIndex,
-    required this.credential,
-    required this.auth,
-    required this.user,
+    required this.userId,
+    required this.credentials,
+    required this.name,
     this.image,
   }) : super(key: key);
 
@@ -40,9 +44,10 @@ class LoginCard extends StatelessWidget {
       margin: EdgeInsets.zero,
       child: ElevatedButton(
         onPressed: () async {
-          bool canEnterDirectly = await checkOrRenewCredentials(
-            jsonCredentials: auth,
-            userId: credential,
+          bool canEnterDirectly =
+              await Get.find<LoginController>().checkOrRenewCredentials(
+            userId: userId,
+            jsonCredentials: credentials,
           );
 
           if (canEnterDirectly) {
@@ -51,7 +56,7 @@ class LoginCard extends StatelessWidget {
             Get.to(
               () => RenewLogin(
                 index: this.userIndex,
-                credential: this.credential,
+                userId: this.userId,
                 image: this.image,
               ),
               fullscreenDialog: false,
@@ -82,7 +87,7 @@ class LoginCard extends StatelessWidget {
               children: [
                 // User Image display
                 Hero(
-                  tag: credential,
+                  tag: userId,
                   child: Container(
                     height: 110,
                     width: 134,
@@ -102,7 +107,7 @@ class LoginCard extends StatelessWidget {
 
                 // User Credential text
                 Text(
-                  credential,
+                  userId,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
@@ -127,8 +132,6 @@ class LoginCard extends StatelessWidget {
                   onConfirm: () async {
                     openLoadingDialog(
                         'deleting'.trParams({'element': 'user'.tr}));
-                    QuickLogins(await getApplicationDocumentsDirectory())
-                        .deleteSession(userIndex);
                     Get.find<LoginController>().removeUser(userIndex);
                     Get.find<QuestionnaireResponseController>()
                         .refreshContent();

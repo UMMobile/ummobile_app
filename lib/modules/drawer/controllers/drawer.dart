@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:ummobile/modules/login/controllers/login_controller.dart';
-import 'package:ummobile/modules/login/models/login_session.dart';
 import 'package:ummobile/modules/tabs/modules/profile/models/user_credentials.dart';
-import 'package:ummobile/services/storage/quick_login.dart';
+import 'package:ummobile/services/storage/login_sessions/login_session_box.dart';
+import 'package:ummobile/services/storage/login_sessions/models/login_session.dart';
 import 'package:ummobile_sdk/ummobile_sdk.dart';
 //import 'package:ummobile_sdk/ummobile_sdk.dart';
 
@@ -28,7 +27,7 @@ class UmDrawerController extends ControllerTemplate with StateMixin<User> {
     super.onInit();
   }
 
-  /// * Mehod in charge of loading the necessary data of the page
+  /// Loads the user information from the api
   void fetchUserInfo() async {
     call<User>(
       httpCall: () async =>
@@ -46,11 +45,12 @@ class UmDrawerController extends ControllerTemplate with StateMixin<User> {
   }
 
   Future<User?> getUserFromStorage() async {
-    LoginSession session = QuickLogins(await getApplicationDocumentsDirectory())
-        .contentCopy
-        .firstWhere((element) => element.credential == userId,
-            orElse: () => LoginSession.empty());
-    if (session.credential.isNotEmpty) {
+    final storage = LoginSessionBox();
+    await storage.initializeBox();
+    LoginSession session = storage.contentCopy.firstWhere(
+        (element) => element.userId == userId,
+        orElse: () => LoginSession.empty());
+    if (session.userId.isNotEmpty) {
       return User(
         id: int.parse(userId),
         image: session.image ?? '',

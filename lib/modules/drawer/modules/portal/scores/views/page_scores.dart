@@ -12,7 +12,7 @@ class ScoresPage extends GetView<ScoresController> {
 
   @override
   Widget build(BuildContext context) {
-    ///metodo para definir el promedio global
+    /// Returns the global average widget section
     Widget _glAvg(String globalAvg) {
       return Padding(
         padding: EdgeInsets.symmetric(vertical: 20),
@@ -25,7 +25,7 @@ class ScoresPage extends GetView<ScoresController> {
       );
     }
 
-    //Método para la adición de los semestres con sus materias
+    /// Returns the widget list with the semesters cards
     List<Widget> _listSections(List<Semester> semesters, String avg) {
       List<Widget> sections = [_glAvg(avg)];
       for (int i = 0; i < semesters.length; i++) {

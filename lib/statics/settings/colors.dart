@@ -3,14 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class AppColorThemes {
+  /// The bright theme of the application
   static final brightTeme = ThemeData(
-    // Define the default brightness and colors.
     brightness: Brightness.light,
     colorScheme: ColorScheme.light(
-      //primary: Colors.black,
       secondary: Color.fromRGBO(110, 86, 198, 1),
     ),
-    //primaryColor: Colors.black,
     hintColor: Colors.grey,
     toggleableActiveColor: Color.fromRGBO(110, 86, 198, 1),
     primarySwatch: MaterialColor(0xFF6E56C6, {
@@ -49,6 +47,7 @@ class AppColorThemes {
     ),
   );
 
+  /// The dark theme of the application
   static final darkTheme = ThemeData(
     // Define the default brightness and colors.
     brightness: Brightness.dark,

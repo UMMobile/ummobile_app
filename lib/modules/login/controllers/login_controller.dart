@@ -3,73 +3,72 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:get/state_manager.dart';
 import 'package:new_version/new_version.dart';
 import 'package:oauth2/oauth2.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:ummobile/modules/login/models/login_session.dart';
+import 'package:ummobile/modules/login/utils/validate_login.dart';
 import 'package:ummobile/services/authentication/auth.dart';
 import 'package:ummobile/services/onesignal/operations.dart';
-import 'package:ummobile/services/storage/quick_login.dart';
+import 'package:ummobile/services/storage/login_sessions/login_session_box.dart';
+import 'package:ummobile/services/storage/login_sessions/models/login_session.dart';
 import 'package:ummobile/statics/templates/controller_template.dart';
 
 class LoginController extends ControllerTemplate {
+  /// The amount of user that can be saved.
   static const double max_users = 2;
+
+  /// The context to use for new update dialog.
   final BuildContext context;
 
-  final _newVersion = NewVersion();
-  late VersionStatus? _appStatus;
-
-  LoginController(this.context);
-
-  var credentialsAreExpired = false.obs;
+  /// True if Quick Logins view should be displayed.
   var showQuickLogins = false.obs;
+
+  /// The saved users.
+  var users = List<LoginSession>.empty(growable: true).obs;
+
+  /// The active user id.
   String activeUserId = '';
 
+  /// The credentials for active user.
   Credentials credentials = Credentials('');
 
+  /// The storage service for saved users.
+  final LoginSessionBox storage = LoginSessionBox();
+
+  /// The access token of this [credentials].
+  ///
+  /// If access token is expired will try to refresh the credentials. Returns the expired access token if cannot refresh the credentials.
   Future<String> get token async {
     if (this.credentials.isExpired) {
       Credentials newCredentials = await refresh(this.credentials);
       if (newCredentials.accessToken.isNotEmpty) {
         // Update credentials on state (this.credentials)
-        setUserInfo(this.activeUserId, newCredentials);
+        this.setUserInfo(this.activeUserId, newCredentials);
         // Save new credentials
-        QuickLogins(await getApplicationDocumentsDirectory())
-            .refreshSession(this.activeUserId, credentials.toJson());
+        this.storage.refreshSession(this.activeUserId, newCredentials.toJson());
         return newCredentials.accessToken;
       }
     }
     return this.credentials.accessToken;
   }
 
-  var users = List<LoginSession>.empty(growable: true).obs;
+  /// True if the storage is not full according by [max_users].
+  bool get isNotFull => this.storage.contentCopy.length < max_users;
 
-  late QuickLogins storage;
-
-  // String get userToken {
-  //   //this.users(this.storage.contentCopy);
-  //   LoginSession? active;
-  //   if (users.isNotEmpty) {
-  //     active = users.firstWhere((element) => element.activeLogin);
-  //     Map<String, dynamic> map = jsonDecode(active.authCredentials);
-  //     print(map["accessToken"]);
-  //     return map["accessToken"];
-  //   } else {}
-  // }
+  LoginController(this.context);
 
   @override
   void onInit() {
-    initialFetch();
+    loadLoginConfiguration();
     super.onInit();
   }
 
-  @override
-  void refreshContent() {
-    fetchUsers();
-    super.refreshContent();
-  }
+  void loadLoginConfiguration() async {
+    VersionStatus? appStatus = await fetchAppVersion();
 
-  void initialFetch() async {
-    await fetchAppVersion();
-    fetchUsers();
+    await this.loadStoredUsers();
+    bool lastSessionIsActive = this.tryLoadLastSession();
+
+    if (appStatus != null && !appStatus.canUpdate && lastSessionIsActive) {
+      loginTransition();
+    }
   }
 
   void setUserInfo(String userId, Credentials credentials) {
@@ -80,123 +79,131 @@ class LoginController extends ControllerTemplate {
     this.credentials = credentials;
   }
 
-  Future<void> fetchAppVersion() async {
-    _appStatus = await _newVersion.getVersionStatus();
-    if (_appStatus != null) {
+  Future<VersionStatus?> fetchAppVersion() async {
+    final newVersion = NewVersion();
+    VersionStatus? appStatus = await newVersion.getVersionStatus();
+    if (appStatus != null) {
       // debugPrint(_appStatus!.releaseNotes);
       // debugPrint(_appStatus!.appStoreLink);
       // debugPrint(_appStatus!.localVersion);
       // debugPrint(_appStatus!.storeVersion);
       // debugPrint(_appStatus!.canUpdate.toString());
-      if (_appStatus!.canUpdate)
-        _newVersion.showUpdateDialog(
+      if (appStatus.canUpdate)
+        newVersion.showUpdateDialog(
           context: context,
-          versionStatus: _appStatus!,
+          versionStatus: appStatus,
           allowDismissal: false,
           dialogTitle: 'update_available_title'.tr,
           dialogText: 'update_available_description'.tr,
         );
     }
+    return appStatus;
   }
 
-  /// Load the data from the Json stored file
-  void fetchUsers() async {
+  /// Loads the data from the Json stored file
+  Future<void> loadStoredUsers() async {
     this.isLoading(true);
-    this.storage = QuickLogins(await getApplicationDocumentsDirectory());
-    this.tryLoadLastSession();
-    //* uncomment this to execute autologin on app start
-    // if (!_appStatus!.canUpdate &&
-    //     !this.credentialsAreExpired.value &&
-    //     this.activeUserId.value.isNotEmpty) {
-    //   print("Entering QuickLogin");
-    //   startInfo(this.activeUserId.value);
-    //   loginTransition();
-    //   await Future.delayed(Duration(seconds: 1));
-    // }
+
+    // Initialize the storage instance for this class
+    await this.storage.initializeBox();
+
+    this.users(this.storage.contentCopy);
+    this.showQuickLogins(this.users.isNotEmpty);
+
     this.isLoading(false);
   }
 
-  /// * Method in charge of changing the window through a fade transition between them
-  void fadeTransition() async {
-    showQuickLogins(false);
-  }
-
-  /// Save a new [session] to json file
+  /// Saves a new [session] to storage.
   void saveUser(LoginSession session) async {
-    if (!this.storage.exist ||
-        (!this.contains(session.credential) && this.isNotFull())) {
-      this.users.add(session);
-      this.storage.add(session);
-      this.showQuickLogins(true);
-    }
+    this.users.add(session);
+    this.storage.add(session);
+    this.showQuickLogins(true);
   }
 
-  void tryLoadLastSession() {
-    if (this.storage.exist) {
-      this.users(this.storage.contentCopy);
-      if (this.users.isNotEmpty) {
-        this.showQuickLogins(true);
-        if (!this.storage.allAreInactive) {
-          bool isExpired = this.checkExpirationLastSession();
-          this.credentialsAreExpired(isExpired);
-          if (!isExpired) {
-            this.activeUserId = this.storage.currentSessionCopy.credential;
-          }
+  bool tryLoadLastSession() {
+    bool lastSessionIsActive = false;
+    if (this.users.isNotEmpty) {
+      if (!this.storage.areAllInactive) {
+        LoginSession activeSession = this.storage.activeSessionCopy;
+        Credentials activeSessionCredentials =
+            Credentials.fromJson(activeSession.authCredentials);
+        if (!activeSessionCredentials.isExpired) {
+          this.setUserInfo(activeSession.userId, activeSessionCredentials);
+          lastSessionIsActive = true;
         }
       }
     }
+    return lastSessionIsActive;
   }
 
-  bool checkExpirationLastSession() {
-    Credentials? credentials;
-    bool areExpired = false;
-    try {
-      credentials =
-          Credentials.fromJson(this.storage.currentSessionCopy.authCredentials);
-      areExpired = credentials.isExpired;
-    } finally {}
-    return areExpired;
-  }
-
-  ///renew user credentials when expired
-  void renewUser(int userIndex, Credentials credentials) {
-    if (this.storage.exist) {
-      storage.renewSession(userIndex, credentials.toJson());
-      this.tryLoadLastSession();
-    }
-  }
-
-  /// Refresh current credentials.
-  Future<Credentials> refreshCurrentUserCredentials() async {
-    Credentials newCredentials = await refresh(this.credentials);
-    if (newCredentials.accessToken.isNotEmpty) {
-      // Save new credentials
-      setUserInfo(this.activeUserId, newCredentials);
-      QuickLogins(await getApplicationDocumentsDirectory())
-          .refreshSession(this.activeUserId, credentials.toJson());
-      return newCredentials;
-    } else {
-      return Credentials('');
-    }
-  }
-
-  /// Remove the user at the specific [index].
+  /// Removes the user at the specific [index].
   LoginSession removeUser(int index) {
     LoginSession deleted = this.users.removeAt(index);
+    this.storage.deleteSession(index);
     showQuickLogins(this.users.isNotEmpty);
     return deleted;
   }
 
-  /// Check if the storage is not full. Max one users.
-  bool isNotFull() => this.storage.contentCopy.length < max_users;
+  /// Authenticates the [userId] and [password] and logs into the application.
+  void authenticate(String userId, String password) {
+    login(userId, password).then((credential) {
+      if (credential != null) {
+        this.setUserInfo(userId, credential);
 
-  /// Return true if the [userId] is in the users list
+        this.storage.inactiveAllSessions();
+
+        if (this.contains(userId)) {
+          // Save new credentials & activates the session
+          storage.refreshSession(userId, credentials.toJson());
+        }
+
+        loginTransition();
+
+        if (!this.contains(userId) && this.isNotFull) {
+          // If the user is saved then activates the session
+          promptStoreUser(userId, credential);
+        }
+      }
+    });
+  }
+
+  /// Checks if the [jsonCredentials] are still valid for the user with the specified [userId], and if not try to refresh the credentials.
+  ///
+  /// Updates the [activeUserId] and the active [credentials] if the credentials are valid or were refreshed.
+  Future<bool> checkOrRenewCredentials({
+    required String userId,
+    required String jsonCredentials,
+  }) async {
+    Credentials credentials = Credentials.fromJson(jsonCredentials);
+    bool credentialsAreValid = false;
+
+    if (credentials.isExpired) {
+      try {
+        credentials = await refresh(credentials);
+        if (credentials.accessToken.isNotEmpty && !credentials.isExpired) {
+          credentialsAreValid = true;
+        }
+      } catch (e) {}
+    } else {
+      credentialsAreValid = true;
+    }
+
+    if (credentialsAreValid) {
+      // Override current userId & credentials
+      this.setUserInfo(userId, credentials);
+      this.storage.refreshSession(userId, credentials.toJson());
+    }
+
+    return credentialsAreValid;
+  }
+
+  /// Returns true if the [userId] is in the users list
   bool contains(String userId) => this
           .storage
           .contentCopy
-          .firstWhere((session) => session.credential == userId,
+          .firstWhere((session) => session.userId == userId,
               orElse: () => LoginSession.empty())
-          .credential
+          .userId
           .isNotEmpty
       ? true
       : false;

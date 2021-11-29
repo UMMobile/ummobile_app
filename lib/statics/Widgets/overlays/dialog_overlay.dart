@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+/// Opens a confirmation dialog with a [title] and a [message]
+/// inside the application.
+///
+/// The actions of the button are set in the [onCancel] and [onConfirm] parameters
 void openDialogWindow(
     {required String title,
     required String message,
@@ -49,6 +53,7 @@ void openDialogWindow(
   );
 }
 
+/// Opens a loading dialog with a loading message [text]
 void openLoadingDialog(String text) {
   Get.dialog(
     AlertDialog(

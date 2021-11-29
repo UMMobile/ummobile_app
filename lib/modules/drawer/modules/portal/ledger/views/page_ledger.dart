@@ -13,9 +13,6 @@ import 'widgets/table_header.dart';
 class LedgerPage extends GetView<MovementsController> {
   LedgerPage({Key? key}) : super(key: key);
 
-  final dataColumStyle =
-      TextStyle(color: Colors.white, fontStyle: FontStyle.italic);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

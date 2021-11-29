@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ummobile/modules/app_bar/modules/questionnaire/views/subpages/user_responses_list.dart';
+import 'package:ummobile/modules/app_bar/modules/questionnaire/views/subpages/responses_list/user_responses_list.dart';
 import 'package:ummobile/modules/login/controllers/login_controller.dart';
 import 'package:ummobile/modules/login/controllers/questionnaire_response_controller.dart';
 import 'package:ummobile/statics/Widgets/badge.dart';
@@ -13,8 +13,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
-  bool? shouldAnimate;
-
   @override
   void initState() {
     Get.put(LoginController(context));
@@ -42,7 +40,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     );
                   } else {
                     return (_.showQuickLogins.value)
-                        ? QuickLogins()
+                        ? LoginSessionsGrid()
                         : LoginFields();
                   }
                 },

@@ -60,7 +60,7 @@ class TableHeader extends GetView<BalancesController> {
           ),
           Container(
             child: Text(
-              "Saldo actual",
+              "currentBalance".tr,
               style: TextStyle(fontSize: 14),
             ),
           )

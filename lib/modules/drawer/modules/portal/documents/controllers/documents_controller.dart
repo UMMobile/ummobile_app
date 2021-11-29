@@ -23,7 +23,7 @@ class DocumentsController extends ControllerTemplate
     super.refreshContent();
   }
 
-  /// * Mehod in charge of loading the necessary data of the page
+  /// Loads the user documents
   void fetchDocuments() async {
     call<List<Document>>(
       httpCall: () async => await (await academicApi).getDocuments(),

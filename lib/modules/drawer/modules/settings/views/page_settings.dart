@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ummobile/modules/drawer/modules/settings/controllers/user_settings.dart';
-import 'package:ummobile/modules/drawer/modules/settings/models/user_settings.dart';
+import 'package:ummobile/modules/drawer/modules/settings/controllers/app_settings_controller.dart';
 import 'package:ummobile/modules/app_bar/views/appBar.dart';
+import 'package:ummobile/services/storage/app_settings/models/app_settings.dart';
 import 'package:ummobile/statics/Widgets/form/bottomsheet/botomsheet.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -25,8 +25,8 @@ class _SettingsPageState extends State<SettingsPage> {
         title: 'settings'.tr,
         showActionIcons: false,
       ),
-      body: GetX<UserSettingsController>(
-        init: UserSettingsController(),
+      body: GetX<AppSettingsController>(
+        init: AppSettingsController(),
         builder: (_) {
           if (_.isLoading.value)
             return Center(child: CircularProgressIndicator());
@@ -57,8 +57,8 @@ class _SettingsPageState extends State<SettingsPage> {
                     }
 
                     Get.changeThemeMode(theme);
-                    _.userSettings.themeMode = theme;
-                    _.storage.write(_.userSettings.toJson());
+                    _.appSettings.themeMode = theme;
+                    _.storage.saveSettings(_.appSettings);
                   },
                   controller: _.themeController,
                 ),
@@ -77,12 +77,12 @@ class _SettingsPageState extends State<SettingsPage> {
                       language = null;
                       Get.updateLocale(Get.deviceLocale!);
                     } else {
-                      language = UserSettings.supportedLocales[index - 1];
+                      language = AppSettings.supportedLocales[index - 1];
                       Get.updateLocale(language);
                     }
 
-                    _.userSettings.language = language;
-                    _.storage.write(_.userSettings.toJson());
+                    _.appSettings.language = language;
+                    _.storage.saveSettings(_.appSettings);
                   },
                   controller: _.languageController,
                 ),

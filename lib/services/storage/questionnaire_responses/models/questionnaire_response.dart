@@ -1,24 +1,52 @@
+import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 import 'package:ummobile_sdk/ummobile_sdk.dart';
 
-class QuestionnaireLocalAnswer {
+part 'questionnaire_response.g.dart';
+
+@HiveType(typeId: 1)
+class QuestionnaireResponse extends HiveObject {
+  /// QR image
+  @HiveField(0)
   List<int> qr;
+
+  /// The user's image formatted in base64
+  @HiveField(1)
   String userImage;
+
+  /// The user's name
+  @HiveField(2)
   String name;
-  Roles role;
-  Residence residence;
+
+  /// The user's role
+  @HiveField(3)
+  String strRole;
+
+  /// The user's residence
+  @HiveField(4)
+  String strResidence;
+
+  /// The user's department
+  @HiveField(5)
   String department;
-  Reasons reason;
+
+  /// The reason of the current result
+  @HiveField(6)
+  String strReason;
+
+  /// The date when the questionnaire was answer
+  @HiveField(7)
   DateTime dateFilled;
 
-  String get strRole => fromRoleTypeToString(this.role);
+  Roles get role => fromStringToRoleType(strRole);
 
-  String get strReason => fromReasonTypeToString(this.reason);
+  Residence get residence => fromStringToResidenceType(strResidence);
 
-  String get strResidence => fromResidenceTypeToString(this.residence);
+  Reasons get reason => fromStringToReasonType(strReason);
 
   String get strDateFilled => DateFormat('yyyy-MM-dd').format(this.dateFilled);
 
+  /// True if the answered date is equals to today
   bool get isFromToday {
     DateTime now = DateTime.now();
     return this.dateFilled.day == now.day &&
@@ -26,45 +54,45 @@ class QuestionnaireLocalAnswer {
         this.dateFilled.year == now.year;
   }
 
-  QuestionnaireLocalAnswer({
+  QuestionnaireResponse({
     required this.qr,
     required this.userImage,
     required this.name,
     this.department: '',
-    this.role: Roles.Unknown,
-    this.residence: Residence.Unknown,
-    this.reason: Reasons.None,
+    this.strRole: '',
+    this.strResidence: '',
+    this.strReason: '',
     DateTime? answerDate,
   }) : this.dateFilled = answerDate != null ? answerDate : DateTime.now();
 
-  QuestionnaireLocalAnswer.forToday({
+  QuestionnaireResponse.forToday({
     required this.qr,
     required this.userImage,
     required this.name,
-    required this.role,
+    required this.strRole,
     this.department: '',
-    this.residence: Residence.Unknown,
-    this.reason: Reasons.None,
+    this.strResidence: '',
+    this.strReason: '',
   }) : this.dateFilled = DateTime.now();
 
-  QuestionnaireLocalAnswer.empty()
+  QuestionnaireResponse.empty()
       : this.qr = [],
         this.userImage = '',
         this.name = '',
         this.department = '',
-        this.role = Roles.Unknown,
-        this.residence = Residence.Unknown,
-        this.reason = Reasons.None,
+        this.strRole = '',
+        this.strResidence = '',
+        this.strReason = '',
         this.dateFilled = DateTime(1997, 1, 15);
 
-  QuestionnaireLocalAnswer.fromJson(Map<String, dynamic> json)
+  QuestionnaireResponse.fromJson(Map<String, dynamic> json)
       : this.qr = json['qr'].cast<int>(),
         this.userImage = json['userImage'] ?? '',
         this.name = json['name'] ?? '',
         this.department = json['department'] ?? '',
-        this.role = fromStringToRoleType(json['role'] ?? ''),
-        this.residence = fromStringToResidenceType(json['residence'] ?? ''),
-        this.reason = fromStringToReasonType(json['reason'] ?? ''),
+        this.strRole = json['role'] ?? '',
+        this.strResidence = json['residence'] ?? '',
+        this.strReason = json['reason'] ?? '',
         this.dateFilled = DateTime.parse(json['dateFilled'] ?? '1997-01-15');
 
   Map<String, dynamic> toJson() => {
