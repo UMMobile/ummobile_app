@@ -36,7 +36,7 @@ dependencies:
   http: ^0.13.3
   intl: ^0.17.0
   oauth2: ^2.0.0
-  onesignal_flutter: ^3.2.3
+  onesignal_flutter: ^3.2.7
   smooth_page_indicator: ^1.0.0+2
   syncfusion_flutter_calendar: ^19.1.66
   syncfusion_flutter_pdfviewer: ^19.3.44-beta
