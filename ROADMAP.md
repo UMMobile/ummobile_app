@@ -28,7 +28,7 @@ _**Changes & release dates in versions further from the next release are more li
 ### Fixes
 - Invert order for movements in the same day for employees ledger at least
   
-## 2.2.2 - 2021-11-26 ✅
+## 2.2.2 - 2021-11-29 ✅
 ### Adds
 - Docs for services
   - Auth

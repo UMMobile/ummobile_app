@@ -1,7 +1,7 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
-## 2.2.2 - 2021-11-26
+## 2.2.2 - 2021-11-29
 ### Added
 - Docs for services
   - Auth
