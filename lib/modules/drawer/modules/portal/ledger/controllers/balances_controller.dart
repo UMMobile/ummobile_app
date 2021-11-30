@@ -56,7 +56,7 @@ class BalancesController extends ControllerTemplate
   /// Selects a balance automatically if balances length = 1
   void _autoSelectBalance(List<Balance> balances) {
     if (balances.length == 1) {
-      Balance onlyBalance = balances[0];
+      Balance onlyBalance = balances.first;
       balanceSelect(onlyBalance.id, onlyBalance.name, 0);
     } else {
       Get.find<MovementsController>().displayBalanceSelectPage();

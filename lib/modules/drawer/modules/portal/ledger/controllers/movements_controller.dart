@@ -6,7 +6,7 @@ import 'package:ummobile/statics/templates/controller_template.dart';
 import 'package:ummobile_sdk/ummobile_sdk.dart';
 
 class MovementsController extends ControllerTemplate
-    with StateMixin<List<MovementsDateSorted>> {
+    with StateMixin<List<MovementsSection>> {
   Future<UMMobileFinancial> get financialApi async {
     String accessToken = await Get.find<LoginController>().token;
     return UMMobileFinancial(token: accessToken);
@@ -41,43 +41,54 @@ class MovementsController extends ControllerTemplate
   /// Returns the list of movements sorted by dates
   ///
   /// Sorting is done from newer to oldest dates
-  List<MovementsDateSorted> sortMovements(List<Movement> movements) {
-    List<MovementsDateSorted> sortedMovements = [];
-    MovementsDateSorted noDateMovements = MovementsDateSorted(
-      date: "withoutDate".tr,
+  List<MovementsSection> sortMovements(List<Movement> movements) {
+    List<MovementsSection> sortedSections = [];
+    MovementsSection noDateSection = MovementsSection(
+      title: "withoutDate".tr,
       movements: [],
     );
 
     DateTime? previousMovementDate;
-
-    for (int i = 0; i < movements.length; i++) {
-      DateTime? checkMovementDate = movements[i].date;
-
-      if (checkMovementDate == null) {
-        noDateMovements.movements.add(movements[i]);
+    for (Movement movement in movements) {
+      if (movement.date == null) {
+        // Movements with no date
+        noDateSection.movements.add(movement);
       } else if (previousMovementDate == null) {
-        sortedMovements.add(
-          MovementsDateSorted(
-            date: DateFormat('MMMM yyyy').format(checkMovementDate),
-            movements: [movements[i]],
+        // Single movement
+        sortedSections.add(
+          MovementsSection(
+            title: DateFormat('MMMM yyyy').format(movement.date!),
+            movements: [movement],
           ),
         );
-      } else if (previousMovementDate.month == checkMovementDate.month) {
-        sortedMovements.last.movements.add(movements[i]);
-      } else if (previousMovementDate.month != checkMovementDate.month) {
-        sortedMovements.add(
-          MovementsDateSorted(
-            date: DateFormat('MMMM yyyy').format(checkMovementDate),
-            movements: [movements[i]],
+      } else if (previousMovementDate.month == movement.date!.month) {
+        // Movements in same month
+        sortedSections.last.movements.add(movement);
+      } else if (previousMovementDate.month != movement.date!.month) {
+        // First movement on a different month
+        sortedSections.add(
+          MovementsSection(
+            title: DateFormat('MMMM yyyy').format(movement.date!),
+            movements: [movement],
           ),
         );
       }
 
-      previousMovementDate = checkMovementDate;
+      previousMovementDate = movement.date;
     }
-    sortedMovements = sortedMovements.reversed.toList();
-    sortedMovements.add(noDateMovements);
 
-    return sortedMovements;
+    // Get the rigth order
+    sortedSections = sortedSections.reversed.toList();
+    sortedSections.forEach((section) {
+      List<Movement> reversed = section.movements.reversed.toList();
+      section.movements.clear();
+      section.movements.addAll(reversed);
+
+      // If something still is out of order this should do the work
+      section.movements.sort((a, b) => b.date!.compareTo(a.date!));
+    });
+
+    sortedSections.add(noDateSection);
+    return sortedSections;
   }
 }

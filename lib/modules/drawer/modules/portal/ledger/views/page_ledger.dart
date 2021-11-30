@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ummobile/modules/app_bar/views/appBar.dart';
+import 'package:ummobile/modules/drawer/modules/portal/ledger/controllers/balances_controller.dart';
 import 'package:ummobile/modules/drawer/modules/portal/ledger/controllers/movements_controller.dart';
 import 'package:ummobile/modules/drawer/modules/portal/ledger/views/widgets/balance_floating_button.dart';
 import 'package:ummobile/modules/drawer/modules/portal/ledger/views/widgets/section_movements.dart';
@@ -21,23 +22,28 @@ class LedgerPage extends GetView<MovementsController> {
         showActionIcons: false,
       ),
       body: controller.obx(
-        (movements) => Column(
-          children: <Widget>[
-            TableHeader(),
-            Expanded(
-              child: ListView(
-                padding: EdgeInsets.all(20),
-                children: movements!
-                    .map(
-                      (e) => MovementsSection(
-                        header: e.date,
-                        movements: e.movements,
-                      ),
-                    )
-                    .toList(),
+        (movements) => RefreshIndicator(
+          onRefresh: () async {
+            Get.find<BalancesController>().refreshContent();
+          },
+          child: Column(
+            children: <Widget>[
+              TableHeader(),
+              Expanded(
+                child: ListView(
+                  padding: EdgeInsets.all(20),
+                  children: movements!
+                      .map(
+                        (section) => MovementsSection(
+                          header: section.title,
+                          movements: section.movements,
+                        ),
+                      )
+                      .toList(),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
         onEmpty: (controller.balanceSelectable)
             ? Center(child: Text('unselected_balance'.tr.capitalizeFirst!))
