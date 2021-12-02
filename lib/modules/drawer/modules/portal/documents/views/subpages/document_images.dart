@@ -36,16 +36,16 @@ class _DocumentImagesState extends State<DocumentImages> {
       ),
       backgroundColor: Colors.black,
       body: controller.obx(
-        (images) => ListView(
-          padding: const EdgeInsets.all(20),
-          children: images!
-              .map(
-                (image) => InteractiveViewer(
-                  clipBehavior: Clip.none,
-                  child: Image.memory(base64Decode(image.base64Image!)),
-                ),
-              )
-              .toList(),
+        (images) => InteractiveViewer(
+          clipBehavior: Clip.none,
+          child: ListView(
+            padding: const EdgeInsets.all(20),
+            children: images!
+                .map(
+                  (image) => Image.memory(base64Decode(image.base64Image!)),
+                )
+                .toList(),
+          ),
         ),
         onEmpty: Center(
           child: Text(
