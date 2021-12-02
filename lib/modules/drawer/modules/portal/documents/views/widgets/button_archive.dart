@@ -1,11 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:ummobile/modules/drawer/modules/portal/documents/bindings/document_images_binding.dart';
+import 'package:ummobile/modules/drawer/modules/portal/documents/views/subpages/document_images.dart';
 import 'package:ummobile/statics/settings/colors.dart';
 
 class ButtonDocument extends StatelessWidget {
   /// The document legal name
   final String? name;
 
-  ButtonDocument({Key? key, this.name}) : super(key: key);
+  /// The document id
+  final int id;
+
+  /// The amount of images in the document
+  final int pagesCount;
+
+  ButtonDocument({
+    Key? key,
+    this.name,
+    required this.id,
+    required this.pagesCount,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +50,10 @@ class ButtonDocument extends StatelessWidget {
               ),
             )
           ]),
-          onPressed: () {
-            print('no image available');
-          },
+          onPressed: () => Get.to(
+            () => DocumentImages(documentName: name!),
+            binding: DocumentImagesBinding(id, pagesCount),
+          ),
         ));
   }
 }

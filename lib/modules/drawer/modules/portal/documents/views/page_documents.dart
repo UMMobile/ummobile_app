@@ -26,11 +26,17 @@ class DocumentsPage extends GetView<DocumentsController> {
         ),
       ];
       for (int i = 0; i < archives.length; i++) {
-        list.add(ButtonDocument(name: archives[i].name));
+        list.add(ButtonDocument(
+          id: archives[i].id,
+          name: archives[i].name,
+          pagesCount: archives[i].pages.length,
+        ));
       }
-      list.add(SizedBox(
-        height: 20.0,
-      ));
+      list.add(
+        SizedBox(
+          height: 20.0,
+        ),
+      );
       return list;
     }
 
