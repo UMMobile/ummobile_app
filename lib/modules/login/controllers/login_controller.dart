@@ -86,8 +86,12 @@ class LoginController extends ControllerTemplate {
   }
 
   Future<bool> checkForAppUpdates() async {
-    final newVersion = NewVersion();
-    VersionStatus? appStatus = await newVersion.getVersionStatus();
+    final NewVersion newVersion = NewVersion();
+    VersionStatus? appStatus;
+    try {
+      appStatus = await NewVersion().getVersionStatus();
+    } catch (e) {}
+
     bool mandatoryUpdate = false;
     if (appStatus != null) {
       mandatoryUpdate = shouldUpdate(appStatus);
