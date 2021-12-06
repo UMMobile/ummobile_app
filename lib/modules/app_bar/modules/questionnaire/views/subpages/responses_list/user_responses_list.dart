@@ -2,15 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ummobile/modules/app_bar/modules/questionnaire/bindings/health_questionnaire_bindings.dart';
-import 'package:ummobile/modules/app_bar/modules/questionnaire/views/subpages/health_questionnaire/subpages/answered_page.dart';
 import 'package:ummobile/modules/app_bar/modules/questionnaire/views/subpages/responses_list/answered_page_scaffold.dart';
 import 'package:ummobile/modules/app_bar/views/appBar.dart';
 import 'package:ummobile/modules/login/controllers/login_controller.dart';
 import 'package:ummobile/modules/login/controllers/questionnaire_response_controller.dart';
-import 'package:ummobile/modules/tabs/modules/profile/models/user_credentials.dart';
-
-import '../health_questionnaire/health_questionnaire.dart';
 
 class HealthQuestionnaireResponses extends StatelessWidget {
   final LoginController _login = Get.find<LoginController>();
