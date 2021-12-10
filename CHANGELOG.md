@@ -1,7 +1,7 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
-## 2.2.3 - 2021-12-13 ✅
+## 2.2.3 - 2021-12-10 ✅
 ### Added
 - (**Opt**) Student docs 🎉
 ### Changed

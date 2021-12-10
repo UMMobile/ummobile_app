@@ -19,7 +19,7 @@ _**Changes & release dates in versions further from the next release are more li
 - Notifications are not marked as received on arrival
   - Because that code should be written in native code... F
 
-## 2.2.3 - 2021-12-13 ✅
+## 2.2.3 - 2021-12-10 ✅
 ### Adds
 - (**Opt**) Student docs 🎉
 ### Change
