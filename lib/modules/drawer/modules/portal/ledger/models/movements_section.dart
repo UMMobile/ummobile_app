@@ -1,16 +1,16 @@
 import 'package:ummobile_sdk/ummobile_sdk.dart';
 
-class MovementsDateSorted {
-  /// The movements date
+class MovementsSection {
+  /// The title for the movements section
   ///
-  /// The format used is MMMM yyyy
-  final String date;
+  /// Usually the date with "MMMM yyyy" format but can be any text.
+  final String title;
 
-  /// The list of movements inside the [date] month
+  /// The list of movements grouped by the specified [title].
   final List<Movement> movements;
 
-  MovementsDateSorted({
-    required this.date,
+  MovementsSection({
+    required this.title,
     required this.movements,
   });
 }

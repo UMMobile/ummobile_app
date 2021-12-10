@@ -4,10 +4,10 @@ PODS:
     - Flutter
   - flutter_custom_tabs (0.0.1):
     - Flutter
-  - onesignal_flutter (3.2.3):
+  - onesignal_flutter (3.2.7):
     - Flutter
-    - OneSignalXCFramework (= 3.7.0)
-  - OneSignalXCFramework (3.7.0)
+    - OneSignalXCFramework (= 3.9.1)
+  - OneSignalXCFramework (3.9.1)
   - package_info_plus (0.4.5):
     - Flutter
   - path_provider (0.0.1):
@@ -26,7 +26,7 @@ DEPENDENCIES:
   - flutter_config (from `.symlinks/plugins/flutter_config/ios`)
   - flutter_custom_tabs (from `.symlinks/plugins/flutter_custom_tabs/ios`)
   - onesignal_flutter (from `.symlinks/plugins/onesignal_flutter/ios`)
-  - OneSignalXCFramework (= 3.7.0)
+  - OneSignalXCFramework (< 4.0, >= 3.4.3)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
@@ -64,8 +64,8 @@ SPEC CHECKSUMS:
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
   flutter_config: 2226c1df19c78fe34a05eb7f1363445f18e76fc1
   flutter_custom_tabs: 7a10a08686955cb748e5d26e0ae586d30689bf89
-  onesignal_flutter: abfc75e8d08a0d9c977aacfab9454af58f4f4fcc
-  OneSignalXCFramework: 974dc438d68910cf04f3c8ab034e0131d41438c1
+  onesignal_flutter: be350169f5b07461e7b1e9c978d8a39908c5cf37
+  OneSignalXCFramework: 27159b0a150cdfe528c85325215c9d78b2f973c7
   package_info_plus: 6c92f08e1f853dc01228d6f553146438dafcd14e
   path_provider: d1e9807085df1f9cc9318206cd649dc0b76be3de
   shared_preferences: 5033afbb22d372e15aff8ff766df9021b845f273
@@ -73,6 +73,6 @@ SPEC CHECKSUMS:
   url_launcher: b6e016d912f04be9f5bf6e8e82dc599b7ba59649
   video_player: ecd305f42e9044793efd34846e1ce64c31ea6fcb
 
-PODFILE CHECKSUM: 99365d509a55af430558a41d568eef646ebb286c
+PODFILE CHECKSUM: 7ce4868f8f23a4006f1b03860bcb2dd1ba15b1a0
 
 COCOAPODS: 1.11.2

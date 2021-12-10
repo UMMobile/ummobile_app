@@ -19,14 +19,16 @@ _**Changes & release dates in versions further from the next release are more li
 - Notifications are not marked as received on arrival
   - Because that code should be written in native code... F
 
-## 2.2.3 - 2021-12-03 🚧
+## 2.2.3 - 2021-12-10 ✅
 ### Adds
 - (**Opt**) Student docs 🎉
 ### Change
+- Shimmer effect for ledger
 - Force only minor and major versions updates
-- Deprectad splash screen for new way
+- OneSignal package version
 ### Fixes
 - Invert order for movements in the same day for employees ledger at least
+- Not entering to the app if no internet connection
   
 ## 2.2.2 - 2021-11-29 ✅
 ### Adds

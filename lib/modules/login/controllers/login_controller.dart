@@ -10,6 +10,12 @@ import 'package:ummobile/services/storage/login_sessions/login_session_box.dart'
 import 'package:ummobile/services/storage/login_sessions/models/login_session.dart';
 import 'package:ummobile/statics/templates/controller_template.dart';
 
+enum Version {
+  Major,
+  Minor,
+  Patch,
+}
+
 class LoginController extends ControllerTemplate {
   /// The amount of user that can be saved.
   static const double max_users = 2;
@@ -61,12 +67,12 @@ class LoginController extends ControllerTemplate {
   }
 
   void loadLoginConfiguration() async {
-    VersionStatus? appStatus = await fetchAppVersion();
+    bool shouldUpdate = await checkForAppUpdates();
 
     await this.loadStoredUsers();
     bool lastSessionIsActive = this.tryLoadLastSession();
 
-    if (appStatus != null && !appStatus.canUpdate && lastSessionIsActive) {
+    if (!shouldUpdate && lastSessionIsActive) {
       loginTransition();
     }
   }
@@ -79,16 +85,17 @@ class LoginController extends ControllerTemplate {
     this.credentials = credentials;
   }
 
-  Future<VersionStatus?> fetchAppVersion() async {
-    final newVersion = NewVersion();
-    VersionStatus? appStatus = await newVersion.getVersionStatus();
+  Future<bool> checkForAppUpdates() async {
+    final NewVersion newVersion = NewVersion();
+    VersionStatus? appStatus;
+    try {
+      appStatus = await NewVersion().getVersionStatus();
+    } catch (e) {}
+
+    bool mandatoryUpdate = false;
     if (appStatus != null) {
-      // debugPrint(_appStatus!.releaseNotes);
-      // debugPrint(_appStatus!.appStoreLink);
-      // debugPrint(_appStatus!.localVersion);
-      // debugPrint(_appStatus!.storeVersion);
-      // debugPrint(_appStatus!.canUpdate.toString());
-      if (appStatus.canUpdate)
+      mandatoryUpdate = shouldUpdate(appStatus);
+      if (mandatoryUpdate) {
         newVersion.showUpdateDialog(
           context: context,
           versionStatus: appStatus,
@@ -96,8 +103,68 @@ class LoginController extends ControllerTemplate {
           dialogTitle: 'update_available_title'.tr,
           dialogText: 'update_available_description'.tr,
         );
+      }
     }
-    return appStatus;
+    return mandatoryUpdate;
+  }
+
+  bool shouldUpdate(VersionStatus status,
+      {Version minimumVersionPart: Version.Minor}) {
+    // debugPrint(status.releaseNotes); // What's new
+    // debugPrint(status.appStoreLink); // Link to app on Play Store
+    // debugPrint(status.localVersion); // Local app version. Ex. 2.2.1
+    // debugPrint(status.storeVersion); // Store app version. Ex. 2.2.2
+    // debugPrint(status.canUpdate);
+
+    // If validate patch version should validate minor too
+    bool validateMinor = minimumVersionPart == Version.Minor ||
+        minimumVersionPart == Version.Patch;
+    bool validatePatch = minimumVersionPart == Version.Patch;
+
+    List<String> localVersionParts = status.localVersion.split('.');
+    List<String> storeVersionParts = status.storeVersion.split('.');
+
+    int? localMajor;
+    int? storeMajor;
+    int? localMinor;
+    int? storeMinor;
+    int? localPatch;
+    int? storePatch;
+
+    bool majorIsNewer = false;
+    bool minorIsNewer = false;
+    bool patchIsNewer = false;
+
+    localMajor = int.tryParse(localVersionParts[0]);
+    storeMajor = int.tryParse(storeVersionParts[0]);
+
+    if (localMajor == null || storeMajor == null) return false;
+
+    majorIsNewer = storeMajor > localMajor;
+
+    if (validateMinor) {
+      localMinor = int.tryParse(localVersionParts[1]);
+      storeMinor = int.tryParse(storeVersionParts[1]);
+
+      if (localMinor == null || storeMinor == null) return false;
+
+      minorIsNewer = (storeMinor > localMinor) && (storeMajor >= localMajor);
+
+      if (validatePatch) {
+        localPatch = int.tryParse(localVersionParts[2]);
+        storePatch = int.tryParse(storeVersionParts[2]);
+
+        if (localPatch == null || storePatch == null) return false;
+
+        patchIsNewer = (storePatch > localPatch) &&
+            (storeMinor >= localMinor) &&
+            (storeMajor >= localMajor);
+      }
+    }
+
+    return majorIsNewer ||
+        (validateMinor && minorIsNewer) ||
+        (validatePatch && patchIsNewer);
   }
 
   /// Loads the data from the Json stored file

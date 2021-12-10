@@ -1,6 +1,17 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
+## 2.2.3 - 2021-12-10 ✅
+### Added
+- (**Opt**) Student docs 🎉
+### Changed
+- Shimmer effect for ledger
+- Force only minor and major versions updates
+- OneSignal package version
+### Fixed
+- Invert order for movements in the same day for employees ledger at least
+- Not entering to the app if no internet connection
+
 ## 2.2.2 - 2021-11-29
 ### Added
 - Docs for services

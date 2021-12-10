@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ummobile/modules/app_bar/modules/questionnaire/bindings/health_questionnaire_bindings.dart';
 import 'package:ummobile/modules/app_bar/views/appBar.dart';
-import 'package:ummobile/modules/tabs/modules/profile/models/user_credentials.dart';
 
 import 'subpages/health_questionnaire/health_questionnaire.dart';
 
