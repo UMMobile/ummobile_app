@@ -52,6 +52,12 @@ class NotificationsController extends ControllerTemplate
     super.onInit();
   }
 
+  @override
+  void refreshContent() {
+    this.refreshNotifications();
+    super.refreshContent();
+  }
+
   /// Retrieves the user notifications from the api
   void fetchNotifications() async {
     call<List<Notification>>(
@@ -78,11 +84,12 @@ class NotificationsController extends ControllerTemplate
     // not entered to the app in a while then the access token can be expired and refresh
     // the user notifications can throw an exception.
     if (accessToken.isNotEmpty) {
-      await refresh();
+      await refreshNotifications();
     }
 
     // Mark the notification as received do not required an unnexpired access token because
     // is a public endpoint.
+    // ignore: todo
     // TODO: (@jonathangomez): [Note] Do not uncomment this code until native code to manage received notifications is written.
     // This to avoid to have trash information stored and have a before and after fix clearly marked.
     // await call(
@@ -153,7 +160,7 @@ class NotificationsController extends ControllerTemplate
 
   /// Clears all the notifications from the list and makes another
   /// api call to retrieve possible changes
-  Future<void> refresh() async {
+  Future<void> refreshNotifications() async {
     await call<List<Notification>>(
       httpCall: () async => await (await notificationsApi).getAll(),
       onSuccess: (newNotifications) {

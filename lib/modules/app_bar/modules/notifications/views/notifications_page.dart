@@ -42,7 +42,7 @@ class NotificationsPage extends GetView<NotificationsController> {
               notifications: _notificationsController.itemsSorted,
             ),
             onRefresh: () async {
-              await _notificationsController.refresh();
+              await _notificationsController.refreshNotifications();
             },
           ),
         ),
@@ -63,7 +63,7 @@ class NotificationsPage extends GetView<NotificationsController> {
             ),
           ),
           onRefresh: () async {
-            await _notificationsController.refresh();
+            await _notificationsController.refreshNotifications();
           },
         ),
         onError: (e) => controller.internetPage(e),

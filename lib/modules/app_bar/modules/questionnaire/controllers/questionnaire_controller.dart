@@ -86,6 +86,7 @@ class QuestionnaireController extends ControllerTemplate with StateMixin {
     isAnswered(false);
     await storage.initializeBox();
     bool shallNotPass = false;
+    Reasons? reason;
 
     if (userIsStudent) {
       await call<CovidValidation>(
@@ -93,7 +94,7 @@ class QuestionnaireController extends ControllerTemplate with StateMixin {
             await (await api).questionnaire.covid.getValidation(),
         onSuccess: (data) {
           if (!data.allowAccess) {
-            this.cannotPass(because: data.reason);
+            reason = data.reason;
             shallNotPass = true;
           }
         },
@@ -103,6 +104,8 @@ class QuestionnaireController extends ControllerTemplate with StateMixin {
     }
 
     if (shallNotPass) {
+      await fetchUserInfo();
+      await this.cannotPass(because: reason!);
       isAnswered(true);
     }
 

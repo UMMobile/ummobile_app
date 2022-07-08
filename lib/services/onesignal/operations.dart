@@ -23,6 +23,7 @@ void handleOneSignalEvents({
   void Function(OSNotification)? onReceive,
 }) {
   OneSignal.shared.setNotificationWillShowInForegroundHandler(
+      // ignore: todo
       // TODO (@jonathangomz): [Fix] When app is not on focus (background) `onReceive` is not executed and cannot mark a notification as received.
       // See https://documentation.onesignal.com/docs/sdk-notification-event-handlers for a possible solution because `setNotificationWillShowInForegroundHandler` function only works when the app is on focus but not on background.
       (OSNotificationReceivedEvent event) {

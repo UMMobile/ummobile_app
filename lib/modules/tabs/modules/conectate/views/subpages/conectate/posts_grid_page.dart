@@ -73,6 +73,7 @@ class PostsGridPage extends GetView<PostsController> {
           return Center(child: controller.internetPage(e));
         },
         onLoading:
+            // ignore: todo
             Center(child: CircularProgressIndicator()), //TODO: shimmer effect
       ),
     );

@@ -59,6 +59,7 @@ class ControllerTemplate extends GetxController {
       T res = await httpCall();
       onSuccess(res);
     } on HttpCallException catch (e) {
+      print(e.response!.statusCode);
       onCallError(_getStatusError(e.type));
     } catch (e) {
       onError(e);
