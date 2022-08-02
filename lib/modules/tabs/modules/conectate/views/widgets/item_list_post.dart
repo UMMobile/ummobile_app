@@ -23,7 +23,7 @@ class ItemListPost extends StatelessWidget {
         onTap: () {
           actionPost(url, imagePath, context);
         },
-        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+        //borderRadius: BorderRadius.all(Radius.circular(20.0)),
         child: ClipRRect(
           borderRadius: BorderRadius.all(Radius.circular(20.0)),
           child: Stack(

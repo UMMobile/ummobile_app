@@ -3,7 +3,7 @@ import 'package:ummobile/modules/tabs/models/page_tab_view.dart';
 import 'package:ummobile/modules/tabs/modules/announcements/views/announcements_forms.dart';
 import 'package:ummobile/modules/tabs/modules/calendar/views/calendar_page.dart';
 import 'package:ummobile/modules/tabs/modules/conectate/views/conectate_page.dart';
-import 'package:ummobile/modules/tabs/modules/notices/views/notices_page.dart';
+import 'package:ummobile/modules/tabs/modules/intereses/views/intereses_page.dart';
 // import 'package:ummobile/modules/tabs/modules/forms/views/page_forms.dart';
 import 'package:ummobile/modules/tabs/modules/payments/views/page_payment.dart';
 import 'package:ummobile/modules/tabs/modules/profile/models/user_credentials.dart';
@@ -53,12 +53,12 @@ List<PageTabView> employee = <PageTabView>[
   // ),
   PageTabView(
       page: AnnouncementsPage(),
-      icon: Icon(Icons.announcement, size: 30),
-      label: "Anuncios"),
+      icon: Icon(Icons.article, size: 30),
+      label: "Te podria interesar"),
   PageTabView(
     page: NoticesPage(),
-    icon: Icon(Icons.article, size: 30),
-    label: "Comunicados",
+    icon: Icon(Icons.announcement, size: 30),
+    label: "UM informa",
   ),
 
   PageTabView(
