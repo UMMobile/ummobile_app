@@ -221,5 +221,6 @@
   "withoutDate": "Sin fecha",
   "update_available_title": "Actualización disponible",
   "update_available_description": "Hay una nueva versión de la aplicación disponible, favor de actualizar a la versión más reciente",
-  "currentBalance": "Saldo actual"
+  "currentBalance": "Saldo actual",
+  "privacy_policy": "Aviso de privacidad"
 }

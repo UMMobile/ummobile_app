@@ -54,11 +54,11 @@ List<PageTabView> employee = <PageTabView>[
   PageTabView(
       page: AnnouncementsPage(),
       icon: Icon(Icons.article, size: 30),
-      label: "Te podria interesar"),
+      label: "Comunicados"),
   PageTabView(
     page: NoticesPage(),
     icon: Icon(Icons.announcement, size: 30),
-    label: "UM informa",
+    label: "De Interes",
   ),
 
   PageTabView(

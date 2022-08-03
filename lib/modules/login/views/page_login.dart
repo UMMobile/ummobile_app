@@ -4,6 +4,7 @@ import 'package:ummobile/modules/app_bar/modules/questionnaire/views/subpages/re
 import 'package:ummobile/modules/login/controllers/login_controller.dart';
 import 'package:ummobile/modules/login/controllers/questionnaire_response_controller.dart';
 import 'package:ummobile/statics/Widgets/badge.dart';
+import 'package:url_launcher/link.dart';
 
 import 'widgets/widgets_export.dart';
 
@@ -46,6 +47,25 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 },
               )
             ],
+          ),
+          Container(
+            child: Link(
+              uri: Uri.parse('https://www.um.edu.mx/privacidad'),
+              builder: (context, followLink) => GestureDetector(
+                onTap: followLink,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Text(
+                    'privacy_policy'.tr.capitalizeFirst!,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ),
           GetX<QuestionnaireResponseController>(
               init: QuestionnaireResponseController(),
