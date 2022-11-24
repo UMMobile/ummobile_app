@@ -165,10 +165,9 @@ class _PermissionsPageState extends State<PermissionsPage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
+        child: Icon(Icons.add, color: Colors.white),
         backgroundColor: Theme.of(context).colorScheme.secondary,
-        onPressed: () => Get.find<NavigationController>()
-            .goToSubTabView(RequestPermissionsPage(), context),
+        onPressed: () => Get.to(RequestPermissionsPage()),
       ),
     );
   }

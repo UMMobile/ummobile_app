@@ -48,19 +48,21 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               )
             ],
           ),
-          Container(
-            child: Link(
-              uri: Uri.parse('https://www.um.edu.mx/privacidad'),
-              builder: (context, followLink) => GestureDetector(
-                onTap: followLink,
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Text(
-                    'privacy_policy'.tr.capitalizeFirst!,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      decoration: TextDecoration.underline,
+          SafeArea(
+            child: Container(
+              child: Link(
+                uri: Uri.parse('https://www.um.edu.mx/privacidad'),
+                builder: (context, followLink) => GestureDetector(
+                  onTap: followLink,
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Text(
+                      'privacy_policy'.tr.capitalizeFirst!,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        decoration: TextDecoration.underline,
+                      ),
                     ),
                   ),
                 ),

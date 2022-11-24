@@ -109,10 +109,9 @@ class _VacationsPageState extends State<VacationsPage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
+        child: Icon(Icons.add, color: Colors.white),
         backgroundColor: Theme.of(context).colorScheme.secondary,
-        onPressed: () => Get.find<NavigationController>()
-            .goToSubTabView(RequestVacationsPage(), context),
+        onPressed: () => Get.to(RequestVacationsPage()),
       ),
     );
   }

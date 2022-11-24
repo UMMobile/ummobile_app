@@ -10,6 +10,7 @@ import 'package:ummobile/modules/login/utils/roles_pages.dart';
 import 'package:ummobile/modules/login/utils/validate_login.dart';
 import 'package:ummobile/modules/tabs/bindings/tabs_binding.dart';
 import 'package:ummobile/modules/tabs/controllers/navigation_controller.dart';
+import 'package:ummobile/modules/tabs/modules/forms/views/page_forms.dart';
 import 'package:ummobile/modules/tabs/modules/profile/models/user_credentials.dart';
 import 'package:ummobile/services/storage/login_sessions/login_session_box.dart';
 import 'package:ummobile/statics/settings/app_icons_icons.dart';
@@ -308,11 +309,20 @@ class _UmDrawerState extends State<UmDrawer> {
                     children: portalSectionChildren,
                   ),
                 if (userIsEmployee)
-                  _singleSectionItem(
-                    page: LedgerPage(),
-                    title: 'ledger'.tr.capitalizeFirst!,
-                    icon: Icons.attach_money_rounded,
-                    binding: LedgerBinding(),
+                  Column(
+                    children: [
+                      _singleSectionItem(
+                        page: LedgerPage(),
+                        title: 'ledger'.tr.capitalizeFirst!,
+                        icon: Icons.attach_money_rounded,
+                        binding: LedgerBinding(),
+                      ),
+                      _singleSectionItem(
+                        page: FormsPage(),
+                        title: 'forms'.tr.capitalizeFirst!,
+                        icon: Icons.beach_access,
+                      ),
+                    ],
                   ),
               ],
             ),
@@ -341,7 +351,10 @@ class _UmDrawerState extends State<UmDrawer> {
             ],
           ),
           Divider(height: 0),
-          logout,
+          SafeArea(
+            child: logout,
+            top: false,
+          ),
         ],
       ),
     );

@@ -8,7 +8,9 @@ import 'subpages/permissions/page_permissions.dart';
 import 'subpages/vacations/page_vacations.dart';
 
 class FormsPage extends StatefulWidget {
-  FormsPage({Key? key}) : super(key: key);
+  FormsPage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   _FormsPageState createState() => _FormsPageState();
@@ -25,14 +27,6 @@ class _FormsPageState extends State<FormsPage>
     return Scaffold(
       appBar: UmAppBar(
         title: 'forms'.tr.capitalizeFirst!,
-        leading: IconButton(
-            icon: Icon(Icons.menu),
-            onPressed: () {
-              Get.find<NavigationController>()
-                  .drawerKey
-                  .currentState!
-                  .openDrawer();
-            }),
       ),
       body: ListView(
         children: [
@@ -41,8 +35,7 @@ class _FormsPageState extends State<FormsPage>
               leading: Icon(Icons.beach_access_rounded),
               title: Text('vacations'.tr.capitalizeFirst!),
               trailing: Icon(Icons.navigate_next_rounded),
-              onTap: () => Get.find<NavigationController>()
-                  .goToSubTabView(VacationsPage(), context),
+              onTap: () => Get.to(VacationsPage()),
             ),
           ),
           Card(
@@ -50,8 +43,7 @@ class _FormsPageState extends State<FormsPage>
               leading: Icon(Icons.wallet_travel_rounded),
               title: Text('permissions'.tr.capitalizeFirst!),
               trailing: Icon(Icons.navigate_next_rounded),
-              onTap: () => Get.find<NavigationController>()
-                  .goToSubTabView(PermissionsPage(), context),
+              onTap: () => Get.to(PermissionsPage()),
             ),
           ),
         ],
