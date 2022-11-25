@@ -201,7 +201,7 @@ class QuestionnaireUnAnsweredPage extends StatelessWidget {
             text(
                 20,
                 'health_questionnaire_greeting'.trParams({
-                  'role': _questionaireController.user!.role.toString().tr,
+                  "role": _questionaireController.user!.role.toString().tr,
                 })),
             _infoRow(_questionaireController.user!.name,
                 _questionaireController.user!.surnames),

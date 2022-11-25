@@ -16,7 +16,7 @@ class ContentItemNotification extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (!this.notification.isSeen) {
-      WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
         Get.find<NotificationsController>().markAsRead(this.notification.id);
       });
     }

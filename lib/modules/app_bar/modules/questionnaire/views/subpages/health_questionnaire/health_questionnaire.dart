@@ -1,14 +1,19 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:ummobile/modules/app_bar/modules/questionnaire/controllers/questionnaire_controller.dart';
-import 'package:ummobile/modules/app_bar/views/appBar.dart';
-import 'package:ummobile/statics/widgets/shimmers.dart';
+//import 'package:flutter/cupertino.dart';
+//import 'package:flutter/material.dart';
+//import 'package:webview_flutter/webview_flutter.dart';
+//import 'package:get/get.dart';
+//import 'package:ummobile/modules/app_bar/modules/questionnaire/controllers/questionnaire_controller.dart';
+//import 'package:ummobile/modules/app_bar/modules/questionnaire/views/subpages/health_questionnaire/subpages/unanswered_page.dart';
+//import 'package:ummobile/modules/app_bar/views/appBar.dart';
+//import 'package:ummobile/statics/widgets/shimmers.dart';
 
-import 'subpages/answered_page.dart';
-import 'subpages/unanswered_page.dart';
+//import '../exercise_questionnair/exercise_answers_page.dart';
+//import 'subpages/answered_page.dart';
+//import 'subpages/unanswered_page.dart';
 
-class HealthQuestionnaire extends GetView<QuestionnaireController> {
+
+
+/*class HealthQuestionnaire extends GetView<QuestionnaireController> {
   HealthQuestionnaire({Key? key}) : super(key: key);
 
   @override
@@ -18,7 +23,8 @@ class HealthQuestionnaire extends GetView<QuestionnaireController> {
         title: 'questionnaire'.tr.capitalizeFirst!,
         showActionIcons: false,
       ),
-      body: controller.obx(
+      body: 
+      controller.obx(
         (state) => RefreshIndicator(
           onRefresh: () async => controller.refreshContent(),
           child: Obx(() => controller.isAnswered.value
@@ -166,4 +172,4 @@ class _ShimmerHealthQuestionnaire extends StatelessWidget {
       ],
     );
   }
-}
+}*/

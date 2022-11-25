@@ -133,21 +133,22 @@ class UmAppBar extends StatelessWidget with PreferredSizeWidget {
                 ),
               ),
             ),
-            IconButton(
-              onPressed: () => Get.to(() => QuestionnairesPage(),
-                  transition: Transition.downToUp),
-              icon: Badge(
-                top: 15,
-                right: -5,
-                value: _.questionnaireCounter.value.toString(),
-                child: Icon(
-                  _.questionnaireCounter.value == 0
-                      ? Icons.quiz_outlined
-                      : Icons.quiz,
-                  size: this._iconsSize,
+            if (userIsEmployee)
+              IconButton(
+                onPressed: () => Get.to(() => QuestionnairesPage(),
+                    transition: Transition.downToUp),
+                icon: Badge(
+                  top: 15,
+                  right: -5,
+                  value: _.questionnaireCounter.value.toString(),
+                  child: Icon(
+                    _.questionnaireCounter.value == 0
+                        ? Icons.run_circle_outlined
+                        : Icons.run_circle,
+                    size: this._iconsSize,
+                  ),
                 ),
               ),
-            ),
             IconButton(
               onPressed: () => Get.to(() => NotificationsPage(),
                   transition: Transition.downToUp),
