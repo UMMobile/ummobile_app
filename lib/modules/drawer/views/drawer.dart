@@ -317,11 +317,11 @@ class _UmDrawerState extends State<UmDrawer> {
                         icon: Icons.attach_money_rounded,
                         binding: LedgerBinding(),
                       ),
-                      _singleSectionItem(
+                      /*_singleSectionItem(
                         page: FormsPage(),
                         title: 'forms'.tr.capitalizeFirst!,
                         icon: Icons.beach_access,
-                      ),
+                      ),*/
                     ],
                   ),
               ],

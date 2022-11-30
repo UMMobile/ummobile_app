@@ -13,7 +13,7 @@
   "save_dialog_message": "This will allow you to log in faster on your next session",
   "saving": "Saving @element",
   "questionnaire_instructions": "Please, answer the following questions",
-  "questionnaire": "questionnaire",
+  "questionnaire": "Forms",
   "credential_number": "Credential number",
   "name": "name",
   "surname": "surname",
@@ -52,7 +52,7 @@
   "news": "news",
   "events": "events",
   "see_more": "see more",
-  "health_questionnaire": "COVID Surveillance Form",
+  "health_questionnaire": "Daily exercise activity form",
   "empty_notifications": "No notifications",
   "news_list_header": "Get the latest news",
   "blog_list_header": "It might interest you",
@@ -221,5 +221,11 @@
   "withoutDate": "Without date",
   "update_available_title": "Update available",
   "update_available_description": "There is a new version available, please update your app",
-  "currentBalance": "Current balance"
+  "currentBalance": "Current balance",
+  "steps":"Steps",
+  "distance":"Distance in kilometers",
+  "sleep hours":"Sleep hours",
+  "submit":"Submit",
+  "enter text":"Please enter some text",
+  "success data":"Your data has been succesfuly updated"
 }

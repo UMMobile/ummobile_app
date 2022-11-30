@@ -13,7 +13,7 @@
   "save_dialog_message": "Esto te permitirá ingresar sesión más rápido en tu siguiente sesión",
   "saving": "Guardando @element",
   "questionnaire_instructions": "Por favor responde las siguientes preguntas",
-  "questionnaire": "cuestionario",
+  "questionnaire": "Formulario",
   "credential_number": "No. de matrícula",
   "name": "nombre",
   "surname": "apellido",
@@ -52,7 +52,7 @@
   "news": "noticias",
   "events": "eventos",
   "see_more": "ver más",
-  "health_questionnaire": "Formulario de actividad física",
+  "health_questionnaire": "Formulario de actividad física diaria",
   "empty_notifications": "No hay notificaciones",
   "news_list_header": "Entérate de las últimas noticias",
   "blog_list_header": "Te podría interesar",
@@ -222,5 +222,12 @@
   "update_available_title": "Actualización disponible",
   "update_available_description": "Hay una nueva versión de la aplicación disponible, favor de actualizar a la versión más reciente",
   "currentBalance": "Saldo actual",
-  "privacy_policy": "Aviso de privacidad"
+  "privacy_policy": "Aviso de privacidad",
+  "steps":"Pasos",
+  "distance":"Kilómetros recorridos",
+  "sleep hours":"Horas de sueño",
+  "submit":"Enviar",
+  "enter text":"Por favor ingrese un dato válido",
+  "success data":"Sus datos han sido actualizados de manera exitosa"
+
 }
