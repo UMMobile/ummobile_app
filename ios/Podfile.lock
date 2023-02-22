@@ -6,25 +6,27 @@ PODS:
     - Flutter
   - flutter_native_splash (0.0.1):
     - Flutter
-  - onesignal_flutter (3.4.1):
+  - onesignal_flutter (3.5.0):
     - Flutter
-    - OneSignalXCFramework (= 3.11.2)
-  - OneSignalXCFramework (3.11.2):
-    - OneSignalXCFramework/OneSignalCore (= 3.11.2)
-    - OneSignalXCFramework/OneSignalExtension (= 3.11.2)
-    - OneSignalXCFramework/OneSignalOutcomes (= 3.11.2)
-  - OneSignalXCFramework/OneSignalCore (3.11.2)
-  - OneSignalXCFramework/OneSignalExtension (3.11.2):
+    - OneSignalXCFramework (= 3.12.3)
+  - OneSignalXCFramework (3.12.3):
+    - OneSignalXCFramework/OneSignalCore (= 3.12.3)
+    - OneSignalXCFramework/OneSignalExtension (= 3.12.3)
+    - OneSignalXCFramework/OneSignalOutcomes (= 3.12.3)
+  - OneSignalXCFramework/OneSignalCore (3.12.3)
+  - OneSignalXCFramework/OneSignalExtension (3.12.3):
     - OneSignalXCFramework/OneSignalCore
     - OneSignalXCFramework/OneSignalOutcomes
-  - OneSignalXCFramework/OneSignalOutcomes (3.11.2):
+  - OneSignalXCFramework/OneSignalOutcomes (3.12.3):
     - OneSignalXCFramework/OneSignalCore
   - package_info_plus (0.4.5):
     - Flutter
-  - path_provider_ios (0.0.1):
+  - path_provider_foundation (0.0.1):
     - Flutter
-  - shared_preferences_ios (0.0.1):
+    - FlutterMacOS
+  - shared_preferences_foundation (0.0.1):
     - Flutter
+    - FlutterMacOS
   - syncfusion_flutter_pdfviewer (0.0.1):
     - Flutter
   - url_launcher_ios (0.0.1):
@@ -42,11 +44,10 @@ DEPENDENCIES:
   - flutter_custom_tabs (from `.symlinks/plugins/flutter_custom_tabs/ios`)
   - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
   - onesignal_flutter (from `.symlinks/plugins/onesignal_flutter/ios`)
-  - OneSignalXCFramework (< 4.0, >= 3.0.0)
   - OneSignalXCFramework (< 4.0, >= 3.4.3)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
-  - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
-  - shared_preferences_ios (from `.symlinks/plugins/shared_preferences_ios/ios`)
+  - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/ios`)
+  - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/ios`)
   - syncfusion_flutter_pdfviewer (from `.symlinks/plugins/syncfusion_flutter_pdfviewer/ios`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
   - video_player_avfoundation (from `.symlinks/plugins/video_player_avfoundation/ios`)
@@ -70,10 +71,10 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/onesignal_flutter/ios"
   package_info_plus:
     :path: ".symlinks/plugins/package_info_plus/ios"
-  path_provider_ios:
-    :path: ".symlinks/plugins/path_provider_ios/ios"
-  shared_preferences_ios:
-    :path: ".symlinks/plugins/shared_preferences_ios/ios"
+  path_provider_foundation:
+    :path: ".symlinks/plugins/path_provider_foundation/ios"
+  shared_preferences_foundation:
+    :path: ".symlinks/plugins/shared_preferences_foundation/ios"
   syncfusion_flutter_pdfviewer:
     :path: ".symlinks/plugins/syncfusion_flutter_pdfviewer/ios"
   url_launcher_ios:
@@ -90,17 +91,17 @@ SPEC CHECKSUMS:
   flutter_config: 2226c1df19c78fe34a05eb7f1363445f18e76fc1
   flutter_custom_tabs: 7a10a08686955cb748e5d26e0ae586d30689bf89
   flutter_native_splash: 52501b97d1c0a5f898d687f1646226c1f93c56ef
-  onesignal_flutter: 02a850e079073e8bd03948f50a2fb9a7918b5db6
-  OneSignalXCFramework: 81ceac017a290f23793443323090cfbe888f74ea
+  onesignal_flutter: e01b19b76406d2f303edabe36da8dc747443d679
+  OneSignalXCFramework: 75844c29607ca95e6176f6f21257b4382c7fdbfb
   package_info_plus: 6c92f08e1f853dc01228d6f553146438dafcd14e
-  path_provider_ios: 14f3d2fd28c4fdb42f44e0f751d12861c43cee02
-  shared_preferences_ios: 548a61f8053b9b8a49ac19c1ffbc8b92c50d68ad
+  path_provider_foundation: 37748e03f12783f9de2cb2c4eadfaa25fe6d4852
+  shared_preferences_foundation: 297b3ebca31b34ec92be11acd7fb0ba932c822ca
   syncfusion_flutter_pdfviewer: bb9998884b864cfedf72628df3503bdf57e397c0
-  url_launcher_ios: 839c58cdb4279282219f5e248c3321761ff3c4de
+  url_launcher_ios: fb12c43172927bb5cf75aeebd073f883801f1993
   video_player_avfoundation: e489aac24ef5cf7af82702979ed16f2a5ef84cff
   wakelock: d0fc7c864128eac40eba1617cb5264d9c940b46f
   webview_flutter_wkwebview: b7e70ef1ddded7e69c796c7390ee74180182971f
 
-PODFILE CHECKSUM: 0b282030f6ccd57a2d7475cf57d7e97993abc2d8
+PODFILE CHECKSUM: c19d48ce13312e192d1e102d619517247c4bc8f9
 
 COCOAPODS: 1.11.3

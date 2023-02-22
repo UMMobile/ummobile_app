@@ -7,7 +7,7 @@ import 'package:ummobile/modules/tabs/modules/profile/models/user_credentials.da
 
 import 'package:ummobile/statics/settings/colors.dart';
 
-import '../../../statics/Widgets/badge.dart';
+import '../../../statics/Widgets/badge.dart' as badge;
 
 class UmAppBar extends StatelessWidget with PreferredSizeWidget {
   /// title widget to display in the appBar
@@ -123,7 +123,7 @@ class UmAppBar extends StatelessWidget with PreferredSizeWidget {
                               ],
                       ),
                   transition: Transition.downToUp),
-              icon: Badge(
+              icon: badge.Badge(
                 top: 15,
                 right: -5,
                 value: _.rulesCounter.value.toString(),
@@ -145,7 +145,7 @@ class UmAppBar extends StatelessWidget with PreferredSizeWidget {
             IconButton(
               onPressed: () => Get.to(() => NotificationsPage(),
                   transition: Transition.downToUp),
-              icon: Badge(
+              icon: badge.Badge(
                 top: 15,
                 right: -5,
                 value: _.searchNewNotifications().toString(),

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:ummobile/modules/app_bar/modules/questionnaire/views/subpages/responses_list/user_responses_list.dart';
 import 'package:ummobile/modules/login/controllers/login_controller.dart';
 import 'package:ummobile/modules/login/controllers/questionnaire_response_controller.dart';
-import 'package:ummobile/statics/Widgets/badge.dart';
+import 'package:ummobile/statics/Widgets/badge.dart' as badge;
 import 'package:url_launcher/link.dart';
 
 import 'widgets/widgets_export.dart';
@@ -80,7 +80,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       padding:
                           const EdgeInsets.fromLTRB(8, kToolbarHeight, 8, 0),
                       child: FloatingActionButton(
-                        child: Badge(
+                        child: badge.Badge(
                           top: -6,
                           right: -6,
                           value: _.responseCount.toString(),
