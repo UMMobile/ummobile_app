@@ -40,7 +40,7 @@ class _RulePageState extends State<RulePage> {
       style: TextStyle(color: Colors.white),
       textInputAction: TextInputAction.search,
       onSubmitted: (input) async {
-        _searchResult = await _pdfViewerController.searchText(input,
+        _searchResult = _pdfViewerController.searchText(input,
             searchOption: TextSearchOption.caseSensitive);
         setState(() {});
       },

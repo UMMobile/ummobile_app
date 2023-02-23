@@ -30,7 +30,7 @@ class HealthQuestionnaireResponses extends StatelessWidget {
                 .map((user) => TextButton(
                       style: TextButton.styleFrom(
                         padding: EdgeInsets.zero,
-                        primary: Colors.white,
+                        foregroundColor: Colors.white,
                       ),
                       onPressed: () async {
                         _login.activeUserId = user.userId;

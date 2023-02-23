@@ -64,9 +64,9 @@ class _BottomSheetButtonState extends State<BottomSheetButton> {
           children: <Widget>[
             TextButton(
               style: TextButton.styleFrom(
-                  primary: Theme.of(context).primaryColor,
+                  foregroundColor: Theme.of(context).primaryColor,
                   minimumSize: Size(double.infinity, 40.0),
-                  onSurface: Color.fromRGBO(110, 86, 198, 0.5),
+                  disabledBackgroundColor: Color.fromRGBO(110, 86, 198, 0.5),
                   padding: EdgeInsets.symmetric(horizontal: 15.0),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5),

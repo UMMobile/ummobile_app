@@ -10,7 +10,7 @@ class AppColorThemes {
       secondary: Color.fromRGBO(110, 86, 198, 1),
     ),
     hintColor: Colors.grey,
-    toggleableActiveColor: Color.fromRGBO(110, 86, 198, 1),
+    secondaryHeaderColor: Color.fromRGBO(110, 86, 198, 1),
     primarySwatch: MaterialColor(0xFF6E56C6, {
       50: Color.fromRGBO(110, 86, 198, .1),
       100: Color.fromRGBO(110, 86, 198, .2),
@@ -27,14 +27,14 @@ class AppColorThemes {
     // Define the default font family.
     fontFamily: 'Open Sans',
     textTheme: TextTheme(
-      headline1: TextStyle(
+      displayLarge: TextStyle(
           fontSize: 24.0, fontWeight: FontWeight.bold, color: Colors.white),
-      headline6: TextStyle(
+      titleLarge: TextStyle(
           color: AppColorThemes.textColor,
           fontSize: 25,
           fontWeight: FontWeight.bold,
           fontStyle: FontStyle.normal),
-      bodyText2: TextStyle(fontSize: 14.0),
+      bodyMedium: TextStyle(fontSize: 14.0),
     ),
 
     appBarTheme: AppBarTheme(
@@ -57,7 +57,7 @@ class AppColorThemes {
     ),
     primaryColor: Colors.white,
     hintColor: Colors.white70,
-    toggleableActiveColor: Colors.lightBlue,
+    secondaryHeaderColor: Colors.lightBlue,
 
     /*primarySwatch: MaterialColor(0xFF6E56C6, {
       50: Color.fromRGBO(110, 86, 198, .1),
@@ -78,10 +78,10 @@ class AppColorThemes {
     // Define the default TextTheme. Use this to specify the default
     // text styling for headlines, titles, bodies of text, and more.
     textTheme: TextTheme(
-      headline1: TextStyle(
+      displayLarge: TextStyle(
           fontSize: 24.0, fontWeight: FontWeight.bold, color: Colors.white),
-      headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
-      bodyText2: TextStyle(fontSize: 14.0),
+      titleLarge: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
+      bodyMedium: TextStyle(fontSize: 14.0),
     ),
 
     appBarTheme: AppBarTheme(

@@ -12,7 +12,7 @@ class AddLogin extends StatelessWidget {
     return TextButton(
       onPressed: () => Get.find<LoginController>().showQuickLogins(false),
       style: TextButton.styleFrom(
-        primary: Colors.grey,
+        foregroundColor: Colors.grey,
         shape: RoundedRectangleBorder(
           side: BorderSide(
             width: 2,

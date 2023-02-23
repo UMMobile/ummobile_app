@@ -11,5 +11,6 @@ class RemoteService {
       var json = response.body;
       return interesFromJson(json).data;
     }
+    return null;
   }
 }

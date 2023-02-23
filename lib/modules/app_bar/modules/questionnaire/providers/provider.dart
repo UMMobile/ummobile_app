@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import '../../../../login/controllers/login_controller.dart';
 
 class QuestionnairProvider {
+  // ignore: non_constant_identifier_names
   Future PostQuestionnair(int pasos, double distancia) async {
     print("pasos: $pasos, distancia $distancia");
 

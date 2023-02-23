@@ -70,7 +70,7 @@ class _RenewLoginState extends State<RenewLogin> {
                 child: Icon(Icons.arrow_back),
                 style: TextButton.styleFrom(
                   padding: EdgeInsets.zero,
-                  primary: Get.theme.primaryColor,
+                  foregroundColor: Get.theme.primaryColor,
                   shape: CircleBorder(),
                 ),
                 onPressed: () => Get.back(),
@@ -128,7 +128,7 @@ class _RenewLoginState extends State<RenewLogin> {
             child: OutlinedButton(
               style: OutlinedButton.styleFrom(
                 minimumSize: Size(170.0, 35.0),
-                primary: Theme.of(context).colorScheme.secondary,
+                foregroundColor: Theme.of(context).colorScheme.secondary,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16)),
                 side: BorderSide(

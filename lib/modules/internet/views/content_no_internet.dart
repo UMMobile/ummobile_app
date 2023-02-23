@@ -75,7 +75,7 @@ class _ContentNoInternetState extends State<ContentNoInternet> {
         ),
         ElevatedButton(
             style: ElevatedButton.styleFrom(
-                elevation: 5.0, onPrimary: Colors.white),
+                elevation: 5.0, foregroundColor: Colors.white),
             child: Text('reload'.tr.capitalizeFirst!),
             onPressed: () {
               widget.toPageReturn();

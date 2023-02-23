@@ -29,9 +29,9 @@ class ButtonDocument extends StatelessWidget {
           style: TextButton.styleFrom(
               minimumSize: Size(double.infinity, 40.0),
               padding: EdgeInsets.all(10.0),
-              primary: AppColorThemes.textColor,
+              foregroundColor: AppColorThemes.textColor,
               backgroundColor: Theme.of(context).cardColor,
-              onSurface: Color.fromRGBO(110, 110, 110, 0.5),
+              disabledForegroundColor: Color.fromRGBO(110, 110, 110, 0.5),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                   side: BorderSide(color: Colors.green, width: 2))),

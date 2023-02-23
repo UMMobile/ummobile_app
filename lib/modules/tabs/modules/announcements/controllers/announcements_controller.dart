@@ -12,5 +12,6 @@ class RemoteService {
       var json = response.body;
       return comunicadosFromJson(json).data;
     }
+    return null;
   }
 }

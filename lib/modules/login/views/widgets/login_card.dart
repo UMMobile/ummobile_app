@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/route_manager.dart';
+//import 'package:get/route_manager.dart';
 import 'package:ummobile/modules/login/controllers/login_controller.dart';
 import 'package:ummobile/modules/login/controllers/questionnaire_response_controller.dart';
 import 'package:ummobile/modules/login/utils/validate_login.dart';
@@ -67,8 +67,8 @@ class LoginSessionCard extends StatelessWidget {
         },
         style: ElevatedButton.styleFrom(
           fixedSize: Size(128, 132),
-          primary: Theme.of(context).cardColor.withOpacity(0.8),
-          onPrimary: Colors.grey,
+          backgroundColor: Theme.of(context).cardColor.withOpacity(0.8),
+          foregroundColor: Colors.grey,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
           ),

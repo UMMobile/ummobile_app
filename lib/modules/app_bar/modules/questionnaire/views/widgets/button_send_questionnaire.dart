@@ -11,9 +11,9 @@ class QuestionaireSendButton extends StatelessWidget {
       return Container(
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-            primary: Theme.of(context).colorScheme.secondary,
+            foregroundColor: Theme.of(context).colorScheme.secondary,
             minimumSize: Size(double.infinity, 40.0),
-            onPrimary: Color.fromRGBO(255, 255, 255, 0.2),
+            disabledForegroundColor: Color.fromRGBO(255, 255, 255, 0.2),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
             ),

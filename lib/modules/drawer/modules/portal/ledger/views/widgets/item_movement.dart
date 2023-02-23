@@ -44,7 +44,7 @@ class ItemMovement extends StatelessWidget {
         ),
         title: Text(
           movement.description,
-          style: theme.textTheme.subtitle1!.copyWith(
+          style: theme.textTheme.titleMedium!.copyWith(
             fontWeight: FontWeight.bold,
           ),
         ),

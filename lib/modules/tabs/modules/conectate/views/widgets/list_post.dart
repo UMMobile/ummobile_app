@@ -34,7 +34,7 @@ class ListPosts extends StatelessWidget {
       /// * button for list expanded page if posts are not empty
       final seeMore = postsObservable.isNotEmpty
           ? TextButton(
-              style: TextButton.styleFrom(primary: Get.theme.hintColor),
+              style: TextButton.styleFrom(foregroundColor: Get.theme.hintColor),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.center,

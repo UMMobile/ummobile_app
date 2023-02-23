@@ -65,10 +65,10 @@ class AppointmentDetailsPage extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(dateText, style: Get.textTheme.subtitle1),
+                        Text(dateText, style: Get.textTheme.titleMedium),
                         Text(
                           "date".tr.capitalizeFirst!,
-                          style: Get.textTheme.subtitle2!
+                          style: Get.textTheme.titleSmall!
                               .copyWith(color: Get.theme.hintColor),
                         ),
                       ],
@@ -83,10 +83,10 @@ class AppointmentDetailsPage extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(timeDetails, style: Get.textTheme.subtitle1),
+                        Text(timeDetails, style: Get.textTheme.titleMedium),
                         Text(
                           "hour".tr.capitalizeFirst!,
-                          style: Get.textTheme.subtitle2!
+                          style: Get.textTheme.titleSmall!
                               .copyWith(color: Get.theme.hintColor),
                         ),
                       ],

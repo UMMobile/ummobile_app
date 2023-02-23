@@ -56,7 +56,7 @@ class _QuestionnaireDatePickerState extends State<QuestionnaireDatePicker> {
   Widget build(BuildContext context) {
     return TextButton(
         style: TextButton.styleFrom(
-            primary: AppColorThemes.textColor,
+            foregroundColor: AppColorThemes.textColor,
             padding: EdgeInsets.symmetric(horizontal: 15.0)),
         onPressed: () => showDatePicker(
                     context: context,
