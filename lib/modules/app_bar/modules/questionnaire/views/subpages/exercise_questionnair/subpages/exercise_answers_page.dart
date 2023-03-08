@@ -5,14 +5,14 @@ import 'package:ummobile/modules/app_bar/modules/questionnaire/views/subpages/ex
 
 import 'package:ummobile/modules/app_bar/views/appBar.dart';
 
-class WebViewApp extends StatefulWidget {
-  const WebViewApp({Key? key}) : super(key: key);
+class FormsView extends StatefulWidget {
+  const FormsView({Key? key}) : super(key: key);
 
   @override
-  State<WebViewApp> createState() => _WebViewAppState();
+  State<FormsView> createState() => _FormsViewState();
 }
 
-class _WebViewAppState extends State<WebViewApp> {
+class _FormsViewState extends State<FormsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

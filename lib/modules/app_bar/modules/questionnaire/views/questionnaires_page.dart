@@ -23,7 +23,7 @@ class QuestionnairesPage extends StatelessWidget {
             title: Text('health_questionnaire'.tr),
             trailing: Icon(Icons.arrow_forward_ios),
             onTap: () => Get.to(
-              () => WebViewApp(),
+              () => FormsView(),
               transition: Transition.downToUp,
             ),
           ),

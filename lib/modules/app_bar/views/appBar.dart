@@ -8,6 +8,7 @@ import 'package:ummobile/modules/tabs/modules/profile/models/user_credentials.da
 import 'package:ummobile/statics/settings/colors.dart';
 
 import '../../../statics/Widgets/badge.dart' as badge;
+import '../modules/questionnaire/views/servicesevaluationspage.dart';
 
 class UmAppBar extends StatelessWidget with PreferredSizeWidget {
   /// title widget to display in the appBar
@@ -139,6 +140,15 @@ class UmAppBar extends StatelessWidget with PreferredSizeWidget {
                     transition: Transition.downToUp),
                 icon: Icon(
                   Icons.run_circle_outlined,
+                  size: this._iconsSize,
+                ),
+              ),
+            if (userIsStudent)
+              IconButton(
+                onPressed: () => Get.to(() => ServicesEvluationPage(),
+                    transition: Transition.downToUp),
+                icon: Icon(
+                  Icons.add_comment_outlined,
                   size: this._iconsSize,
                 ),
               ),
