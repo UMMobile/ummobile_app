@@ -29,8 +29,7 @@ class _QuestionsElementsState extends State<QuestionsElements> {
                   borderRadius: BorderRadius.circular(5),
                   borderSide: BorderSide(
                     width: 3,
-                    color:Theme.of(context).colorScheme.secondary),
-                    
+                    color: Color.fromRGBO(145, 27, 242, 0.498),
                   ),
                 ),
               ),
