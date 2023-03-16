@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'package:ummobile/statics/Widgets/form/bottomsheet/botomsheet.dart';
+
 class QuestionsElements extends StatefulWidget {
   const QuestionsElements({Key? key}) : super(key: key);
 
@@ -14,37 +16,21 @@ class _QuestionsElementsState extends State<QuestionsElements> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          children: [
-            Text('select'.trParams({
-              'element': 'department'.tr,
-            })),
-            SizedBox(height: 10),
-            DropdownButtonFormField<String>(
-              decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5),
-                  borderSide: BorderSide(
-                    width: 3,
-                    color: Color.fromRGBO(145, 27, 242, 0.498),
-                  ),
-                ),
-              ),
-              value: selectedItem,
-              items: items
-                  .map((item) => DropdownMenuItem<String>(
-                        value: item,
-                        child: Text(item, style: TextStyle(fontSize: 16)),
-                      ))
-                  .toList(),
-              onChanged: (item) => setState(() => selectedItem = item),
-            ),
-          ],
-        ),
-      ),
-    );
+    return ListView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        children: <Widget>[
+          SizedBox(height: 25),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+            child: Text(
+                'select'.trParams({
+                  'element': 'department'.tr,
+                }).tr,
+                style: TextStyle(fontSize: 16)),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+          )
+        ]);
   }
 }
