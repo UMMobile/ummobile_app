@@ -49,6 +49,7 @@ dependencies:
   hive_flutter: ^1.1.0
   flutter_html: ^2.1.5
   webview_flutter: ^2.8.0
+  flutter_barcode_scanner: ^2.0.0
 
 
 dev_dependencies:

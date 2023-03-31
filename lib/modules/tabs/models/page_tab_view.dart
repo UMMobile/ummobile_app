@@ -8,6 +8,6 @@ class PageTabView {
   PageTabView({
     required this.page,
     required this.icon,
-    this.label,
+    this.label, CircleAvatar Function(BuildContext context, bool isActive)? tabBuilder,
   });
 }

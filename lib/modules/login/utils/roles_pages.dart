@@ -10,8 +10,11 @@ import 'package:ummobile/modules/tabs/modules/profile/models/user_credentials.da
 import 'package:ummobile/modules/tabs/modules/profile/views/profile_page.dart';
 import 'package:ummobile/statics/settings/app_icons_icons.dart';
 
+import '../../tabs/modules/qr/qr_page.dart';
+
 /// The list of student pages
 List<PageTabView> student = <PageTabView>[
+  
   PageTabView(
     page: ConectatePage(),
     icon: Icon(Icons.home_rounded, size: 30),
@@ -21,6 +24,11 @@ List<PageTabView> student = <PageTabView>[
     page: CalendarPage(),
     icon: Icon(Icons.event, size: 30),
     label: "Agenda",
+  ),
+  PageTabView(
+    page: QrPage(),
+    icon: Icon(Icons.qr_code, size: 30,),
+    label: "QR",
   ),
   PageTabView(
     page: PaymentPage(),
