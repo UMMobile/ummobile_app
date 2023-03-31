@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 //import 'package:ummobile/modules/app_bar/modules/questionnaire/bindings/health_questionnaire_bindings.dart';
 import 'package:ummobile/modules/app_bar/views/appBar.dart';
 
-import 'subpages/exercise_questionnair/subpages/exercise_answers_page.dart';
+import 'subpages/exercise_questionnaire/subpages/exercise_answers_page.dart';
 
 class QuestionnairesPage extends StatelessWidget {
   const QuestionnairesPage({Key? key}) : super(key: key);

@@ -49,6 +49,7 @@ dependencies:
   hive_flutter: ^1.1.0
   flutter_html: ^2.1.5
   webview_flutter: ^2.8.0
+  snippet_coder_utils: ^1.0.13
 
 
 dev_dependencies:

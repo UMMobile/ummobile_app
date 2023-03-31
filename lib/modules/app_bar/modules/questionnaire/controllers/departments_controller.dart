@@ -3,4 +3,4 @@ import 'package:ummobile/modules/app_bar/modules/questionnaire/models/department
 import 'package:ummobile/statics/templates/controller_template.dart';
 
 class DepartmentsController extends ControllerTemplate
-    with StateMixin<List<Departments>> {}
+    with StateMixin<List<Areas>> {}

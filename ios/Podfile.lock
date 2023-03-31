@@ -6,18 +6,20 @@ PODS:
     - Flutter
   - flutter_native_splash (0.0.1):
     - Flutter
-  - onesignal_flutter (3.5.0):
+  - image_picker_ios (0.0.1):
     - Flutter
-    - OneSignalXCFramework (= 3.12.3)
-  - OneSignalXCFramework (3.12.3):
-    - OneSignalXCFramework/OneSignalCore (= 3.12.3)
-    - OneSignalXCFramework/OneSignalExtension (= 3.12.3)
-    - OneSignalXCFramework/OneSignalOutcomes (= 3.12.3)
-  - OneSignalXCFramework/OneSignalCore (3.12.3)
-  - OneSignalXCFramework/OneSignalExtension (3.12.3):
+  - onesignal_flutter (3.5.1):
+    - Flutter
+    - OneSignalXCFramework (= 3.12.4)
+  - OneSignalXCFramework (3.12.4):
+    - OneSignalXCFramework/OneSignalCore (= 3.12.4)
+    - OneSignalXCFramework/OneSignalExtension (= 3.12.4)
+    - OneSignalXCFramework/OneSignalOutcomes (= 3.12.4)
+  - OneSignalXCFramework/OneSignalCore (3.12.4)
+  - OneSignalXCFramework/OneSignalExtension (3.12.4):
     - OneSignalXCFramework/OneSignalCore
     - OneSignalXCFramework/OneSignalOutcomes
-  - OneSignalXCFramework/OneSignalOutcomes (3.12.3):
+  - OneSignalXCFramework/OneSignalOutcomes (3.12.4):
     - OneSignalXCFramework/OneSignalCore
   - package_info_plus (0.4.5):
     - Flutter
@@ -43,6 +45,7 @@ DEPENDENCIES:
   - flutter_config (from `.symlinks/plugins/flutter_config/ios`)
   - flutter_custom_tabs (from `.symlinks/plugins/flutter_custom_tabs/ios`)
   - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
+  - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
   - onesignal_flutter (from `.symlinks/plugins/onesignal_flutter/ios`)
   - OneSignalXCFramework (< 4.0, >= 3.4.3)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
@@ -67,6 +70,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_custom_tabs/ios"
   flutter_native_splash:
     :path: ".symlinks/plugins/flutter_native_splash/ios"
+  image_picker_ios:
+    :path: ".symlinks/plugins/image_picker_ios/ios"
   onesignal_flutter:
     :path: ".symlinks/plugins/onesignal_flutter/ios"
   package_info_plus:
@@ -91,8 +96,9 @@ SPEC CHECKSUMS:
   flutter_config: 2226c1df19c78fe34a05eb7f1363445f18e76fc1
   flutter_custom_tabs: 7a10a08686955cb748e5d26e0ae586d30689bf89
   flutter_native_splash: 52501b97d1c0a5f898d687f1646226c1f93c56ef
-  onesignal_flutter: e01b19b76406d2f303edabe36da8dc747443d679
-  OneSignalXCFramework: 75844c29607ca95e6176f6f21257b4382c7fdbfb
+  image_picker_ios: 4a8aadfbb6dc30ad5141a2ce3832af9214a705b5
+  onesignal_flutter: b8ac01bc3ebe47e798d7d775455c3a9b5b84f1c5
+  OneSignalXCFramework: 087934ab0d4d7445fcf1c015c7c782359e26c020
   package_info_plus: 6c92f08e1f853dc01228d6f553146438dafcd14e
   path_provider_foundation: c68054786f1b4f3343858c1e1d0caaded73f0be9
   shared_preferences_foundation: 986fc17f3d3251412d18b0265f9c64113a8c2472

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 //import 'package:webview_flutter/webview_flutter.dart';
 import 'package:get/get.dart';
-import 'package:ummobile/modules/app_bar/modules/questionnaire/views/subpages/exercise_questionnair/questions_page.dart';
+import 'package:ummobile/modules/app_bar/modules/questionnaire/views/subpages/exercise_questionnaire/questions_page.dart';
 
 import 'package:ummobile/modules/app_bar/views/appBar.dart';
 

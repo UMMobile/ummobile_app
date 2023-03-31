@@ -1,35 +1,65 @@
+// To parse this JSON data, do
+//
+//     final areas = areasFromJson(jsonString);
+
 import 'dart:convert';
 
-List<Departments> departmentsFromJson(String str) => List<Departments>.from(
-    json.decode(str).map((x) => Departments.fromJson(x)));
+List<Areas> areasFromJson(String str) =>
+    List<Areas>.from(json.decode(str).map((x) => Areas.fromJson(x)));
 
-String departmentsToJson(List<Departments> data) =>
+String areasToJson(List<Areas> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class Departments {
-  Departments({
-    required this.userId,
-    required this.id,
-    required this.title,
-    required this.body,
+class Areas {
+  Areas({
+    required this.areaId,
+    required this.orden,
+    required this.nombre,
+    required this.referente,
+    required this.fechaCreado,
+    required this.fechaModificado,
   });
 
-  int userId;
-  int id;
-  String title;
-  String body;
+  String areaId;
+  int orden;
+  String nombre;
+  Referente referente;
+  DateTime fechaCreado;
+  DateTime fechaModificado;
 
-  factory Departments.fromJson(Map<String, dynamic> json) => Departments(
-        userId: json["userId"],
-        id: json["id"],
-        title: json["title"],
-        body: json["body"],
+  factory Areas.fromJson(Map<String, dynamic> json) => Areas(
+        areaId: json["areaId"],
+        orden: json["orden"],
+        nombre: json["nombre"],
+        referente: referenteValues.map[json["referente"]]!,
+        fechaCreado: DateTime.parse(json["fechaCreado"]),
+        fechaModificado: DateTime.parse(json["fechaModificado"]),
       );
 
+  get id => null;
+
   Map<String, dynamic> toJson() => {
-        "userId": userId,
-        "id": id,
-        "title": title,
-        "body": body,
+        "areaId": areaId,
+        "orden": orden,
+        "nombre": nombre,
+        "referente": referenteValues.reverse[referente],
+        "fechaCreado": fechaCreado.toIso8601String(),
+        "fechaModificado": fechaModificado.toIso8601String(),
       };
+}
+
+enum Referente { EMPTY }
+
+final referenteValues = EnumValues({"-": Referente.EMPTY});
+
+class EnumValues<T> {
+  Map<String, T> map;
+  late Map<T, String> reverseMap;
+
+  EnumValues(this.map);
+
+  Map<T, String> get reverse {
+    reverseMap = map.map((k, v) => MapEntry(v, k));
+    return reverseMap;
+  }
 }
