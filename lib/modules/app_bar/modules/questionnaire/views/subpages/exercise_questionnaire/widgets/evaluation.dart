@@ -15,14 +15,25 @@ class _QuestionsElementsState extends State<QuestionsElements> {
   String? areaId;
   List<Areas> departamentos = [];
 
+  String? preguntaId;
+  List<Questions> preguntas = [];
+
   @override
   void initState() {
     super.initState();
-    // Llamamos a la función getArea() en UMMobileQuality y actualizamos el estado de countries con la respuesta de la API
+    // Llamamos a la función getArea() en UMMobileQuality y actualizamos el estado de departamentos con la respuesta de la API
     UMMobileQuality().getArea().then((areas) {
       if (areas != null) {
         setState(() {
           departamentos = areas;
+        });
+      }
+    });
+
+    UMMobileQuality().getQuestions().then((result) {
+      if (result != null) {
+        setState(() {
+          preguntas = result;
         });
       }
     });
@@ -38,7 +49,19 @@ class _QuestionsElementsState extends State<QuestionsElements> {
               height: 25,
             ),
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+              margin: EdgeInsets.only(top: 20, bottom: 20),
+              child: Text(
+                'health_questionnaire_description'.tr,
+                style: TextStyle(fontSize: 15),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            /*ContainerUserInfo(
+              title: 'credential'.tr.capitalizeFirst!,
+              data: userId,
+            ),*/
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
               child:
                   Text('select_department'.tr, style: TextStyle(fontSize: 16)),
             ),
@@ -53,7 +76,7 @@ class _QuestionsElementsState extends State<QuestionsElements> {
               (onChangedVal) {
                 this.areaId = onChangedVal;
 
-                print("Selected Country: $onChangedVal");
+                print("selected_department: $onChangedVal");
               },
               (onValidateVal) {
                 if (onValidateVal == null) {

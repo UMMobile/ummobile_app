@@ -13,4 +13,17 @@ class UMMobileQuality {
     }
     return null;
   }
+
+  Future<List<Questions>?> getQuestions() async {
+    var client = http.Client();
+
+    var uri =
+        Uri.parse('https://am.um.edu.mx/buzon/api/cuestionario/preguntas/');
+    var response = await client.get(uri);
+    if (response.statusCode == 200) {
+      var json = response.body;
+      return questionsFromJson(json);
+    }
+    return null;
+  }
 }
